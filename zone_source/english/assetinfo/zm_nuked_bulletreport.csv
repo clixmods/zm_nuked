@@ -1,0 +1,7 @@
+xmodel,avgArea (min 50.0),triCount (max 0),dimX,dimY,dimZ,volume,refs
+p7_gib_chunk_meat_01,4.31,16,2.61,7.35,8.75,167.67,1
+p7_gib_chunk_meat_02,3.93,16,4.00,7.68,5.48,168.48,1
+p7_gib_chunk_flesh_01,2.48,16,4.98,1.51,5.99,45.20,1
+p7_gib_chunk_flesh_03,1.63,16,3.89,1.82,4.60,32.62,1
+p7_gib_chunk_bone_03,1.07,16,2.66,4.52,3.11,37.40,1
+p7_gib_chunk_meat_03,4.97,15,3.14,6.78,7.21,153.74,1

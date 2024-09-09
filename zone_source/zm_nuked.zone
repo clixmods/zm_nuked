@@ -1,0 +1,72 @@
+>class,zm_mod_level
+>group,modtools
+
+xmodel,skybox_default_day
+material,luts_t7_default
+	
+// BSP
+col_map,maps/zm/zm_nuked.d3dbsp
+gfx_map,maps/zm/zm_nuked.d3dbsp
+
+// Audio
+sound,zm_nuked
+
+scriptparsetree,scripts/zm/zm_nuked.gsc
+scriptparsetree,scripts/zm/zm_nuked.csc
+
+// FIX START UP CRASH
+scriptparsetree,scripts/zm/_hb21_zm_weap_galvaknuckles.gsc
+weapon,t6_tazer_knuckles_zm
+weapon,t6_tazer_knuckles_flourish_zm
+	
+// Nuked perks and Pack a punch
+scriptparsetree,scripts\zm\zm_nuked_perks.gsc
+scriptparsetree,scripts\zm\zm_nuked_perks.csc
+scriptparsetree,scripts\zm\classic_features\pack_a_punch_from_the_sky.gsc
+scriptparsetree,scripts\zm\classic_features\pack_a_punch_from_the_sky.csc
+
+// Richtofen dialog from Moon
+scriptparsetree,scripts\zm\classic_features\vox_transmission.gsc
+
+// Nuketown panel
+scriptparsetree,scripts\zm\classic_features\nuketown_panneau.gsc
+
+// EE Music
+scriptparsetree,scripts\zm\classic_features\ee_music.gsc
+
+// Clock 
+scriptparsetree,scripts\zm\classic_features\clock_nuked.gsc
+
+// Ambiant (Earthquake, tornado, Background music etc)
+scriptparsetree,scripts\zm\zm_nuketown_hd_amb.gsc
+scriptparsetree,scripts\zm\zm_nuketown_hd_amb.csc
+
+// Mannequin
+scriptparsetree,scripts\zm\classic_features\mannequins.gsc
+xmodel,dest_zm_nuked_female_01_head_hd_bo4
+xmodel,dest_zm_nuked_female_02_head_hd_bo4
+xmodel,dest_zm_nuked_female_03_head_hd_bo4
+xmodel,dest_zm_nuked_male_01_head_hd_bo4
+xmodel,dest_zm_nuked_male_02_head_hd_bo4
+xmodel,dest_zm_nuked_male_03_head_hd_bo4
+
+// Gameover rocket cinematic
+xmodel,p7_fxp_vista_nuked_endgame
+xmodel,p6_zm_nuked_rocket_cam_hd
+xmodel,p7_lotus_ground_clouds_01
+xmodel,p7_inf_bas_fallaway_clouds_01_single
+xmodel,p7_inf_bas_fallaway_clouds_01
+fx,dlc4/genesis/fx_apothint_wind_exhale_loop.efx
+fx,dlc1/castle/fx_ee_moon_rockets_exhaust.efx
+
+// Xmodel required
+
+// Fx nuclear bomd or ambiant IDK
+xmodel,p7_lotus_ground_clouds_01
+xmodel,p7_inf_bas_fallaway_clouds_01_single
+xmodel,p7_inf_bas_fallaway_clouds_01
+
+// FX Required
+
+// Tornado
+fx,dlc4/genesis/fx_apothint_wind_exhale_loop.efx
