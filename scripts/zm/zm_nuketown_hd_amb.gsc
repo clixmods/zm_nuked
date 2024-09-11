@@ -48,8 +48,7 @@ function autoexec init()
 	level thread tornado_amb_init();
 	level thread random_quake();
 	
-
-	
+	level clientfield::set( "setup_skybox", 1 );
 }
 
 function random_quake()

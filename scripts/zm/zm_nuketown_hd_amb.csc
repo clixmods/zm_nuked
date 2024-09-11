@@ -128,25 +128,25 @@ function change_skybox( localClientNum, oldVal, newVal, bNewEnt, bInitialSnap, f
 			}	
 
 			wait 10;
-				setdvar( "r_lightGridEnableTweaks", 1 );
-	setdvar( "r_lightGridIntensity", 1.25 );
-	setdvar( "r_lightGridContrast", 0.18 );
-	setdvar( "scr_fog_exp_halfplane", 639.219 );
-	setdvar( "scr_fog_exp_halfheight", 18691.3 );
-	setdvar( "scr_fog_nearplane", 138.679 );
-	setdvar( "scr_fog_red", 0.806694 );
-	setdvar( "scr_fog_green", 0.962521 );
-	setdvar( "scr_fog_blue", 0.9624 );
-	setdvar( "scr_fog_baseheight", 1145.21 );
-	setdvar( "visionstore_glowTweakEnable", 0 );
-	setdvar( "visionstore_glowTweakRadius0", 5 );
-	setdvar( "visionstore_glowTweakRadius1", "" );
-	setdvar( "visionstore_glowTweakBloomCutoff", 0.5 );
-	setdvar( "visionstore_glowTweakBloomDesaturation", 0 );
-	setdvar( "visionstore_glowTweakBloomIntensity0", 1 );
-	setdvar( "visionstore_glowTweakBloomIntensity1", "" );
-	setdvar( "visionstore_glowTweakSkyBleedIntensity0", "" );
-	setdvar( "visionstore_glowTweakSkyBleedIntensity1", "" );
+			setdvar( "r_lightGridEnableTweaks", 1 );
+			setdvar( "r_lightGridIntensity", 1.25 );
+			setdvar( "r_lightGridContrast", 0.18 );
+			setdvar( "scr_fog_exp_halfplane", 639.219 );
+			setdvar( "scr_fog_exp_halfheight", 18691.3 );
+			setdvar( "scr_fog_nearplane", 138.679 );
+			setdvar( "scr_fog_red", 0.806694 );
+			setdvar( "scr_fog_green", 0.962521 );
+			setdvar( "scr_fog_blue", 0.9624 );
+			setdvar( "scr_fog_baseheight", 1145.21 );
+			setdvar( "visionstore_glowTweakEnable", 0 );
+			setdvar( "visionstore_glowTweakRadius0", 5 );
+			setdvar( "visionstore_glowTweakRadius1", "" );
+			setdvar( "visionstore_glowTweakBloomCutoff", 0.5 );
+			setdvar( "visionstore_glowTweakBloomDesaturation", 0 );
+			setdvar( "visionstore_glowTweakBloomIntensity0", 1 );
+			setdvar( "visionstore_glowTweakBloomIntensity1", "" );
+			setdvar( "visionstore_glowTweakSkyBleedIntensity0", "" );
+			setdvar( "visionstore_glowTweakSkyBleedIntensity1", "" );
 			//SetDvar( "r_oit", 0 );
 			//SetDvar( "r_makeDark_enable", false );
 			
@@ -176,25 +176,25 @@ function change_skybox( localClientNum, oldVal, newVal, bNewEnt, bInitialSnap, f
 				SetDvar( "r_volumetric_lighting_enabled", vol );
 			}
 			wait 5; 
-						setdvar( "r_lightGridEnableTweaks", 1 );
-	setdvar( "r_lightGridIntensity", 1.25 );
-	setdvar( "r_lightGridContrast", 0.18 );
-	setdvar( "scr_fog_exp_halfplane", 639.219 );
-	setdvar( "scr_fog_exp_halfheight", 18691.3 );
-	setdvar( "scr_fog_nearplane", 138.679 );
-	setdvar( "scr_fog_red", 0.806694 );
-	setdvar( "scr_fog_green", 0.962521 );
-	setdvar( "scr_fog_blue", 0.9624 );
-	setdvar( "scr_fog_baseheight", 1145.21 );
-	setdvar( "visionstore_glowTweakEnable", 0 );
-	setdvar( "visionstore_glowTweakRadius0", 5 );
-	setdvar( "visionstore_glowTweakRadius1", "" );
-	setdvar( "visionstore_glowTweakBloomCutoff", 0.5 );
-	setdvar( "visionstore_glowTweakBloomDesaturation", 0 );
-	setdvar( "visionstore_glowTweakBloomIntensity0", 1 );
-	setdvar( "visionstore_glowTweakBloomIntensity1", "" );
-	setdvar( "visionstore_glowTweakSkyBleedIntensity0", "" );
-	setdvar( "visionstore_glowTweakSkyBleedIntensity1", "" );	
+			setdvar( "r_lightGridEnableTweaks", 1 );
+			setdvar( "r_lightGridIntensity", 1.25 );
+			setdvar( "r_lightGridContrast", 0.18 );
+			setdvar( "scr_fog_exp_halfplane", 639.219 );
+			setdvar( "scr_fog_exp_halfheight", 18691.3 );
+			setdvar( "scr_fog_nearplane", 138.679 );
+			setdvar( "scr_fog_red", 0.806694 );
+			setdvar( "scr_fog_green", 0.962521 );
+			setdvar( "scr_fog_blue", 0.9624 );
+			setdvar( "scr_fog_baseheight", 1145.21 );
+			setdvar( "visionstore_glowTweakEnable", 0 );
+			setdvar( "visionstore_glowTweakRadius0", 5 );
+			setdvar( "visionstore_glowTweakRadius1", "" );
+			setdvar( "visionstore_glowTweakBloomCutoff", 0.5 );
+			setdvar( "visionstore_glowTweakBloomDesaturation", 0 );
+			setdvar( "visionstore_glowTweakBloomIntensity0", 1 );
+			setdvar( "visionstore_glowTweakBloomIntensity1", "" );
+			setdvar( "visionstore_glowTweakSkyBleedIntensity0", "" );
+			setdvar( "visionstore_glowTweakSkyBleedIntensity1", "" );	
 
 		}
 	}

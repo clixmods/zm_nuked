@@ -70,6 +70,11 @@ xmodel,p7_inf_bas_fallaway_clouds_01
 fx,dlc4/genesis/fx_apothint_wind_exhale_loop.efx
 fx,dlc1/castle/fx_ee_moon_rockets_exhaust.efx
 
+// Secret cinematic
+fx,dlc1/castle/fx_exp_moon_castle.efx
+fx,dlc5/moon/fx_exp_nuke.efx
+fx,clix/nuketown/explosion_earth_lightblue.efx
+
 // Xmodel required
 
 // Fx nuclear bomd or ambiant IDK
