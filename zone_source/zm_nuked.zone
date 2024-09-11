@@ -18,12 +18,21 @@ scriptparsetree,scripts/zm/zm_nuked.csc
 scriptparsetree,scripts/zm/_hb21_zm_weap_galvaknuckles.gsc
 weapon,t6_tazer_knuckles_zm
 weapon,t6_tazer_knuckles_flourish_zm
+
+// Utility
+scriptparsetree,scripts\zm\nuked_utility.gsc
+scriptparsetree,scripts\zm\nuked_utility.gsh
+
+
+// Subtitle
+scriptparsetree,scripts\zm_exp\zm_subtitle.gsc
 	
 // Nuked perks and Pack a punch
 scriptparsetree,scripts\zm\zm_nuked_perks.gsc
 scriptparsetree,scripts\zm\zm_nuked_perks.csc
 scriptparsetree,scripts\zm\classic_features\pack_a_punch_from_the_sky.gsc
 scriptparsetree,scripts\zm\classic_features\pack_a_punch_from_the_sky.csc
+fx,dlc5/moon/fx_meteor_trail.efx
 
 // Richtofen dialog from Moon
 scriptparsetree,scripts\zm\classic_features\vox_transmission.gsc
@@ -40,6 +49,8 @@ scriptparsetree,scripts\zm\classic_features\clock_nuked.gsc
 // Ambiant (Earthquake, tornado, Background music etc)
 scriptparsetree,scripts\zm\zm_nuketown_hd_amb.gsc
 scriptparsetree,scripts\zm\zm_nuketown_hd_amb.csc
+fx,clix/fx/tornado_small.efx
+fx,clix/fx/tornado_small_very.efx
 
 // Mannequin
 scriptparsetree,scripts\zm\classic_features\mannequins.gsc

@@ -1,1 +1,4 @@
 ﻿zone
+*.gdb
+zone_source/all/
+zone_source/english

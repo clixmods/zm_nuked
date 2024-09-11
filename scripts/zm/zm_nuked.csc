@@ -21,6 +21,7 @@
 #using scripts\zm\_zm_perk_quick_revive;
 #using scripts\zm\_zm_perk_sleight_of_hand;
 #using scripts\zm\_zm_perk_staminup;
+#using scripts\zm\_zm_perk_widows_wine;
 
 //Powerups
 #using scripts\zm\_zm_powerup_double_points;
