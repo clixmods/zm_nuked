@@ -50,6 +50,9 @@
 
 // Nuketown map features
 #using scripts\zm\zm_nuked_perks; 
+#using scripts\zm\_zm_perks; // Spare change
+#insert scripts\zm\_zm_perks.gsh; // Allow custom fx for perks
+
 #using scripts\zm\classic_features\clock_nuked; 
 #using scripts\zm\classic_features\mannequins; 
 #using scripts\zm\classic_features\ee_music; 
@@ -60,16 +63,26 @@
 
 // Utility
 #using scripts\zm_exp\zm_subtitle;
+#using scripts\zm\_zm_net;
 
 // Nuketown weapons
 #using scripts\zm\_hb21_zm_weap_galvaknuckles;
 
-//Traps
+// Traps
 #using scripts\zm\_zm_trap_electric;
 
 #using scripts\zm\zm_usermap;
 
-
+// Gameover cinematic
+#precache( "model", "p6_zm_nuked_rocket_cam_hd" ); 
+#precache( "model", "p7_lotus_ground_clouds_01" ); 
+#precache( "model", "p7_inf_bas_fallaway_clouds_01_single" ); 
+#precache( "model", "p7_inf_bas_fallaway_clouds_01" ); 
+#precache( "model", "p7_fxp_vista_nuked_endgame" ); 
+#define ROCKET_GAMEOVER_ENGINE  "dlc1/castle/fx_ee_moon_rockets_exhaust"
+#precache( "fx", ROCKET_GAMEOVER_ENGINE );
+#define ROCKET_GAMEOVER_FRONT  "dlc4/genesis/fx_apothint_wind_exhale_loop"
+#precache( "fx", ROCKET_GAMEOVER_FRONT );
 
 // Cinematic Moon rocket
 #define NUKE_SHOCK_EXPLOSION           "dlc1/castle/fx_exp_moon_castle"
@@ -87,10 +100,19 @@
 
 function main()
 {
+	// Set cheat to 1 to enable cheats
+	setdvar("sv_cheats", 1);
+
 	// Init base feature for zombies
 	zm_usermap::main();
-	
+
+    // Setup some rules for the map
+    level.dog_rounds_allowed = 0; // No dog round
+    level.random_pandora_box_start = true;
+    zm_perks::spare_change(); // Add points under each perk
+    level._zombiemode_custom_box_move_logic = &nuked_box_move_logic;
 	level._zombie_custom_add_weapons =&custom_add_weapons;
+    level.custom_zombie_powerup_drop = &custom_zombie_powerup_drop_nuked;
 	
 	//Setup the levels Zombie Zone Volumes
 	level.zones = [];
@@ -105,6 +127,23 @@ function main()
     level thread zm_nuked_perks::perks_from_the_sky();
     level thread vox_transmission::init();
     level thread ee_music::init();
+    level thread bus_random_horn();
+    level thread cardboard_dyn();
+    level thread pack_a_punch_hide_model();
+
+    // Setup gameover cinematic
+    rocket = GetEnt( "intermission_rocket", "targetname" );
+    rocket Hide();
+    level.custom_intermission       = &nuked_standard_intermission; 
+    level.custom_player_fake_death  = &player_fake_death;
+
+    // Flags initialization
+    level flag::init( "moon_transmission_over" );
+
+    // Pack-a-Punch Camo
+    level.pack_a_punch_camo_index = 128;
+    level.pack_a_punch_camo_index_number_variants = 3;
+
     //level thread ee_secondary::init();
 
 	// Clean residual elements
@@ -155,6 +194,49 @@ function play_music(music = "project_skadi_classified")
 	}
 }
 
+function bus_random_horn()
+{
+    horn_struct = struct::get( "bus_horn_struct", "targetname" );
+
+    while(1)
+    {
+        to_round = level.round_number + RandomIntRange( 5, 10 );
+        if(level.debug_nuked == true)
+        {
+            IPrintLnBold("le round du klaxon sera :"+to_round);
+        }
+          
+        level waittill("between_round_over");
+        PlaySoundAtPosition( "horn_leave", horn_struct.origin );
+    }
+}
+
+function cardboard_dyn()
+{
+    trig_box = GetEnt("trig_box","targetname");
+    clip_box = GetEnt( trig_box.target ,"targetname");
+    box = GetEnt("box_model_taser","targetname");
+
+    while(1)
+    {
+        trig_box waittill("trigger", player);
+        clip_box Hide();
+        PlayFX("destruct/fx_dest_paper", trig_box.origin);
+        box Hide();
+        break;
+    }
+}
+
+function pack_a_punch_hide_model()
+{
+    models = GetEntArray("pap_model_add","targetname");
+    
+    foreach(model in models)
+    {
+        model Hide();
+    }
+}
+
 // Remove all elements related to Omega version of the map.
 function survival_omega_clean_up()
 {
@@ -194,18 +276,6 @@ function survival_omega_clean_up()
 
         i++;
     }
-
-    level flag::wait_till( "rocket_is_fall" ); 
-    for(i=0;i<doors.size;i++)
-    {
-        if(doors[i].script_noteworthy != "door_moon_destroy")
-        {
-            doors[i] Show();
-
-            trigger = GetEnt(doors[i].target,"targetname");
-            trigger Show();
-        }
-    }
 }
 
 // Supposed to not use omega mystery box when Firesale is on.
@@ -219,6 +289,88 @@ function check_firesale_loc_valid_func()
 	{
 		return true;
 	}
+}
+
+function nuked_box_move_logic()
+{
+    // Check to see if there's a chest selection we should use for this move
+    // This is indicated by a script_noteworthy of "moveX*"
+    //  (e.g. move1_chest0, move1_chest1)  We will randomly choose between 
+    //      one of those two chests for that move number only.
+    index = -1;
+    
+    for ( i=0; i<level.chests.size; i++ )
+    {
+        // Check to see if there is something that we have a choice to move to for this move number
+        if ( IsSubStr( level.chests[i].script_noteworthy, ("move"+(level.chest_moves+1)) ) &&
+             i != level.chest_index )
+        {
+            index = i;
+            break;
+        }
+    }
+
+    if ( index != -1 )
+    {
+        level.chest_index = index;
+        
+    }
+    else
+    {
+        level.chest_index++;
+    }
+
+    if (level.chest_index >= level.chests.size)
+    {
+        //PI CHANGE - this way the chests won't move in the same order the second time around
+        temp_chest_name = level.chests[level.chest_index - 1].script_noteworthy;
+        level.chest_index = 0;
+        level.chests = array::randomize(level.chests);
+        //in case it happens to randomize in such a way that the chest_index now points to the same location
+        // JMA - want to avoid an infinite loop, so we use an if statement
+        if (temp_chest_name == level.chests[level.chest_index].script_noteworthy)
+        {
+            level.chest_index++;
+        }
+        
+        //END PI CHANGE
+    }
+    while(IsSubStr( level.chests[level.chest_index].script_noteworthy, "restricted" )
+        || (isdefined(temp_chest_name) && temp_chest_name == level.chests[level.chest_index].script_noteworthy)
+        || level.chest_index >= level.chests.size)
+        {
+            if(level.debug_nuked == true)
+                IPrintLnBold("besoin de mélanger car "+level.chests[level.chest_index].script_noteworthy);
+
+            if(level.chest_index >= level.chests.size)
+            {
+                if(level.debug_nuked == true)
+                    IPrintLnBold("besoin de mélanger depasser limite atteint");
+                
+                level.chest_index = -1;
+            }
+            
+            level.chest_index++;
+
+            if(level.debug_nuked == true)
+                IPrintLn("resultat du melange "+level.chests[level.chest_index].script_noteworthy);
+        }
+    if(level.debug_nuked == true)
+        IPrintLnBold("celui qui a été choisi :"+level.chests[level.chest_index].script_noteworthy);
+}
+
+function custom_zombie_powerup_drop_nuked(drop_point)
+{
+    powerup = zm_net::network_safe_spawn( "powerup", 1, "script_model", drop_point + (0,0,40));
+    can_drop = powerup zm_zonemgr::entity_in_active_zone();
+    powerup Delete();
+    
+    if(IS_TRUE( can_drop ))
+    {
+        return false;
+    }
+    
+    return true;
 }
 
 // Remove all elements related to the quest, sorry guys ...
@@ -405,3 +557,168 @@ function earth_blowup()
 }
 
 
+function nuked_standard_intermission()
+{
+    self CloseInGameMenu();
+    self CloseMenu( "StartMenu_Main" );
+    self notify("player_intermission");
+    self endon("player_intermission");
+    level endon( "stop_intermission" );
+    self endon("disconnect");
+    self endon("death");
+    self notify( "_zombie_game_over" ); // ww: notify so hud elements know when to leave
+
+    //Show total gained point for end scoreboard and lobby
+    self.score = self.score_total;  
+
+    self.game_over_bg = NewClientHudElem( self );
+    self.game_over_bg.x = 0;
+    self.game_over_bg.y = 0;
+    self.game_over_bg.horzalign = "fullscreen";
+    self.game_over_bg.vertalign = "fullscreen";
+    self.game_over_bg.foreground = 1;
+    self.game_over_bg.sort = 1;
+    self.game_over_bg setshader( "black", 640, 480 );
+    self.game_over_bg.alpha = 1;
+
+    if(self IsHost())
+        level thread moon_rocket_follow_path();
+    
+    wait 0.1;
+    self.game_over_bg fadeovertime( 1 );
+    self.game_over_bg.alpha = 0;
+    level flag::wait_till( "rocket_hit_nuketown" );
+    self.game_over_bg fadeovertime( 1 );
+    self.game_over_bg.alpha = 1;
+}
+
+function player_fake_death()
+{
+    self.ignoreme = true;
+    self EnableInvulnerability();
+}
+
+function moon_rocket_follow_path()
+{
+
+    level clientfield::set( "setup_skybox", 5 );
+    
+
+    rocket_start_struct = struct::get( "inertmission_rocket_start", "targetname" );
+    rocket_end_struct = struct::get( "inertmission_rocket_end", "targetname" );
+    rocket_cam_start_struct = struct::get( "intermission_rocket_cam_start", "targetname" );
+    rocket_cam_end_struct = struct::get( "intermission_rocket_cam_end", "targetname" );
+    
+    cloud_1 = Spawn( "script_model", rocket_start_struct.origin );
+    cloud_1 MoveZ(-2000,0.1);
+    cloud_2 = Spawn( "script_model", rocket_start_struct.origin );
+    cloud_2 MoveZ(-6000,0.1);
+    cloud_3 = Spawn( "script_model", rocket_start_struct.origin );
+    cloud_3 MoveZ(-12000,0.1);
+    cloud_4 = Spawn( "script_model", rocket_start_struct.origin );
+    cloud_4 MoveZ(-15000,0.1);
+
+    cloud_1 SetModel("p7_inf_bas_fallaway_clouds_01");
+    cloud_2 SetModel("p7_inf_bas_fallaway_clouds_01");
+    cloud_3 SetModel("p7_lotus_ground_clouds_01");
+    cloud_4 SetModel("p7_lotus_ground_clouds_01");
+    
+    fog = Spawn( "script_model", (170297,857,6853) );
+    fog SetModel("p7_fxp_vista_nuked_endgame");
+    fog.angles = (0,90,0);
+    
+    fog SetScale(10000);
+
+    fog_1 = Spawn( "script_model", (0,0,0) );
+    fog_1.origin = (62000,857,2875);
+    fog_1 SetModel("p7_fxp_vista_nuked_endgame");
+    fog_1.angles = (0,90,0);
+    
+    fog_1 SetScale(4000);
+
+    fog_2 = Spawn( "script_model", (56427,845,2924) );
+    fog_2 SetModel("p7_fxp_vista_nuked_endgame");
+    fog_2.angles = (0,90,0);
+    
+    fog_2 SetScale(3000);
+
+    rocket_camera_ent = Spawn( "script_model", rocket_cam_start_struct.origin );
+    rocket_camera_ent.angles = rocket_cam_start_struct.angles;
+    rocket = GetEnt( "intermission_rocket", "targetname" );
+    rocket Show();
+     modelss = GetEntArray("endgame_models","targetname");
+    foreach(e in modelss)
+        e Show();
+    rocket.origin = rocket_start_struct.origin;
+    camera = Spawn( "script_model", rocket_cam_start_struct.origin );
+    camera.angles = rocket_cam_start_struct.angles;
+    camera SetModel( "tag_origin" );
+    exploder::exploder( "endgame" );
+    players = GetPlayers();
+    level.camera_rocket = camera;
+    for(i=0; i < players.size ; i++)
+    {
+        players[i] FreezeControls (true);
+        players[i] SetClientUIVisibilityFlag( "weapon_hud_visible", 1 );
+        players[i] HideViewModel();
+        players[i] SetInvisibleToAll();
+        players[i] SetClientUIVisibilityFlag( "hud_visible", 1 );
+        players[i] thread player_rocket_rumble();
+        players[i] thread intermission_rocket_blur();
+        players[i] SetDepthOfField( 0, 128, 7000, 10000, 6, 1.8 );
+        players[i] LinkTo(camera);
+        players[i] GiveWeapon( "ar_standard");
+        players[i] SwitchToWeapon("ar_standard");
+
+    }
+
+    rocket MoveTo( rocket_end_struct.origin, 9 );
+    rocket RotateTo( rocket_end_struct.angles, 11 );
+    camera MoveTo( rocket_cam_end_struct.origin, 9 );
+    camera RotateTo( rocket_cam_end_struct.angles, 8 );
+    PlayFXOnTag( ROCKET_GAMEOVER_FRONT, rocket, "tag_cam" );
+    wait 8;
+    level flag::set( "rocket_hit_nuketown" );
+}
+
+function player_to_rocket()
+{
+    while(1)
+    {
+        self SetOrigin( level.camera_rocket.origin );
+        self SetPlayerAngles( level.camera_rocket.angles );
+        wait 0.05;
+    }
+}
+
+function intermission_rocket_blur()
+{
+    while ( !level flag::get( "rocket_hit_nuketown" ) )
+    {
+        blur = RandomFloatRange( 1, 5 );
+        self SetBlur( blur, 0.1 );
+        wait RandomIntRange( 1, 3 );
+    }
+}
+
+function inermission_rocket_init()
+{
+    rocket = GetEnt( "intermission_rocket", "targetname" );
+    rockets = GetEnt( "endgame_models", "targetname" );
+    rockets Hide();
+    models = GetEntArray("endgame_models","targetname");
+    foreach(e in models)
+        e Hide();
+
+    rocket Hide();
+}
+
+function player_rocket_rumble()
+{
+    while ( !level flag::get( "rocket_hit_nuketown" ) )
+    {
+        self PlayRumbleOnEntity( "damage_light" );
+        Earthquake( 0.15, 0.25, self.origin, 100 );
+        wait 0.5;
+    }
+}

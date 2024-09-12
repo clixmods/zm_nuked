@@ -23,16 +23,30 @@ weapon,t6_tazer_knuckles_flourish_zm
 scriptparsetree,scripts\zm\nuked_utility.gsc
 scriptparsetree,scripts\zm\nuked_utility.gsh
 
+// Loading Screen
+image,black
 
 // Subtitle
 scriptparsetree,scripts\zm_exp\zm_subtitle.gsc
+localize,nuked_string
 	
 // Nuked perks and Pack a punch
 scriptparsetree,scripts\zm\zm_nuked_perks.gsc
 scriptparsetree,scripts\zm\zm_nuked_perks.csc
 scriptparsetree,scripts\zm\classic_features\pack_a_punch_from_the_sky.gsc
 scriptparsetree,scripts\zm\classic_features\pack_a_punch_from_the_sky.csc
+
+// Perks FX
+scriptparsetree,scripts\zm\_zm_perks.gsh
 fx,dlc5/moon/fx_meteor_trail.efx
+fx,zombie/fx_perk_quick_revive_factory_zmb
+fx,zombie/fx_perk_daiquiri_factory_zmb
+fx,zombie/fx_perk_sleight_of_hand_factory_zmb
+fx,zombie/fx_perk_stamin_up_factory_zmb
+fx,dlc5/zmhd/fx_perk_widows_wine
+fx,zombie/fx_perk_juggernaut_factory_zmb
+fx,zombie/fx_perk_doubletap2_factory_zmb
+fx,zombie/fx_perk_mule_kick_factory_zmb
 
 // Richtofen dialog from Moon
 scriptparsetree,scripts\zm\classic_features\vox_transmission.gsc
@@ -86,3 +100,10 @@ xmodel,p7_inf_bas_fallaway_clouds_01
 
 // Tornado
 fx,dlc4/genesis/fx_apothint_wind_exhale_loop.efx
+
+// GARAGE TRAVERSE
+xanim,ai_zombie_base_crawl_v4_clix // GARAGE TRAVERSE
+xanim,ai_zombie_base_run_mantle_over_96 // GARAGE TRAVERSE
+xanim,ai_zombie_base_mantle_over_96 // GARAGE TRAVERSE 
+xanim,ai_zombie_base_crawl_mantle_over_96 // GARAGE TRAVERSE
+

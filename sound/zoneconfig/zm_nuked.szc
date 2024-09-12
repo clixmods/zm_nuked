@@ -13,19 +13,74 @@
  "Standalone" : true,
  "Builds" : [ "T7" ],
  "Sources" : [
- {
+{
+ "Type" : "AMBIENT",
+ "Name" : "zm_nuketown_hd",
+ "Filename" : "zm_nuketown_hd.csv",
+ "Specs" : ["mpl_mod"]
+},
+{
  "Type" : "ALIAS",
- "Name" : "user_aliases",
- "Filename" : "user_aliases.csv",
+ "Name" : "music",
+ "Filename" : "music.csv",
  "Specs" : [ ] 
 },
 {
- "Type" : "AMBIENT",
- "Name" : "ambient_mod",
- "Filename" : "ambient_mod.csv",
- "Specs" : [
-  "mpl_mod"
-  ]
+ "Type" : "ALIAS",
+ "Name" : "perk_sounds",
+ "Filename" : "perk_sounds.csv",
+ "Specs" : [ ] 
+},
+{
+    "Type" : "ALIAS",
+    "Name" : "zm_usmc_vox",
+    "Filename" : "zm_usmc_vox.csv",
+    "Specs" : [ ] 
+},
+{
+  "Type" : "ALIAS",
+  "Name" : "zc_sound",
+  "Filename" : "zc_sound.csv",
+  "Specs" : [ ] 
+},
+{
+  "Type" : "ALIAS",
+  "Name" : "ee_sound_nuked",
+  "Filename" : "ee_sound_nuked.csv",
+  "Specs" : [ ] 
+},
+{
+  "Type" : "ALIAS",
+  "Name" : "vox_language",
+  "Filename" : "vox_language.csv",
+  "Specs" : [ ] 
+},
+
+    {
+      "Type" : "ALIAS",
+      "Name" : "pack_a_punch_sounds",
+      "Filename" : "pack_a_punch_sounds.csv",
+      "Specs" : [ ] 
+    },
+
+{
+  "Type" : "ALIAS",
+  "Name" : "fly_step_chronicles",
+  "Filename" : "fly_step_chronicles.csv",
+  "Specs" : [ ] 
+},
+ {
+ "Type" : "ALIAS",
+ "Name" : "craftable",
+ "Filename" : "craftable_sounds.csv",
+ "Specs" : [ ] 
+},
+
+ {
+ "Type" : "ALIAS",
+ "Name" : "round",
+ "Filename" : "round_nuked.csv",
+ "Specs" : [ ] 
 },
 ]
 }

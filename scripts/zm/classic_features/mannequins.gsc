@@ -29,6 +29,8 @@ function autoexec init()
 {
 	level thread nuked_mannequin_init(); 
 
+    
+
 }
 
 

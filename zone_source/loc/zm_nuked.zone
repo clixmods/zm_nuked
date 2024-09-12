@@ -212,3 +212,4 @@ xmodel,p7_gib_chunk_bone_03
 material,mc/mtl_c_gen_gib_stump
 material,mc/mtl_c_gen_gib_alpha
 sound,zm_nuked
+localize,nuked_string
