@@ -89,6 +89,9 @@ fx,dlc1/castle/fx_exp_moon_castle.efx
 fx,dlc5/moon/fx_exp_nuke.efx
 fx,clix/nuketown/explosion_earth_lightblue.efx
 
+// Characters
+
+
 // Xmodel required
 
 // Fx nuclear bomd or ambiant IDK
@@ -97,6 +100,10 @@ xmodel,p7_inf_bas_fallaway_clouds_01_single
 xmodel,p7_inf_bas_fallaway_clouds_01
 
 // FX Required
+
+// Zombies eyes
+fx,frost_iceforge/orange_zombie_eyes
+fx,frost_iceforge/blue_zombie_eyes
 
 // Tornado
 fx,dlc4/genesis/fx_apothint_wind_exhale_loop.efx

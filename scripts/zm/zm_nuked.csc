@@ -42,8 +42,19 @@
 
 #using scripts\zm\zm_usermap;
 
+#define ORANGE_EYE_FX    "frost_iceforge/orange_zombie_eyes"
+#define BLUE_EYE_FX    "frost_iceforge/blue_zombie_eyes"
+#precache( "client_fx", ORANGE_EYE_FX );
+#precache( "client_fx", BLUE_EYE_FX );
+
 function main()
 {
+	// Register clientfields
+	clientfield::register( "world", "change_fog", VERSION_SHIP, 4, "int", &change_fog, !CF_HOST_ONLY, !CF_CALLBACK_ZERO_ON_NEW_ENT );
+	clientfield::register("world", "change_eye_color", VERSION_SHIP, 1, "int", &setEyeClientField, !CF_HOST_ONLY, CF_CALLBACK_ZERO_ON_NEW_ENT);
+	clientfield::register("world", "change_exposure_to_2", VERSION_SHIP, 1, "int", &SetExposureActive, !CF_HOST_ONLY, CF_CALLBACK_ZERO_ON_NEW_ENT);
+	clientfield::register("world", "change_exposure_to_1", VERSION_SHIP, 1, "int", &SetExposureDisable, !CF_HOST_ONLY, CF_CALLBACK_ZERO_ON_NEW_ENT);
+
 	zm_usermap::main();
 
 	include_weapons();
@@ -55,3 +66,68 @@ function include_weapons()
 {
 	zm_weapons::load_weapon_spec_from_table("gamedata/weapons/zm/zm_levelcommon_weapons.csv", 1);
 }
+
+function change_fog(localClientNum, oldVal, newVal, bNewEnt, bInitialSnap, fieldName, bWasTimeJump)
+{
+	if ( newVal == 1 ) // normal
+	{
+		SetLitFogBank( localClientNum, -1, 0, -1 ); 
+		SetWorldFogActiveBank( localClientNum, 1 ); 
+	}
+	if ( newVal == 2 ) // aftermath
+	{
+		SetLitFogBank( localClientNum, -1, 1, -1 ); 
+		SetWorldFogActiveBank( localClientNum, 2 ); 
+	}
+	if ( newVal == 3 ) // dog
+	{
+		SetLitFogBank( localClientNum, -1, 2, -1 ); 
+		SetWorldFogActiveBank( localClientNum, 4 ); 
+	}
+	if ( newVal == 4 ) // omega
+	{
+		SetLitFogBank( localClientNum, -1, 3, -1 ); 
+		SetWorldFogActiveBank( localClientNum, 8 ); 
+	}
+}
+
+function setEyeClientField( localclientnum, oldval, newval, bnewent, binitialsnap, fieldname, bwasdemojump )
+{
+    if(newval==1)
+    {
+        set_eye_color();
+    }
+}
+
+function set_eye_color()
+{
+    level._override_eye_fx = BLUE_EYE_FX; //Change "BLUE" to any of the other colors.
+    level.zombie_eyeball_color_override = 2;
+}
+
+function SetExposureActive( localclientnum, oldval, newval, bnewent, binitialsnap, fieldname, bwasdemojump )
+{
+    if(newval==1)
+    {
+        exposure_nuke();
+    }
+}
+
+function SetExposureDisable( localclientnum, oldval, newval, bnewent, binitialsnap, fieldname, bwasdemojump )
+{
+    if(newval==1)
+    {
+        exposure_nuke_disable();
+    }
+}
+
+function exposure_nuke( localclientnum, newval )
+{
+     SetExposureActiveBank( localClientNum, 2 ); 
+}
+
+function exposure_nuke_disable( localclientnum, newval )
+{
+     SetExposureActiveBank( localClientNum, 1 ); 
+}
+

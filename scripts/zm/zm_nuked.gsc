@@ -103,6 +103,12 @@ function main()
 	// Set cheat to 1 to enable cheats
 	setdvar("sv_cheats", 1);
 
+    // Register clientfield 
+    clientfield::register( "world", "change_fog", VERSION_SHIP, 4, "int" );
+    clientfield::register("world", "change_eye_color", VERSION_SHIP, 1, "int");
+    clientfield::register("world", "change_exposure_to_2", VERSION_SHIP, 1, "int"); 
+    clientfield::register("world", "change_exposure_to_1", VERSION_SHIP, 1, "int");
+
 	// Init base feature for zombies
 	zm_usermap::main();
 
@@ -124,6 +130,7 @@ function main()
 
 	// Init Nuketown features
     level thread play_music("project_skadi_classified");
+    level thread init_nuked_audio();
     level thread zm_nuked_perks::perks_from_the_sky();
     level thread vox_transmission::init();
     level thread ee_music::init();
@@ -152,6 +159,28 @@ function main()
 
     // Init Nuketown secret features
 	level thread earth_blowup();
+}
+
+#define PLAYTYPE_REJECT 1
+#define PLAYTYPE_QUEUE 2
+#define PLAYTYPE_ROUND 3
+#define PLAYTYPE_SPECIAL 4
+#define PLAYTYPE_GAMEEND 5
+function init_nuked_audio()
+{
+    if(!level flag::get("no_round_sound"))
+    {    
+        zm_audio::musicState_Create("round_start", PLAYTYPE_ROUND, "roundstart1");
+        zm_audio::musicState_Create("round_start_short", PLAYTYPE_ROUND,  "roundstart1" );
+        zm_audio::musicState_Create("round_start_first", PLAYTYPE_ROUND, "roundstart_first" );
+        zm_audio::musicState_Create("round_end", PLAYTYPE_ROUND, "roundend1" );
+    }
+    
+    zm_audio::musicState_Create("game_over", PLAYTYPE_GAMEEND, "gameover" );
+    zm_audio::musicState_Create("dog_start", PLAYTYPE_ROUND, "dogstart1" );
+    zm_audio::musicState_Create("dog_end", PLAYTYPE_ROUND, "dogend1" );
+    zm_audio::musicState_Create("timer", PLAYTYPE_ROUND, "timer" );
+    zm_audio::musicState_Create("power_on", PLAYTYPE_QUEUE, "poweron" );
 }
 
 // This function will init each zones (adjacent and not adjacent).
@@ -484,7 +513,7 @@ function earth_blowup()
 
     wait 15;
 
-    while ( level.round_number <= 30)
+    //while ( level.round_number <= 2)
     {
         wait 1;
     }
