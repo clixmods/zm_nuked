@@ -9,66 +9,17 @@
  "IsShipped" : false,
  "DontDeploy" : false,
  "NoStreamBank" : false,
- "MapFile" : "",
+ "MapFile" : "zm\\zm_nuked.map",
  "Standalone" : true,
  "Builds" : [ "T7" ],
  "Sources" : [
-{
- "Type" : "AMBIENT",
- "Name" : "zm_nuketown_hd",
- "Filename" : "zm_nuketown_hd.csv",
- "Specs" : ["mpl_mod"]
-},
-{
+ {
  "Type" : "ALIAS",
- "Name" : "music",
- "Filename" : "music.csv",
+ "Name" : "user_aliases",
+ "Filename" : "thebeast_aliases.csv",
  "Specs" : [ ] 
 },
-{
- "Type" : "ALIAS",
- "Name" : "perk_sounds",
- "Filename" : "perk_sounds.csv",
- "Specs" : [ ] 
-},
-{
-    "Type" : "ALIAS",
-    "Name" : "zm_usmc_vox",
-    "Filename" : "zm_usmc_vox.csv",
-    "Specs" : [ ] 
-},
-{
-  "Type" : "ALIAS",
-  "Name" : "zc_sound",
-  "Filename" : "zc_sound.csv",
-  "Specs" : [ ] 
-},
-{
-  "Type" : "ALIAS",
-  "Name" : "ee_sound_nuked",
-  "Filename" : "ee_sound_nuked.csv",
-  "Specs" : [ ] 
-},
-{
-  "Type" : "ALIAS",
-  "Name" : "vox_language",
-  "Filename" : "vox_language.csv",
-  "Specs" : [ ] 
-},
 
-    {
-      "Type" : "ALIAS",
-      "Name" : "pack_a_punch_sounds",
-      "Filename" : "pack_a_punch_sounds.csv",
-      "Specs" : [ ] 
-    },
-
-{
-  "Type" : "ALIAS",
-  "Name" : "fly_step_chronicles",
-  "Filename" : "fly_step_chronicles.csv",
-  "Specs" : [ ] 
-},
  {
  "Type" : "ALIAS",
  "Name" : "craftable",
@@ -82,5 +33,68 @@
  "Filename" : "round_nuked.csv",
  "Specs" : [ ] 
 },
+{
+  "Type" : "ALIAS",
+  "Name" : "dog_chronicles"
+  "Filename" : "dog_chronicles_aliases.csv",
+  "Specs" : [ ] 
+},
+    {
+      "Type" : "ALIAS",
+      "Name" : "pack_a_punch_sounds",
+      "Filename" : "pack_a_punch_sounds.csv",
+      "Specs" : [ ] 
+    },
+
+{
+  "Type" : "ALIAS",
+  "Name" : "fly_step_chronicles",
+  "Filename" : "fly_step_chronicles.csv",
+  "Specs" : [ ] 
+},
+
+{
+  "Type" : "ALIAS",
+  "Name" : "vox_language",
+  "Filename" : "vox_language.csv",
+  "Specs" : [ ] 
+},
+{
+  "Type" : "ALIAS",
+  "Name" : "ee_sound_nuked",
+  "Filename" : "ee_sound_nuked.csv",
+  "Specs" : [ ] 
+},
+{
+  "Type" : "ALIAS",
+  "Name" : "zc_sound",
+  "Filename" : "zc_sound.csv",
+  "Specs" : [ ] 
+},
+{
+    "Type" : "ALIAS",
+    "Name" : "zm_usmc_vox",
+    "Filename" : "zm_usmc_vox.csv",
+    "Specs" : [ ] 
+},
+{
+ "Type" : "ALIAS",
+ "Name" : "perk_sounds",
+ "Filename" : "perk_sounds.csv",
+ "Specs" : [ ] 
+},
+
+{
+ "Type" : "ALIAS",
+ "Name" : "music",
+ "Filename" : "music.csv",
+ "Specs" : [ ] 
+},
+{
+ "Type" : "AMBIENT",
+ "Name" : "zm_nuketown_hd",
+ "Filename" : "zm_nuketown_hd.csv",
+ "Specs" : ["mpl_mod"]
+}
 ]
 }

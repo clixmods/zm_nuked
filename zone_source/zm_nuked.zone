@@ -85,14 +85,33 @@ fx,dlc4/genesis/fx_apothint_wind_exhale_loop.efx
 fx,dlc1/castle/fx_ee_moon_rockets_exhaust.efx
 
 // Secret cinematic
+fx,clix/fx_rocket_clix
+fx,clix/fx_rocket_clix_other
 fx,dlc1/castle/fx_exp_moon_castle.efx
 fx,dlc5/moon/fx_exp_nuke.efx
 fx,clix/nuketown/explosion_earth_lightblue.efx
 
 // Characters
-
-
-// Xmodel required
+xmodel,c_zom_der_dempsey_mpc_fb
+xmodel,c_zom_der_dempsey_viewbody
+xmodel,c_zom_der_dempsey_viewhands
+xmodel,c_zom_der_dempsey_viewlegs
+xmodel,c_zom_der_nikolai_mpc_fb
+xmodel,c_zom_der_nikolai_viewbody
+xmodel,c_zom_der_nikolai_viewhands
+xmodel,c_zom_der_nikolai_viewlegs
+xmodel,c_zom_der_richtofen_mpc_fb
+xmodel,c_zom_der_richtofen_viewbody
+xmodel,c_zom_der_richtofen_viewhands
+xmodel,c_zom_der_richtofen_viewlegs
+xmodel,c_zom_der_takeo_mpc_fb
+xmodel,c_zom_der_takeo_viewbody
+xmodel,c_zom_der_takeo_viewhands
+xmodel,c_zom_der_takeo_viewlegs
+image,uie_t7_zm_hud_score_char1
+image,uie_t7_zm_hud_score_char2
+image,uie_t7_zm_hud_score_char3
+image,uie_t7_zm_hud_score_char4
 
 // Fx nuclear bomd or ambiant IDK
 xmodel,p7_lotus_ground_clouds_01

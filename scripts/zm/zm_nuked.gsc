@@ -87,12 +87,14 @@
 // Cinematic Moon rocket
 #define NUKE_SHOCK_EXPLOSION           "dlc1/castle/fx_exp_moon_castle"
 #precache( "fx", NUKE_SHOCK_EXPLOSION );
-
 #define NUKE_EXPLOSION            "dlc5/moon/fx_exp_nuke"
 #precache( "fx", NUKE_EXPLOSION );
-
 #define NUKE_EXPLOSION_LIGHT "clix/nuketown/explosion_earth_lightblue"
 #precache( "fx", NUKE_EXPLOSION_LIGHT );
+#define TRAIL_ROCKET  "clix/fx_rocket_clix"
+#precache( "fx", TRAIL_ROCKET );
+#define TRAIL_ROCKET_OTHER  "clix/fx_rocket_clix_other"
+#precache( "fx", TRAIL_ROCKET_OTHER );
 
 //*****************************************************************************
 // MAIN
@@ -119,6 +121,7 @@ function main()
     level._zombiemode_custom_box_move_logic = &nuked_box_move_logic;
 	level._zombie_custom_add_weapons =&custom_add_weapons;
     level.custom_zombie_powerup_drop = &custom_zombie_powerup_drop_nuked;
+    level util::set_lighting_state( 0 ); // Set the lighting state to base one.
 	
 	//Setup the levels Zombie Zone Volumes
 	level.zones = [];
@@ -545,6 +548,9 @@ function earth_blowup()
     level flag::set( "call_rocket_alternate_ending" );
 
     wait 23;
+    level thread move_rocket_vehicle_alternate_ending();
+    level thread move_rocket_vehicle_other_alternate_ending("veh_rocket_2", "start_fx_rocket_2"); 
+    level thread move_rocket_vehicle_other_alternate_ending("veh_rocket_3", "start_fx_rocket_3");
 
     zm_sub::register_subtitle_func(&"NUKED_STRING_MAXIS_DIALOG_3", 3, moon_tranmission_struct.origin, "vox_xcomp_quest_step8_5"); //textLine, duration, origin, sound, duration_begin, to_player)
     level thread vox_transmission::tv_allumer(3);
@@ -583,6 +589,42 @@ function earth_blowup()
     PlaySoundAtPosition( "sam_moon_mus", moon_tranmission_struct.origin );
 
     level thread vox_transmission::richtofen_quote_random_ee();
+}
+
+function move_rocket_vehicle_alternate_ending() 
+{
+    vh_rocket_alt = GetEnt( "veh_rocket", "targetname" );  
+    vh_rocket_alt.fx = Spawn( "script_model", vh_rocket_alt.origin );
+    vh_rocket_alt.fx.angles = vh_rocket_alt.angles;
+    vh_rocket_alt.fx SetModel( "tag_origin" );
+    PlayFXOnTag(TRAIL_ROCKET ,vh_rocket_alt.fx,"tag_origin");
+    vh_rocket_alt.fx LinkTo( vh_rocket_alt );
+    n_path_start = GetVehicleNode( "start_fx_rocket", "targetname" );
+    vh_rocket_alt LinkTo( n_path_start, "tag_origin", ( 0, -1, 0 ), ( 0, -1, 0 ) );
+    vh_rocket_alt AttachPath( n_path_start );
+    vh_rocket_alt StartPath();
+
+    vh_rocket_alt waittill( "reached_end_node" );
+    vh_rocket_alt.fx Unlink();
+    vh_rocket_alt.fx Delete();
+
+}
+
+function move_rocket_vehicle_other_alternate_ending(veh, node) 
+{
+    vh_rocket_alt = GetEnt( veh, "targetname" );  
+    vh_rocket_alt.fx = Spawn( "script_model", vh_rocket_alt.origin );
+    vh_rocket_alt.fx.angles = vh_rocket_alt.angles;
+    vh_rocket_alt.fx SetModel( "tag_origin" );
+    PlayFXOnTag(TRAIL_ROCKET_OTHER ,vh_rocket_alt.fx,"tag_origin");
+    vh_rocket_alt.fx LinkTo( vh_rocket_alt );
+    n_path_start = GetVehicleNode( node, "targetname" );
+    vh_rocket_alt LinkTo( n_path_start, "tag_origin", ( 0, -1, 0 ), ( 0, -1, 0 ) );
+    vh_rocket_alt AttachPath( n_path_start );
+    vh_rocket_alt StartPath();
+    vh_rocket_alt waittill( "reached_end_node" );
+    vh_rocket_alt.fx Unlink();
+    vh_rocket_alt.fx Delete();
 }
 
 
