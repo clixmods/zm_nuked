@@ -1,0 +1,147 @@
+
+// Audio
+sound,zm_nuked
+
+scriptparsetree,scripts/zm/zm_nuked.gsc
+scriptparsetree,scripts/zm/zm_nuked.csc
+
+// FIX START UP CRASH
+scriptparsetree,scripts/zm/_hb21_zm_weap_galvaknuckles.gsc
+weapon,t6_tazer_knuckles_zm
+weapon,t6_tazer_knuckles_flourish_zm
+
+// Utility
+scriptparsetree,scripts\zm\nuked_utility.gsc
+scriptparsetree,scripts\zm\nuked_utility.gsh
+
+// Loading Screen
+image,black
+
+// Subtitle
+scriptparsetree,scripts\zm_exp\zm_subtitle.gsc
+localize,nuked_string
+	
+// Nuked perks and Pack a punch
+scriptparsetree,scripts\zm\zm_nuked_perks.gsc
+scriptparsetree,scripts\zm\zm_nuked_perks.csc
+scriptparsetree,scripts\zm\classic_features\pack_a_punch_from_the_sky.gsc
+scriptparsetree,scripts\zm\classic_features\pack_a_punch_from_the_sky.csc
+
+// Perks FX
+scriptparsetree,scripts\zm\_zm_perks.gsh
+fx,dlc5/moon/fx_meteor_trail.efx
+fx,zombie/fx_perk_quick_revive_factory_zmb
+fx,zombie/fx_perk_daiquiri_factory_zmb
+fx,zombie/fx_perk_sleight_of_hand_factory_zmb
+fx,zombie/fx_perk_stamin_up_factory_zmb
+fx,dlc5/zmhd/fx_perk_widows_wine
+fx,zombie/fx_perk_juggernaut_factory_zmb
+fx,zombie/fx_perk_doubletap2_factory_zmb
+fx,zombie/fx_perk_mule_kick_factory_zmb
+
+// Richtofen dialog from Moon
+scriptparsetree,scripts\zm\classic_features\vox_transmission.gsc
+xmodel,tv_nuked
+xmodel,tv_nuked_on 
+
+// Secret TV code
+scriptparsetree,scripts\zm\new_features\ee_tv_code.gsc
+fx,clix/elec_tv_fail.efx
+xmodel,tv_nuked_fail
+xmodel,tv_nuked_good
+xmodel,tv_bouton
+xmodel,tv_nuked_on_code_1
+xmodel,tv_nuked_on_code_2
+xmodel,tv_nuked_on_code_3
+xmodel,tv_nuked_on_code_4
+
+// Nuketown panel
+scriptparsetree,scripts\zm\classic_features\nuketown_panneau.gsc
+
+// EE Music
+scriptparsetree,scripts\zm\classic_features\ee_music.gsc
+
+// Clock 
+scriptparsetree,scripts\zm\classic_features\clock_nuked.gsc
+
+// Ambiant (Earthquake, tornado, Background music etc)
+scriptparsetree,scripts\zm\zm_nuketown_hd_amb.gsc
+scriptparsetree,scripts\zm\zm_nuketown_hd_amb.csc
+fx,clix/fx/tornado_small.efx
+fx,clix/fx/tornado_small_very.efx
+
+// Mannequin
+scriptparsetree,scripts\zm\classic_features\mannequins.gsc
+xmodel,dest_zm_nuked_female_01_head_hd_bo4
+xmodel,dest_zm_nuked_female_02_head_hd_bo4
+xmodel,dest_zm_nuked_female_03_head_hd_bo4
+xmodel,dest_zm_nuked_male_01_head_hd_bo4
+xmodel,dest_zm_nuked_male_02_head_hd_bo4
+xmodel,dest_zm_nuked_male_03_head_hd_bo4
+
+// Gameover rocket cinematic
+xmodel,p7_fxp_vista_nuked_endgame
+xmodel,p6_zm_nuked_rocket_cam_hd
+xmodel,p7_lotus_ground_clouds_01
+xmodel,p7_inf_bas_fallaway_clouds_01_single
+xmodel,p7_inf_bas_fallaway_clouds_01
+fx,dlc4/genesis/fx_apothint_wind_exhale_loop.efx
+fx,dlc1/castle/fx_ee_moon_rockets_exhaust.efx
+
+// Secret cinematic
+fx,clix/fx_rocket_clix
+fx,clix/fx_rocket_clix_other
+fx,dlc1/castle/fx_exp_moon_castle.efx
+fx,dlc5/moon/fx_exp_nuke.efx
+fx,clix/nuketown/explosion_earth_lightblue.efx
+
+// Secondary EE
+scriptparsetree,scripts\zm\new_features\ee_secondary.gsc
+xmodel,p7_conduit_metal_1_outlet_plug_e_burnt
+xmodel,p7_zm_teddybear_sitting_shootable
+fx,electric/fx_elec_spark_loop_sm
+
+// Characters
+// Warning, to allow the override of the characters 
+// you need to remove these lines from the source file in the zone_source folder
+xmodel,c_zom_der_dempsey_mpc_fb
+xmodel,c_zom_der_dempsey_viewbody
+xmodel,c_zom_der_dempsey_viewhands
+xmodel,c_zom_der_dempsey_viewlegs
+xmodel,c_zom_der_nikolai_mpc_fb
+xmodel,c_zom_der_nikolai_viewbody
+xmodel,c_zom_der_nikolai_viewhands
+xmodel,c_zom_der_nikolai_viewlegs
+xmodel,c_zom_der_richtofen_mpc_fb
+xmodel,c_zom_der_richtofen_viewbody
+xmodel,c_zom_der_richtofen_viewhands
+xmodel,c_zom_der_richtofen_viewlegs
+xmodel,c_zom_der_takeo_mpc_fb
+xmodel,c_zom_der_takeo_viewbody
+xmodel,c_zom_der_takeo_viewhands
+xmodel,c_zom_der_takeo_viewlegs
+image,uie_t7_zm_hud_score_char1 // Nikolai override
+image,uie_t7_zm_hud_score_char2 // Takeo override
+image,uie_t7_zm_hud_score_char3 // Dempsey override
+image,uie_t7_zm_hud_score_char4 // Richtofen override
+
+// Fx nuclear bomd or ambiant IDK
+xmodel,p7_lotus_ground_clouds_01
+xmodel,p7_inf_bas_fallaway_clouds_01_single
+xmodel,p7_inf_bas_fallaway_clouds_01
+
+// FX Required
+
+// Zombies eyes
+fx,frost_iceforge/orange_zombie_eyes
+fx,frost_iceforge/blue_zombie_eyes
+
+// Tornado
+fx,dlc4/genesis/fx_apothint_wind_exhale_loop.efx
+
+// GARAGE TRAVERSE
+xanim,ai_zombie_base_crawl_v4_clix // GARAGE TRAVERSE
+xanim,ai_zombie_base_run_mantle_over_96 // GARAGE TRAVERSE
+xanim,ai_zombie_base_mantle_over_96 // GARAGE TRAVERSE 
+xanim,ai_zombie_base_crawl_mantle_over_96 // GARAGE TRAVERSE
+
