@@ -8,4 +8,7 @@ material,luts_t7_default
 col_map,maps/zm/zm_nuked.d3dbsp
 gfx_map,maps/zm/zm_nuked.d3dbsp
 
+// Audio
+sound,zm_nuked
+
 include,zm_nuked

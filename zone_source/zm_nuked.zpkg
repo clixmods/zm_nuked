@@ -1,7 +1,3 @@
-
-// Audio
-sound,zm_nuked
-
 scriptparsetree,scripts/zm/zm_nuked.gsc
 scriptparsetree,scripts/zm/zm_nuked.csc
 
