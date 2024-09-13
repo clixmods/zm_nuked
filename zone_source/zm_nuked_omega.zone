@@ -1,0 +1,20 @@
+>class,zm_mod_level
+>group,modtools
+
+xmodel,skybox_default_day
+material,luts_t7_default
+	
+// BSP
+col_map,maps/zm/zm_nuked_omega.d3dbsp
+gfx_map,maps/zm/zm_nuked_omega.d3dbsp
+
+// Audio
+sound,zm_nuked_omega
+
+scriptparsetree,scripts/zm/zm_nuked_omega.gsc
+scriptparsetree,scripts/zm/zm_nuked_omega.csc
+
+include,zm_nuked
+
+	
+	
