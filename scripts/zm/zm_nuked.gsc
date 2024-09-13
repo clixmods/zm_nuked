@@ -168,8 +168,6 @@ function main()
     level.pack_a_punch_camo_index = 128;
     level.pack_a_punch_camo_index_number_variants = 3;
 
-    //level thread ee_secondary::init();
-
 	// Clean residual elements
     level thread survival_omega_clean_up();
     level thread clean_quest();
