@@ -50,11 +50,19 @@ fx,zombie/fx_perk_mule_kick_factory_zmb
 
 // Richtofen dialog from Moon
 scriptparsetree,scripts\zm\classic_features\vox_transmission.gsc
-xmodel,tv_bouton
 xmodel,tv_nuked
+xmodel,tv_nuked_on 
+
+// Secret TV code
+scriptparsetree,scripts\zm\new_features\ee_tv_code.gsc
+fx,clix/elec_tv_fail.efx
 xmodel,tv_nuked_fail
 xmodel,tv_nuked_good
-xmodel,tv_nuked_on 
+xmodel,tv_bouton
+xmodel,tv_nuked_on_code_1
+xmodel,tv_nuked_on_code_2
+xmodel,tv_nuked_on_code_3
+xmodel,tv_nuked_on_code_4
 
 // Nuketown panel
 scriptparsetree,scripts\zm\classic_features\nuketown_panneau.gsc
@@ -95,6 +103,12 @@ fx,clix/fx_rocket_clix_other
 fx,dlc1/castle/fx_exp_moon_castle.efx
 fx,dlc5/moon/fx_exp_nuke.efx
 fx,clix/nuketown/explosion_earth_lightblue.efx
+
+// Secondary EE
+scriptparsetree,scripts\zm\new_features\ee_secondary.gsc
+xmodel,p7_conduit_metal_1_outlet_plug_e_burnt
+xmodel,p7_zm_teddybear_sitting_shootable
+fx,electric/fx_elec_spark_loop_sm
 
 // Characters
 // Warning, to allow the override of the characters 

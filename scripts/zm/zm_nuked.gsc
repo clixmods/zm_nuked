@@ -61,6 +61,10 @@
 #using scripts\zm\classic_features\pack_a_punch_from_the_sky; 
 #using scripts\zm\zm_nuketown_hd_amb;
 
+// Secondary EE
+#using scripts\zm\new_features\ee_secondary;
+#using scripts\zm\new_features\ee_tv_code;
+
 // Utility
 #using scripts\zm_exp\zm_subtitle;
 #using scripts\zm\_zm_net;
@@ -106,16 +110,18 @@ function main()
 	setdvar("sv_cheats", 1);
 
     // Register clientfield 
-    clientfield::register( "world", "change_fog", VERSION_SHIP, 4, "int" );
+    clientfield::register("world", "change_fog", VERSION_SHIP, 4, "int" );
     clientfield::register("world", "change_zombie_eye_color", VERSION_SHIP, 1, "int");
     clientfield::register("world", "change_exposure_to_2", VERSION_SHIP, 1, "int"); 
     clientfield::register("world", "change_exposure_to_1", VERSION_SHIP, 1, "int");
+
+    // Need to be executed before zm_usermap
+    level.dog_rounds_allowed = false; // No dog round
 
 	// Init base feature for zombies
 	zm_usermap::main();
 
     // Setup some rules for the map
-    level.dog_rounds_allowed = 0; // No dog round
     level.random_pandora_box_start = true;
     zm_perks::spare_change(); // Add points under each perk
     level._zombiemode_custom_box_move_logic = &nuked_box_move_logic;
@@ -141,9 +147,17 @@ function main()
     level thread cardboard_dyn();
     level thread pack_a_punch_hide_model();
 
+    // Init new features
+    level thread ee_secondary::init();
+    level thread ee_tv_code::init();
+
+
     // Setup gameover cinematic
     rocket = GetEnt( "intermission_rocket", "targetname" );
     rocket Hide();
+
+    // Keep the base intermission to restore it if the secret cinematic was enabled
+    level.old_custom_intermission   = level.custom_intermission;
     level.custom_intermission       = &nuked_standard_intermission; 
     level.custom_player_fake_death  = &player_fake_death;
 
@@ -505,6 +519,27 @@ function clean_quest()
     {
         ent hide();
     }
+
+    weapon_rack_wavegun = GetEnt("weapon_rack","targetname");
+    weapon_rack_wavegun Hide();
+
+    wavegun_ice_model = GetEnt("wavegun_ice","targetname");
+    wavegun_ice_model Hide();
+
+    wavegun_fire_model = GetEnt("wavegun_fire","targetname");
+    wavegun_fire_model Hide();
+
+    wavegun_wind_model = GetEnt("wavegun_wind","targetname");
+    wavegun_wind_model Hide();
+
+    wavegun_electric_model = GetEnt("wavegun_electric","targetname");
+    wavegun_electric_model Hide();
+
+    structs = struct::get_array("struct_wavegun","targetname");
+    foreach (struct in structs)
+    {
+        struct hide();
+    }    
 }
 
 function earth_blowup()
@@ -516,7 +551,7 @@ function earth_blowup()
 
     wait 15;
 
-    //while ( level.round_number <= 2)
+    while ( level.round_number < 30)
     {
         wait 1;
     }
@@ -525,20 +560,24 @@ function earth_blowup()
 
     //
     zm_sub::register_subtitle_func(&"NUKED_STRING_MAXIS_DIALOG_0", 11, moon_tranmission_struct.origin, "vox_xcomp_quest_step6_14"); //textLine, duration, origin, sound, duration_begin, to_player)
-    level thread vox_transmission::tv_allumer(11);
+    level thread vox_transmission::set_tv_on_during(11);
     wait 20;
 
     // Maxis take controls of the station
     zm_sub::register_subtitle_func(&"NUKED_STRING_MAXIS_DIALOG_1", 13, moon_tranmission_struct.origin, "vox_xcomp_quest_step7_5"); //textLine, duration, origin, sound, duration_begin, to_player)
-    level thread vox_transmission::tv_allumer(13);
+    level thread vox_transmission::set_tv_on_during(13);
 
     SetDvar("ai_disableSpawn", 1);
+
+    // Remove the nuked intermission and restore the base one
+    // Because rockets is going to be launched, so we don't want see them in the intermission
+    level.custom_intermission = level.old_custom_intermission;
 
     wait 54;
   
     // Maxis has finished calculations, Launch in 5 seconds
     zm_sub::register_subtitle_func(&"NUKED_STRING_MAXIS_DIALOG_2", 10, moon_tranmission_struct.origin, "vox_xcomp_quest_step8_4"); //textLine, duration, origin, sound, duration_begin, to_player)
-    level thread vox_transmission::tv_allumer(10);
+    level thread vox_transmission::set_tv_on_during(10);
 
     wait 20;
 
@@ -559,10 +598,12 @@ function earth_blowup()
 
     // Maxis says 30 seconds to impact
     zm_sub::register_subtitle_func(&"NUKED_STRING_MAXIS_DIALOG_3", 3, moon_tranmission_struct.origin, "vox_xcomp_quest_step8_5"); //textLine, duration, origin, sound, duration_begin, to_player)
-    level thread vox_transmission::tv_allumer(3);
+    level thread vox_transmission::set_tv_on_during(3);
 
     wait 30.5;
 
+    // TODO : Find a way to optimize this part, because the game is going to freeze for some seconds
+    // Not hard crash, but freeze, I don't know if that can crash the game with multiple players
     PlayFx( NUKE_SHOCK_EXPLOSION , nuke_shock.origin);
     wait 3;
     player StartFadingBlur( 7, 3 );
@@ -584,15 +625,15 @@ function earth_blowup()
     SetDvar("ai_disableSpawn", 0);
 
     zm_sub::register_subtitle_func(&"NUKED_STRING_MAXIS_DIALOG_4", 5, moon_tranmission_struct.origin, "vox_xcomp_quest_step8_6"); //textLine, duration, origin, sound, duration_begin, to_player)
-    level thread vox_transmission::tv_allumer(5);
+    level thread vox_transmission::set_tv_on_during(5);
     wait 8;
 
     zm_sub::register_subtitle_func(&"NUKED_STRING_MAXIS_DIALOG_5", 6, moon_tranmission_struct.origin, "vox_xcomp_quest_step8_8"); //textLine, duration, origin, sound, duration_begin, to_player)
-    level thread vox_transmission::tv_allumer(6);
+    level thread vox_transmission::set_tv_on_during(6);
     level flag::set( "spawn_zombies" );
     level flag::set( "rocket_is_fall" );
     level flag::set( "aftermath" );
-    PlaySoundAtPosition( "sam_moon_mus", moon_tranmission_struct.origin );
+    //PlaySoundAtPosition( "sam_moon_mus", moon_tranmission_struct.origin );
 
     level thread vox_transmission::richtofen_quote_random_ee();
 }

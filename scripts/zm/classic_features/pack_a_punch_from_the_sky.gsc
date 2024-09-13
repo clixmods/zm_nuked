@@ -36,7 +36,6 @@ function __init__()
 	clientfield::register( "scriptmover", "fx_trail_clientfield", 12000, 1, "int" );	
 	clientfield::register( "toplayer", "fx_trail_clientfield_toplayer", VERSION_SHIP, 1, "int" );	
 
-
 	level.pack_a_punch.custom_power_think = &s_pap_tp_fc;
 
 	wait 55;
@@ -50,13 +49,7 @@ function init()
 
 	
 }
-//
-//"Name: blocker_delete"
-//"Type: PERK"
-//"Summary: Fait disparaitre les blocker des atouts
-//"Suggestion : - A déplacer dans zm_nuked_perk
-//              - "
-//
+
 function blocker_delete(id, omega_block)
 { 
     if(omega_block == true)
@@ -71,8 +64,6 @@ function blocker_delete(id, omega_block)
         ent Hide();
         ent Delete();   
     }
-   
-
 
     if(omega_block == true)
     {
