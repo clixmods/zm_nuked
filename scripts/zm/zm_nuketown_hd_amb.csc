@@ -117,7 +117,7 @@ function change_skybox( localClientNum, oldVal, newVal, bNewEnt, bInitialSnap, f
 			vol = GetDvarInt( "r_volumetric_lighting_enabled", 1 );
 			SetDvar( "r_OIT", 0 );	
 			SetDvar( "r_volumetric_lighting_enabled", 0 );	
-			wait 10;
+			wait 2;
 			if( oit != 0)
 			{
 				SetDvar( "r_OIT", oit );	
@@ -127,7 +127,7 @@ function change_skybox( localClientNum, oldVal, newVal, bNewEnt, bInitialSnap, f
 				SetDvar( "r_volumetric_lighting_enabled", vol );
 			}	
 
-			wait 10;
+			wait 2;
 			setdvar( "r_lightGridEnableTweaks", 1 );
 			setdvar( "r_lightGridIntensity", 1.25 );
 			setdvar( "r_lightGridContrast", 0.18 );
@@ -166,7 +166,7 @@ function change_skybox( localClientNum, oldVal, newVal, bNewEnt, bInitialSnap, f
 			vol = GetDvarInt( "r_volumetric_lighting_enabled", 1 );
 			SetDvar( "r_OIT", 0 );	
 			SetDvar( "r_volumetric_lighting_enabled", 0 );	
-			wait 10;
+			wait 2;
 			if( oit != 0)
 			{
 				SetDvar( "r_OIT", oit );	

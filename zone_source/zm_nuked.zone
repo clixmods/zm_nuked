@@ -50,6 +50,12 @@ fx,zombie/fx_perk_mule_kick_factory_zmb
 
 // Richtofen dialog from Moon
 scriptparsetree,scripts\zm\classic_features\vox_transmission.gsc
+xmodel,tv_bouton
+xmodel,tv_nuked
+xmodel,tv_nuked_fail
+xmodel,tv_nuked_good
+xmodel,tv_nuked_on 
+
 
 // Nuketown panel
 scriptparsetree,scripts\zm\classic_features\nuketown_panneau.gsc

@@ -51,7 +51,7 @@ function main()
 {
 	// Register clientfields
 	clientfield::register( "world", "change_fog", VERSION_SHIP, 4, "int", &change_fog, !CF_HOST_ONLY, !CF_CALLBACK_ZERO_ON_NEW_ENT );
-	clientfield::register("world", "change_eye_color", VERSION_SHIP, 1, "int", &setEyeClientField, !CF_HOST_ONLY, CF_CALLBACK_ZERO_ON_NEW_ENT);
+	clientfield::register("world", "change_zombie_eye_color", VERSION_SHIP, 1, "int", &setEyeClientField, !CF_HOST_ONLY, CF_CALLBACK_ZERO_ON_NEW_ENT);
 	clientfield::register("world", "change_exposure_to_2", VERSION_SHIP, 1, "int", &SetExposureActive, !CF_HOST_ONLY, CF_CALLBACK_ZERO_ON_NEW_ENT);
 	clientfield::register("world", "change_exposure_to_1", VERSION_SHIP, 1, "int", &SetExposureDisable, !CF_HOST_ONLY, CF_CALLBACK_ZERO_ON_NEW_ENT);
 

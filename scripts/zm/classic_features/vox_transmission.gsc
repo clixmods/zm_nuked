@@ -17,6 +17,11 @@
 
 #define ZOMBIE_RICH_ANNOUNCER_PREFIX "zmba_rich" 
 
+#define TV_ON           "tv_nuked_on"
+#precache( "model", TV_ON );
+#define TV_OFF          "tv_nuked"
+#precache( "model", TV_OFF );
+
 function init()
 {
     level thread marlton_vo_inside_bunker(); 
@@ -117,11 +122,11 @@ function tv_allumer(waiting)
 {
     if(level.tv_code_is_on != true )
     {
-        level.tv SetModel("tv_nuked_on");
+        level.tv SetModel(TV_ON);
         
         wait(waiting);
 
-        level.tv SetModel("tv_nuked");
+        level.tv SetModel(TV_OFF);
     }
 }
 
@@ -171,17 +176,19 @@ function moon_tranmission_vo()
     level waittill("between_round_over");
     zm_sub::register_subtitle_func(&"NUKED_STRING_RICHTOFEN_DIALOG_5", 12, moon_tranmission_struct.origin, "vox_nuked_tbase_transmission_4",8);
     level thread tv_allumer(20);
+    
     if(level.debug_nuked == true)
     {
      IPrintLn("vox_nuked_tbase_transmission_4"); // debug, remove if ya wanna
     }
-    level clientfield::set( "change_eye_color", 1 );
-    level.player_4_vox_override = true;
-    //level.zombie_eyeball_color_override = 2;
-    level.zmAnnouncerPrefix = "vox_"+ZOMBIE_RICH_ANNOUNCER_PREFIX+"_";
-    level flag::set( "moon_transmission_over" );
-    
 
+    level clientfield::set( "change_zombie_eye_color", 1 );
+
+    level.player_4_vox_override = true;
+
+    level.zmAnnouncerPrefix = "vox_"+ZOMBIE_RICH_ANNOUNCER_PREFIX+"_";
+
+    level flag::set( "moon_transmission_over" );
 }
 
 //

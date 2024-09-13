@@ -107,7 +107,7 @@ function main()
 
     // Register clientfield 
     clientfield::register( "world", "change_fog", VERSION_SHIP, 4, "int" );
-    clientfield::register("world", "change_eye_color", VERSION_SHIP, 1, "int");
+    clientfield::register("world", "change_zombie_eye_color", VERSION_SHIP, 1, "int");
     clientfield::register("world", "change_exposure_to_2", VERSION_SHIP, 1, "int"); 
     clientfield::register("world", "change_exposure_to_1", VERSION_SHIP, 1, "int");
 
@@ -523,7 +523,7 @@ function earth_blowup()
 
     wait 30;
 
-    // Greeting
+    //
     zm_sub::register_subtitle_func(&"NUKED_STRING_MAXIS_DIALOG_0", 11, moon_tranmission_struct.origin, "vox_xcomp_quest_step6_14"); //textLine, duration, origin, sound, duration_begin, to_player)
     level thread vox_transmission::tv_allumer(11);
     wait 20;
@@ -532,13 +532,14 @@ function earth_blowup()
     zm_sub::register_subtitle_func(&"NUKED_STRING_MAXIS_DIALOG_1", 13, moon_tranmission_struct.origin, "vox_xcomp_quest_step7_5"); //textLine, duration, origin, sound, duration_begin, to_player)
     level thread vox_transmission::tv_allumer(13);
 
+    SetDvar("ai_disableSpawn", 1);
+
     wait 54;
   
     // Maxis has finished calculations, Launch in 5 seconds
     zm_sub::register_subtitle_func(&"NUKED_STRING_MAXIS_DIALOG_2", 10, moon_tranmission_struct.origin, "vox_xcomp_quest_step8_4"); //textLine, duration, origin, sound, duration_begin, to_player)
     level thread vox_transmission::tv_allumer(10);
 
-    SetDvar("ai_disableSpawn", 1);
     wait 20;
 
     level clientfield::set( "change_exposure_to_2", 1 );
@@ -563,9 +564,9 @@ function earth_blowup()
     wait 30.5;
 
     PlayFx( NUKE_SHOCK_EXPLOSION , nuke_shock.origin);
-
-    player StartFadingBlur( 15, 7 );
     wait 3;
+    player StartFadingBlur( 7, 3 );
+    wait 1;
     level clientfield::set( "setup_skybox", 2 );
     level notify("skybox_moon");
     PlayFx( NUKE_EXPLOSION_LIGHT , nuke_light.origin);
