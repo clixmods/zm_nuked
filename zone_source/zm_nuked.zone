@@ -98,6 +98,8 @@ fx,dlc5/moon/fx_exp_nuke.efx
 fx,clix/nuketown/explosion_earth_lightblue.efx
 
 // Characters
+// Warning, to allow the override of the characters 
+// you need to remove these lines from the source file in the zone_source folder
 xmodel,c_zom_der_dempsey_mpc_fb
 xmodel,c_zom_der_dempsey_viewbody
 xmodel,c_zom_der_dempsey_viewhands
@@ -114,10 +116,10 @@ xmodel,c_zom_der_takeo_mpc_fb
 xmodel,c_zom_der_takeo_viewbody
 xmodel,c_zom_der_takeo_viewhands
 xmodel,c_zom_der_takeo_viewlegs
-image,uie_t7_zm_hud_score_char1
-image,uie_t7_zm_hud_score_char2
-image,uie_t7_zm_hud_score_char3
-image,uie_t7_zm_hud_score_char4
+image,uie_t7_zm_hud_score_char1 // Nikolai override
+image,uie_t7_zm_hud_score_char2 // Takeo override
+image,uie_t7_zm_hud_score_char3 // Dempsey override
+image,uie_t7_zm_hud_score_char4 // Richtofen override
 
 // Fx nuclear bomd or ambiant IDK
 xmodel,p7_lotus_ground_clouds_01
