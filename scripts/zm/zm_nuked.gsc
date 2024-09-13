@@ -523,15 +523,18 @@ function earth_blowup()
 
     wait 30;
 
+    // Greeting
     zm_sub::register_subtitle_func(&"NUKED_STRING_MAXIS_DIALOG_0", 11, moon_tranmission_struct.origin, "vox_xcomp_quest_step6_14"); //textLine, duration, origin, sound, duration_begin, to_player)
     level thread vox_transmission::tv_allumer(11);
     wait 20;
 
+    // Maxis take controls of the station
     zm_sub::register_subtitle_func(&"NUKED_STRING_MAXIS_DIALOG_1", 13, moon_tranmission_struct.origin, "vox_xcomp_quest_step7_5"); //textLine, duration, origin, sound, duration_begin, to_player)
     level thread vox_transmission::tv_allumer(13);
 
     wait 54;
   
+    // Maxis has finished calculations, Launch in 5 seconds
     zm_sub::register_subtitle_func(&"NUKED_STRING_MAXIS_DIALOG_2", 10, moon_tranmission_struct.origin, "vox_xcomp_quest_step8_4"); //textLine, duration, origin, sound, duration_begin, to_player)
     level thread vox_transmission::tv_allumer(10);
 
@@ -547,11 +550,13 @@ function earth_blowup()
 
     level flag::set( "call_rocket_alternate_ending" );
 
-    wait 23;
     level thread move_rocket_vehicle_alternate_ending();
     level thread move_rocket_vehicle_other_alternate_ending("veh_rocket_2", "start_fx_rocket_2"); 
     level thread move_rocket_vehicle_other_alternate_ending("veh_rocket_3", "start_fx_rocket_3");
 
+    wait 23;
+
+    // Maxis says 30 seconds to impact
     zm_sub::register_subtitle_func(&"NUKED_STRING_MAXIS_DIALOG_3", 3, moon_tranmission_struct.origin, "vox_xcomp_quest_step8_5"); //textLine, duration, origin, sound, duration_begin, to_player)
     level thread vox_transmission::tv_allumer(3);
 
@@ -559,11 +564,11 @@ function earth_blowup()
 
     PlayFx( NUKE_SHOCK_EXPLOSION , nuke_shock.origin);
 
+    player StartFadingBlur( 15, 7 );
     wait 3;
     level clientfield::set( "setup_skybox", 2 );
     level notify("skybox_moon");
     PlayFx( NUKE_EXPLOSION_LIGHT , nuke_light.origin);
-    player StartFadingBlur( 15, 5 );
     wait 2;
 
     PlaySoundAtPosition( "vox_xcomp_laugh", (0,0,0) );
