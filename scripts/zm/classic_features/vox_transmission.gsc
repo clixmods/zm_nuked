@@ -13,7 +13,7 @@
 #using scripts\shared\vehicle_shared;
 
 #using scripts\zm\nuked_utility;
-#using scripts\zm_exp\zm_subtitle; // zm_sub::register_subtitle_func(textLine, duration, origin, sound);
+#using scripts\zm_exp\zm_subtitle;
 
 #define ZOMBIE_RICH_ANNOUNCER_PREFIX "zmba_rich" 
 
@@ -24,22 +24,24 @@
 
 function init()
 {
+    // Init the TV, warning level.tv was initialy spawned by ee_tv_code_v2.gsc
+    // So, if we add the script to the map, we need to remove the spawn from ee_tv_code_v2.gsc
+    struct_tv = struct::get("tv_spawn", "targetname" );
+	level.tv = Spawn( "script_model", struct_tv.origin );
+	level.tv.angles = struct_tv.angles;
+	level.tv SetModel( TV_OFF );
+
     level thread marlton_vo_inside_bunker(); 
     level thread moon_tranmission_vo(); 
-    level thread richtofen_quote_random(); // Pour boss
+
+    // Init the random richtofen quote after the rocket fall
+    level thread richtofen_quote_random(); 
 }
-
-
-//
-//"Name: marlton_vo_inside_bunker"
-//"Type: Main Quest"
-//"Summary: Voix de Marlton au pif quand on cut le trigger
-//"Suggestion : - A test
-//              - Demander à Symbo de faire la VF et VO"
-//
 
 function marlton_vo_inside_bunker() 
 {
+    // Not used, we need probably to remove this function
+
     level.marlton_ee = 0;
     marlton_bunker_trig = GetEnt( "marlton_bunker_trig", "targetname" );
     marlton_sound_pos = marlton_bunker_trig.origin;
@@ -58,67 +60,9 @@ function marlton_vo_inside_bunker()
     marlton_vo[ marlton_vo.size ] = "vox_plr_3_map_in_fog_1"; // _9aa87058
     marlton_vo[ marlton_vo.size ] = "vox_plr_3_map_in_fog_2"; // _a449aa74
     marlton_vo[ marlton_vo.size ] = "vox_plr_3_oh_shit_0_alt01"; //_3b23c8e
-    
-    // while (level flag::get("quest_enable"))
-    // {
-    //     if(level.marlton_ee <= 5)
-    //     {
-    //              marlton_bunker_trig waittill( "trigger" );
-    //              //
-    //              zm_sub::register_subtitle_func(&"NUKED_STRING_MARLTON_DIALOG_1", 10, marlton_sound_pos, "marlton_line_01");
-
-    //              level.marlton_ee++;
-    //              nuked_utility::wait_for_next_round( level.round_number );
-
-    //              marlton_bunker_trig waittill( "trigger" );
-    //              zm_sub::register_subtitle_func(&"NUKED_STRING_MARLTON_DIALOG_2", 10, marlton_sound_pos, "marlton_line_02");
-    //              level.marlton_ee++;
-    //              nuked_utility::wait_for_next_round( level.round_number );
-
-    //              marlton_bunker_trig waittill( "trigger" );
-    //             zm_sub::register_subtitle_func(&"NUKED_STRING_MARLTON_DIALOG_3", 10, marlton_sound_pos, "marlton_line_03");
-    //              level.marlton_ee++;
-    //              nuked_utility::wait_for_next_round( level.round_number );
-
-    //              marlton_bunker_trig waittill( "trigger" );
-    //              zm_sub::register_subtitle_func(&"NUKED_STRING_MARLTON_DIALOG_4", 10, marlton_sound_pos, "marlton_line_04");
-    //              level.marlton_ee++;
-    //              nuked_utility::wait_for_next_round( level.round_number );
-
-    //              marlton_bunker_trig waittill( "trigger" );
-    //              zm_sub::register_subtitle_func(&"NUKED_STRING_MARLTON_DIALOG_5", 10, marlton_sound_pos, "marlton_line_05");
-    //              wait 8;
-    //              zm_sub::register_subtitle_func(&"NUKED_STRING_IEM_DIALOG_2", 10, marlton_sound_pos, "generateur_no_security");
-    //              level.marlton_ee++;
- 
-    //              level thread ee_step_generator::generateur_step();
-    //             level.emp_gen = false;
-    //             level notify("emp_gen_off");
-
-                
-    //                 if(level.debug_nuked == true)
-    //                 {
-    //                     IPrintLnBold("marlton a demandé de detruire les generateurs"+level.marlton_ee); //debug
-    //                 }
-               
-    //              level.marlton_ee++;
-    //              nuked_utility::wait_for_next_round( level.round_number );
-
-    //     }
-    //     if(level.marlton_ee >= 5)
-    //     {   
-    //             marlton_bunker_trig waittill( "trigger" );
-    //             PlaySoundAtPosition( marlton_vo[ RandomIntRange( 0, marlton_vo.size ) ], marlton_sound_pos );
-             
-    //             level.marlton_ee++;      
-    //             nuked_utility::wait_for_next_round( level.round_number );
-    //     }
-
-    // }
-
 }
 
-function tv_allumer(waiting)
+function set_tv_on_during(waiting)
 {
     if(level.tv_code_is_on != true )
     {
@@ -136,51 +80,34 @@ function moon_tranmission_vo()
     nuked_utility::wait_for_round_range( 2 );
 
     level waittill("between_round_over");
-    //PlaySoundAtPosition( "vox_nuked_tbase_transmission_0", moon_tranmission_struct.origin );
+
     zm_sub::register_subtitle_func(&"NUKED_STRING_RICHTOFEN_DIALOG_1", 8, moon_tranmission_struct.origin, "vox_nuked_tbase_transmission_0",6); // textLine, duration, origin, sound, duration_begin, to_player)
-    level thread tv_allumer(14);
-    if(level.debug_nuked == true)
-    {
-    IPrintLn("vox_nuked_tbase_transmission_0"); // debug, remove if ya wanna
-    }
+    level thread set_tv_on_during(14);
+    
     nuked_utility::wait_for_round_range( randomintrange( 4, 5 ));
     level waittill("between_round_over");
     zm_sub::register_subtitle_func(&"NUKED_STRING_RICHTOFEN_DIALOG_2", 9, moon_tranmission_struct.origin, "vox_nuked_tbase_transmission_1",5);
-    level thread tv_allumer(10);
-        if(level.debug_nuked == true)
-        {
-            IPrintLn("vox_nuked_tbase_transmission_1"); // debug, remove if ya wanna
-        }
-
-        nuked_utility::wait_for_round_range( randomintrange( 7, 11 ));
+    level thread set_tv_on_during(10);
+    
+    nuked_utility::wait_for_round_range( randomintrange( 7, 11 ));
         
     if(level.code_go_23 != true)
     {
         level waittill("between_round_over");
         zm_sub::register_subtitle_func(&"NUKED_STRING_RICHTOFEN_DIALOG_4", 8, moon_tranmission_struct.origin, "vox_nuked_tbase_transmission_2",4);
-        level thread tv_allumer(12);
-        if(level.debug_nuked == true)
-        {
-         IPrintLn("vox_nuked_tbase_transmission_2"); // debug, remove if ya wanna
-        }
+        level thread set_tv_on_during(12);
+       
         nuked_utility::wait_for_round_range( randomintrange( 13, 15 ));
         level waittill("between_round_over");
         zm_sub::register_subtitle_func(&"NUKED_STRING_RICHTOFEN_DIALOG_3", 9, moon_tranmission_struct.origin, "vox_nuked_tbase_transmission_3",8);
-        level thread tv_allumer(17);
-        if(level.debug_nuked == true)
-        {   
-            IPrintLn("vox_nuked_tbase_transmission_3"); // debug, remove if ya wanna
-        }
+        level thread set_tv_on_during(17);
+        
     }
     nuked_utility::wait_for_round_range( 25 );
     level waittill("between_round_over");
     zm_sub::register_subtitle_func(&"NUKED_STRING_RICHTOFEN_DIALOG_5", 12, moon_tranmission_struct.origin, "vox_nuked_tbase_transmission_4",8);
-    level thread tv_allumer(20);
+    level thread set_tv_on_during(20);
     
-    if(level.debug_nuked == true)
-    {
-     IPrintLn("vox_nuked_tbase_transmission_4"); // debug, remove if ya wanna
-    }
 
     level clientfield::set( "change_zombie_eye_color", 1 );
 
@@ -191,14 +118,6 @@ function moon_tranmission_vo()
     level flag::set( "moon_transmission_over" );
 }
 
-//
-//"Name: richtofen_quote_random_ee"
-//"Type: Main quete"
-//"Summary: Cette function gère les voix de richtofen qui apparaissent aléatoirement apres la chute de la fusée "
-//"Suggestion : - A test
-//              - 
-//"
-//
 function richtofen_quote_random_ee() 
 {
     richtofen_quote_ee = [];
@@ -227,23 +146,13 @@ function richtofen_quote_random_ee()
     while(richtofen_quote_ee.size > 0 && level.boss_battle != true) // boucle jusqu'a que richtofen_quote_ee.size soit vide
     {      
         round = level.round_number + 1;
-        if(level.debug_nuked == true)
-        {
-            IPrintLn("prochain round ou rich parle"+round); // debug
-        }
         
         nuked_utility::wait_for_round_range( round );
         level waittill("between_round_over");
         wait( RandomIntRange(30,50) );
         quote = RandomInt( richtofen_quote_ee.size );
-        //nuked_utility::playsound_to_players(richtofen_quote_ee[quote]);
         zm_sub::register_subtitle_func(richtofen_quote_ee_sub[quote], 8, undefined, richtofen_quote_ee[quote], undefined, true ); //textLine, duration, origin, sound, duration_begin, to_player)
-        if(level.debug_nuked == true)
-        {
-            IPrintLn("normalement a été remove"+richtofen_quote_ee[quote]); // debug
-            IPrintLn("normalement a été remove"+richtofen_quote_ee_sub[quote]);
-
-        }
+        
         ArrayRemoveIndex( richtofen_quote_ee, quote  );  // enleve la quote du richtofen_quote_ee.size
         ArrayRemoveIndex( richtofen_quote_ee_sub, quote  );  // enleve la quote du richtofen_quote_ee.size
     }
@@ -288,10 +197,7 @@ function richtofen_quote_random() // CLIX ADD // Cette function gère les voix d
         quote = RandomInt( richtofen_quote.size );
         //playsound_to_players(richtofen_quote[quote]);
         zm_sub::register_subtitle_func(richtofen_quote_sub[quote], 8, undefined, richtofen_quote[quote], undefined, true );  //textLine, duration, origin, sound, duration_begin, to_player)
-        if(level.debug_nuked == true)
-        {  
-            IPrintLn("normalement a été remove"+richtofen_quote[quote]);
-        }
+       
         ArrayRemoveIndex( richtofen_quote, quote  );  // enleve la quote du richtofen_quote.size
         ArrayRemoveIndex( richtofen_quote_sub, quote  );  // enleve la quote du richtofen_quote_ee.size
     }

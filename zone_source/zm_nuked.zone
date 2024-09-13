@@ -56,7 +56,6 @@ xmodel,tv_nuked_fail
 xmodel,tv_nuked_good
 xmodel,tv_nuked_on 
 
-
 // Nuketown panel
 scriptparsetree,scripts\zm\classic_features\nuketown_panneau.gsc
 

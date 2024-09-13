@@ -23,8 +23,6 @@
 #precache( "model", "dest_zm_nuked_male_02_head_hd_bo4" ); //NEXT UPDATE
 #precache( "model", "dest_zm_nuked_male_03_head_hd_bo4" ); //NEXT UPDATE
 
-
-
 function autoexec init()
 {
 	level thread nuked_mannequin_init(); 
