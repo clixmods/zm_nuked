@@ -24,9 +24,6 @@ function autoexec init()
 	clientfield::register( "scriptmover", "clientfield_tornado_fx", VERSION_SHIP, 2, "int", &tornado_fx, !CF_HOST_ONLY, !CF_CALLBACK_ZERO_ON_NEW_ENT );
 	
 	callback::on_localplayer_spawned( &on_localplayer_spawned );
-
-
-
 }
 
 function tornado_fx(localClientNum, oldValue, newValue, bNewEnt, bInitialSnap, fieldName, wasDemoJump) // self = machine
@@ -56,7 +53,6 @@ function tornado_fx(localClientNum, oldValue, newValue, bNewEnt, bInitialSnap, f
 function on_localplayer_spawned( localClientNum )
 {
     filter::init_filter_hazmat(localClientNum);
-    //self thread print_entity_count(localClientNum); 
 }
 
 function print_entity_count( n_local_client_num )
@@ -93,7 +89,6 @@ function change_skybox( localClientNum, oldVal, newVal, bNewEnt, bInitialSnap, f
 	//turn to original skybox.
 	if ( newVal == 1 )
 	{
-		IPrintLnBold("SKYBOX, bank = ");
 		//wait 5;
 		for ( localClientNum = 0; localClientNum < level.localPlayers.size; localClientNum++ )
 		{
@@ -156,7 +151,7 @@ function change_skybox( localClientNum, oldVal, newVal, bNewEnt, bInitialSnap, f
 	//turn to earth destroyed skybox.
 	if ( newVal == 2 )
 	{
-		IPrintLnBold("SKYBOX, bank = ");
+
 		//wait 5;
 		for ( localClientNum = 0; localClientNum < level.localPlayers.size; localClientNum++ )
 		{
@@ -201,7 +196,6 @@ function change_skybox( localClientNum, oldVal, newVal, bNewEnt, bInitialSnap, f
 
 	if ( newVal == 3 )
 	{
-		IPrintLnBold("SKYBOX, bank = ");
 		//wait 5;
 		for ( localClientNum = 0; localClientNum < level.localPlayers.size; localClientNum++ )
 		{
@@ -226,7 +220,6 @@ function change_skybox( localClientNum, oldVal, newVal, bNewEnt, bInitialSnap, f
 	//turn to alpha omega skybox.
 	if ( newVal == 4 )
 	{
-		IPrintLnBold("SKYBOX, bank = ");
 		//wait 5;
 		for ( localClientNum = 0; localClientNum < level.localPlayers.size; localClientNum++ )
 		{
@@ -316,7 +309,6 @@ function change_skybox_bank(notify_wait, bank_mask)
 
 function change(clientnum, bank_mask, notify_wait)
 {
-	IPrintLnBold("SKYBOX, bank = "+bank_mask+" notify = "+notify_wait);
 	SetLitFogBank( clientnum, -1, bank_mask, -1 ); //SetLitFogBank(<localClientNum>, <scriptid>, <bank>, <time>)
 	SetWorldFogActiveBank( clientnum, bank_mask ); //<client> SetWorldFogActiveBank(<bankMask>)	
 	SetExposureActiveBank(clientnum , bank_mask);// SetExposureActiveBank(<localClientNum>, <bank mask>)
