@@ -127,8 +127,15 @@ function main()
     level._zombiemode_custom_box_move_logic = &nuked_box_move_logic;
 	level._zombie_custom_add_weapons =&custom_add_weapons;
     level.custom_zombie_powerup_drop = &custom_zombie_powerup_drop_nuked;
-    level util::set_lighting_state( 0 ); // Set the lighting state to base one.
-	
+    if(Is_Omega())
+    {
+        level util::set_lighting_state( 2 ); // Set the lighting state to omega one.
+    }
+    else
+    {
+        level util::set_lighting_state( 0 ); // Set the lighting state to base one.
+    }
+
 	//Setup the levels Zombie Zone Volumes
 	level.zones = [];
 	level.zone_manager_init_func = &usermap_test_zone_init;
@@ -138,8 +145,17 @@ function main()
 	level.pathdist_type = PATHDIST_ORIGINAL;
 
 	// Init Nuketown features
-    level thread play_music("project_skadi_classified");
-    level thread init_nuked_audio();
+    if(Is_Omega())
+    {
+        level thread play_music("nuketown_omega_ambient");
+        level thread init_omega_audio();
+    }
+    else
+    {
+        level thread play_music("project_skadi_classified");
+        level thread init_nuked_audio();
+    }
+    
     level thread zm_nuked_perks::perks_from_the_sky();
     level thread vox_transmission::init();
     level thread ee_music::init();
@@ -150,7 +166,6 @@ function main()
     // Init new features
     level thread ee_secondary::init();
     level thread ee_tv_code::init();
-
 
     // Setup gameover cinematic
     rocket = GetEnt( "intermission_rocket", "targetname" );
@@ -192,6 +207,23 @@ function init_nuked_audio()
     }
     
     zm_audio::musicState_Create("game_over", PLAYTYPE_GAMEEND, "gameover" );
+    zm_audio::musicState_Create("dog_start", PLAYTYPE_ROUND, "dogstart1" );
+    zm_audio::musicState_Create("dog_end", PLAYTYPE_ROUND, "dogend1" );
+    zm_audio::musicState_Create("timer", PLAYTYPE_ROUND, "timer" );
+    zm_audio::musicState_Create("power_on", PLAYTYPE_QUEUE, "poweron" );
+}
+
+function init_omega_audio()
+{
+    if(!level flag::get("no_round_sound"))
+    {  
+        zm_audio::musicState_Create("round_start", PLAYTYPE_ROUND, "roundstart_short1");
+        zm_audio::musicState_Create("round_start_short", PLAYTYPE_ROUND, "roundstart_short1");
+        zm_audio::musicState_Create("round_start_first", PLAYTYPE_ROUND, "roundstart_short2" );
+        zm_audio::musicState_Create("round_end", PLAYTYPE_ROUND, "roundstart_short3" );
+    }
+
+    zm_audio::musicState_Create("game_over", PLAYTYPE_GAMEEND, "roundstart4" );
     zm_audio::musicState_Create("dog_start", PLAYTYPE_ROUND, "dogstart1" );
     zm_audio::musicState_Create("dog_end", PLAYTYPE_ROUND, "dogend1" );
     zm_audio::musicState_Create("timer", PLAYTYPE_ROUND, "timer" );
@@ -836,5 +868,19 @@ function player_rocket_rumble()
         self PlayRumbleOnEntity( "damage_light" );
         Earthquake( 0.15, 0.25, self.origin, 100 );
         wait 0.5;
+    }
+}
+
+function Is_Omega()
+{
+    mapname = GetDvarString("mapname");
+
+    if(mapname == "zm_nuked")
+    {
+        return false;
+    }
+    else
+    {
+        return true;
     }
 }
