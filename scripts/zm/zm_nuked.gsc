@@ -61,6 +61,9 @@
 #using scripts\zm\classic_features\pack_a_punch_from_the_sky; 
 #using scripts\zm\zm_nuketown_hd_amb;
 
+// Nuketown Omega map features
+#using scripts\zm\_zm_ai_dogs_nuked;
+
 // Secondary EE
 #using scripts\zm\new_features\ee_secondary;
 #using scripts\zm\new_features\ee_tv_code;
@@ -68,6 +71,7 @@
 // Utility
 #using scripts\zm_exp\zm_subtitle;
 #using scripts\zm\_zm_net;
+#using scripts\zm\nuked_utility;
 
 // Nuketown weapons
 #using scripts\zm\_hb21_zm_weap_galvaknuckles;
@@ -127,7 +131,8 @@ function main()
     level._zombiemode_custom_box_move_logic = &nuked_box_move_logic;
 	level._zombie_custom_add_weapons =&custom_add_weapons;
     level.custom_zombie_powerup_drop = &custom_zombie_powerup_drop_nuked;
-    if(Is_Omega())
+    
+    if(nuked_utility::is_omega())
     {
         level util::set_lighting_state( 2 ); // Set the lighting state to omega one.
     }
@@ -139,16 +144,34 @@ function main()
 	//Setup the levels Zombie Zone Volumes
 	level.zones = [];
 	level.zone_manager_init_func = &usermap_test_zone_init;
-	init_zones[0] = "start_zone";
+	
+    init_zones[0] = "start_zone";
 	level thread zm_zonemgr::manage_zones( init_zones );
 
 	level.pathdist_type = PATHDIST_ORIGINAL;
 
 	// Init Nuketown features
-    if(Is_Omega())
+    if(nuked_utility::is_omega())
     {
         level thread play_music("nuketown_omega_ambient");
         level thread init_omega_audio();
+        level._zombiemode_custom_box_move_logic = undefined;
+        level.perks_omega = true;
+        zm_ai_dogs_nuked::enable_dog_rounds();
+
+        barbelets = GetEntArray("barbelet_model","targetname");
+        foreach( model in barbelets )
+        {
+            model Hide();
+        }
+
+        // Setup spawn in the Omega zone
+        zm_zonemgr::enable_zone("start_omega_zone");
+        level thread teleport_players_to_start_omega();
+        wait 3;
+        level.zones[ "start_zone" ].is_enabled = false;
+	    level.zones[ "start_zone" ].is_spawning_allowed = false;
+        level.zones[ "start_zone" ].is_active = false;
     }
     else
     {
@@ -184,7 +207,11 @@ function main()
     level.pack_a_punch_camo_index_number_variants = 3;
 
 	// Clean residual elements
-    level thread survival_omega_clean_up();
+    if(nuked_utility::is_omega() == false)
+    {
+        level thread survival_omega_clean_up();
+    }
+    
     level thread clean_quest();
 
     // Init Nuketown secret features
@@ -248,6 +275,43 @@ function usermap_test_zone_init()
 	zm_zonemgr::add_adjacent_zone( "house2_zone", "house2_out_zone", "enter_etage_house2" );
 	zm_zonemgr::add_adjacent_zone( "house2_zone", "etage_house2_zone", "enter_etage_house2" );
     zm_zonemgr::add_adjacent_zone( "house2_out_zone", "etage_house2_zone", "enter_etage_house2" );
+
+    if(nuked_utility::is_omega())
+    {
+        zm_zonemgr::add_adjacent_zone( "start_zone", "outofmap_zone", "enter_outofmap" );
+        zm_zonemgr::add_adjacent_zone( "outofmap_zone", "openhouse3_zone", "enter_openhouse3" );
+        zm_zonemgr::add_adjacent_zone( "outofmap_zone", "openhouse4_zone", "enter_openhouse4" );
+        zm_zonemgr::add_adjacent_zone( "outofmap_zone", "openhouse5_zone", "enter_openhouse5" );
+        zm_zonemgr::add_adjacent_zone( "outofmap_zone", "openhouse6_zone", "enter_openhouse6" );
+        zm_zonemgr::add_adjacent_zone( "openhouse3_zone", "openhouse3_backyard_zone", "enter_openhouse3_backyard" );
+
+        zm_zonemgr::add_adjacent_zone( "openhouse4_zone", "openhouse4_backyard_zone", "enter_openhouse4_backyard" );
+        zm_zonemgr::add_adjacent_zone( "openhouse4_zone", "openhouse4_etage_zone", "enter_etage_house4" );
+        zm_zonemgr::add_adjacent_zone( "openhouse4_etage_zone", "openhouse4_backyard_zone", "enter_etage_house4" );
+
+        zm_zonemgr::add_adjacent_zone( "openhouse3_backyard_zone", "openhouse4_backyard_zone", "enter_openhouse4_backyard" );
+        zm_zonemgr::add_adjacent_zone( "openhouse3_backyard_zone", "openhouse4_etage_zone", "enter_openhouse4_backyard" );
+
+        zm_zonemgr::add_adjacent_zone( "openhouse5_zone", "openhouse5_backyard_zone", "enter_openhouse5_backyard" );
+        zm_zonemgr::add_adjacent_zone( "openhouse5_zone", "openhouse5_etage_zone", "enter_etage_house5" );
+        zm_zonemgr::add_adjacent_zone( "openhouse5_etage_zone", "openhouse5_backyard_zone", "enter_etage_house5" );
+
+        zm_zonemgr::add_adjacent_zone( "openhouse6_zone", "openhouse6_backyard_zone", "enter_openhouse6_backyard" );
+        zm_zonemgr::add_adjacent_zone( "openhouse6_zone", "openhouse6_etage_zone", "enter_etage_house6" );
+        zm_zonemgr::add_adjacent_zone( "openhouse6_etage_zone", "openhouse6_backyard_zone", "enter_etage_house6" );
+
+        zm_zonemgr::add_adjacent_zone( "openhouse5_backyard_zone", "backyard_zone", "enter_backyard" );
+        zm_zonemgr::add_adjacent_zone( "openhouse6_backyard_zone", "backyard_zone", "enter_backyard" );
+        zm_zonemgr::add_adjacent_zone( "openhouse6_backyard_zone", "openhouse6_etage_zone", "enter_backyard" );
+   
+        zm_zonemgr::add_adjacent_zone( "openhouse5_backyard_zone", "house1_out_zone", "enter_hatckey_house1_out" );
+        zm_zonemgr::add_adjacent_zone( "house1_out_zone", "etage_house1_zone", "enter_hatckey_house1_out" );
+        zm_zonemgr::add_adjacent_zone( "etage_house1_zone", "start_zone", "enter_hatckey_house1_out" );
+        zm_zonemgr::add_adjacent_zone( "start_omega_zone", "outofmap_zone", "enter_to_nuketown" );
+
+        //zm_zonemgr::add_adjacent_zone( "openhouse3_backyard_way_yellow_zone", "openhouse3_backyard_zone", "enter_hatckey_out_house2" );
+        zm_zonemgr::add_adjacent_zone( "openhouse3_backyard_zone", "house2_out_zone", "enter_hatckey_out_house2" );
+    }
 
 	level flag::init( "always_on" );
 	level flag::set( "always_on" );
@@ -871,16 +935,46 @@ function player_rocket_rumble()
     }
 }
 
-function Is_Omega()
+function teleport_players_to_start_omega()
 {
-    mapname = GetDvarString("mapname");
+    // Nettoie les obstacles pour les nouvelles portes
+    fences = GetEntArray("wood_fence_door","targetname");
+    foreach(ent in fences)  
+    {
+        ent Delete();
+    }   
 
-    if(mapname == "zm_nuked")
+    
+    player_radius = 16;
+
+    players = GetPlayers();
+    
+    prone_offset = (0, 0, 49);
+    crouch_offset = (0, 0, 20);
+    stand_offset = (0, 0, 0);
+    zone_struct = struct::get("start_omega_zone","script_noteworthy");
+    zone_struct_pos = struct::get_array(zone_struct.target,"targetname");
+
+    // send players to desired start room
+    for ( i = 0; i < players.size; i++ )
     {
-        return false;
+        players[i] EnableInvulnerability();
+        players[i] SetOrigin(zone_struct_pos[0].origin);
+		players[i] SetPlayerAngles( zone_struct_pos[0].angles );
     }
-    else
+
+    zone = level.zones[ "start_zone" ];
+    zone.is_active = false;
+    zone.is_enabled = false;
+    zone.is_spawning_allowed = false;
+
+    wait 3;
+    for ( i = 0; i < players.size; i++ )
     {
-        return true;
+        players[i] DisableInvulnerability();
+        players[i] SetOrigin(zone_struct_pos[0].origin);
+		players[i] SetPlayerAngles( zone_struct_pos[0].angles );
     }
 }
+
+

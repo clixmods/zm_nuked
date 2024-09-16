@@ -91,6 +91,13 @@ fx,dlc1/castle/fx_exp_moon_castle.efx
 fx,dlc5/moon/fx_exp_nuke.efx
 fx,clix/nuketown/explosion_earth_lightblue.efx
 
+// Dogs Omega
+scriptparsetree,scripts\zm\_zm_ai_dogs_nuked.gsc
+scriptparsetree,scripts\zm\_zm_ai_dogs_nuked.csc
+scriptparsetree,scripts\zm\_zm_ai_dogs_nuked.gsh
+fx,zombie/fx_dog_eyes_zmb_rich.efx
+
+
 // Secondary EE
 scriptparsetree,scripts\zm\new_features\ee_secondary.gsc
 xmodel,p7_conduit_metal_1_outlet_plug_e_burnt
