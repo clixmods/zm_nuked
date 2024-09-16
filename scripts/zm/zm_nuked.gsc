@@ -72,6 +72,11 @@
 #using scripts\zm_exp\zm_subtitle;
 #using scripts\zm\_zm_net;
 #using scripts\zm\nuked_utility;
+#using scripts\zm\zm_nuked_floating_debris;
+
+// HEAD ALIAS FIX
+#using scripts\shared\xmodelalias_shared;
+#using scripts\zm\_zm_spawner;
 
 // Nuketown weapons
 #using scripts\zm\_hb21_zm_weap_galvaknuckles;
@@ -145,7 +150,15 @@ function main()
 	level.zones = [];
 	level.zone_manager_init_func = &usermap_test_zone_init;
 	
-    init_zones[0] = "start_zone";
+    if(nuked_utility::is_omega())
+    {
+        init_zones[0] = "start_zone";
+    }
+    else
+    {
+        init_zones[0] = "start_omega_zone";
+    }
+
 	level thread zm_zonemgr::manage_zones( init_zones );
 
 	level.pathdist_type = PATHDIST_ORIGINAL;
@@ -216,6 +229,15 @@ function main()
 
     // Init Nuketown secret features
 	level thread earth_blowup();
+
+    // Fix zombies heads
+    xmodelalias::add_head_models("c_zom_dlc0_zom_solciv_body1", 
+    array("c_zom_dlc0_zom_head1", "c_zom_dlc0_zom_head2", "c_zom_dlc0_zom_head3", "c_zom_dlc0_zom_head4"));
+    xmodelalias::add_head_models("c_zom_dlc0_zom_haz_body1", 
+    array("c_zom_dlc0_zom_head1", "c_zom_dlc0_zom_head2", "c_zom_dlc0_zom_head3", "c_zom_dlc0_zom_head4"));
+    xmodelalias::add_head_models("c_zom_dlc0_zom_sol_body1", 
+    array("c_zom_dlc0_zom_head1", "c_zom_dlc0_zom_head2", "c_zom_dlc0_zom_head3", "c_zom_dlc0_zom_head4"));
+    zm_spawner::add_custom_zombie_spawn_logic(&xmodelalias::apply);
 }
 
 #define PLAYTYPE_REJECT 1
