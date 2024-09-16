@@ -99,6 +99,10 @@ fx,zombie/fx_dog_eyes_zmb_rich.efx
 
 // Fix zombies head
 scriptparsetree,scripts\shared\xmodelalias_shared.gscc
+xmodel,c_zom_dlc0_zom_head1
+xmodel,c_zom_dlc0_zom_head2
+xmodel,c_zom_dlc0_zom_head3
+xmodel,c_zom_dlc0_zom_head4
 
 // Secondary EE
 scriptparsetree,scripts\zm\new_features\ee_secondary.gsc
@@ -107,6 +111,7 @@ xmodel,p7_zm_teddybear_sitting_shootable
 fx,electric/fx_elec_spark_loop_sm
 
 // Doors floating debris
+scriptbundle,floating_debris_sb
 scriptparsetree,scripts\zm\zm_nuked_floating_debris.gsc
 
 // Characters
