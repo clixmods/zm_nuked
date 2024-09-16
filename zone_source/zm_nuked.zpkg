@@ -97,12 +97,17 @@ scriptparsetree,scripts\zm\_zm_ai_dogs_nuked.csc
 scriptparsetree,scripts\zm\_zm_ai_dogs_nuked.gsh
 fx,zombie/fx_dog_eyes_zmb_rich.efx
 
+// Fix zombies head
+scriptparsetree,scripts\shared\xmodelalias_shared.gscc
 
 // Secondary EE
 scriptparsetree,scripts\zm\new_features\ee_secondary.gsc
 xmodel,p7_conduit_metal_1_outlet_plug_e_burnt
 xmodel,p7_zm_teddybear_sitting_shootable
 fx,electric/fx_elec_spark_loop_sm
+
+// Doors floating debris
+scriptparsetree,scripts\zm\zm_nuked_floating_debris.gsc
 
 // Characters
 // Warning, to allow the override of the characters 
