@@ -34,6 +34,20 @@ function main()
     level thread disable_trig_fire_dog();
 }
 
+function is_omega()
+{
+    mapname = GetDvarString("mapname");
+
+    if(mapname == "zm_nuked")
+    {
+        return false;
+    }
+    else
+    {
+        return true;
+    }
+}
+
 
 function disable_trig_fire_dog()
 {

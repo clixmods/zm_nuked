@@ -47,12 +47,8 @@
 #using scripts\zm\_zm_perk_quick_revive;
 #using scripts\zm\_zm_perk_sleight_of_hand;
 #using scripts\zm\_zm_perk_staminup;
-// #using scripts\zm\_zm_perk_electric_cherry;
 #using scripts\zm\_zm_perk_widows_wine;
 #using scripts\zm\nuked_utility;
-
-// Hold feature used for Nuketown quest
-//#using scripts\zm\ee\ee_tv_code;
 
 #namespace zm_nuked_perks;
 
@@ -88,26 +84,26 @@ function __init__()
 	}
 
 	level.nuked_perks = [];
+	
 	level.nuked_perks[ 0 ] = SpawnStruct();
 	level.nuked_perks[ 0 ].model = "p7_zm_vending_revive";
 	level.nuked_perks[ 0 ].script_noteworthy = "specialty_quickrevive";
 	level.nuked_perks[ 0 ].turn_on_notify = "revive_on";
+
 	level.nuked_perks[ 1 ] = SpawnStruct();
 	level.nuked_perks[ 1 ].model = "p7_zm_vending_sleight";
 	level.nuked_perks[ 1 ].script_noteworthy = "specialty_fastreload";
 	level.nuked_perks[ 1 ].turn_on_notify = "sleight_on";
+
 	level.nuked_perks[ 2 ] = SpawnStruct();
 	level.nuked_perks[ 2 ].model = "p7_zm_vending_doubletap2";
 	level.nuked_perks[ 2 ].script_noteworthy = "specialty_doubletap2";
 	level.nuked_perks[ 2 ].turn_on_notify = "doubletap_on";
+	
 	level.nuked_perks[ 3 ] = SpawnStruct();
 	level.nuked_perks[ 3 ].model = "p7_zm_vending_jugg";
 	level.nuked_perks[ 3 ].script_noteworthy = "specialty_armorvest";
 	level.nuked_perks[ 3 ].turn_on_notify = "juggernog_on";
-	//level.nuked_perks[ 4 ] = spawnstruct();
-	//level.nuked_perks[ 4 ].model = "p6_anim_zm_buildable_pap";
-	//level.nuked_perks[ 4 ].script_noteworthy = "specialty_weapupgrade";
-	//level.nuked_perks[ 4 ].turn_on_notify = "Pack_A_Punch_on";
 
 	level.nuked_perks[ 4 ] = SpawnStruct();
 	level.nuked_perks[ 4 ].model = "p7_zm_vending_marathon";
@@ -542,25 +538,28 @@ function blocker_delete(id, omega_block, omega_block_bis)
         blocker = GetEntArray("explo_blocker_trig_"+id+"_omega", "targetname");
     }
 	else if (omega_block_bis == true)
+	{
 		blocker = GetEntArray("explo_blocker_trig_"+id+"_omega_bis", "targetname");
-
+	}	
     else
-        blocker = GetEntArray("explo_blocker_trig_"+id, "targetname");
-    
+	{
+		blocker = GetEntArray("explo_blocker_trig_"+id, "targetname");
+	}
+        
     foreach(ent in blocker)
     {
         ent Hide();
         ent Delete();   
     }
    
-
-
     if(omega_block == true)
     {
         exploder::exploder("blocker_fx_"+id+"_omega");
     }
     else
-        exploder::exploder("blocker_fx_"+id);   
+    { 
+		exploder::exploder("blocker_fx_"+id); 
+	} 
 }
 
 
@@ -569,7 +568,7 @@ function bring_perk_landing_damage()
 	player_prone_damage_radius = 300;
 	Earthquake( 0.7, 2.5, self.origin, 1000 );
 	RadiusDamage( self.origin, player_prone_damage_radius, 10, 5, undefined, "MOD_EXPLOSIVE" );
-	//IPrintLnBold("self.script_int correspond à " +self.script_int);
+	
 	blocker_delete(self.script_int, self.omega_loc );
 	players = GetPlayers();
 	i = 0;
@@ -584,38 +583,13 @@ function bring_perk_landing_damage()
 		}
 		i++;
 	}
-	// castle method
+
+	// zm_castle method to do damage to zombies
 	a_ai_enemies = Array::get_all_closest(self.origin, GetAITeamArray(level.zombie_team), undefined, 40, 100);
 	foreach(ai_zombie in a_ai_enemies)
 	{
 		ai_zombie DoDamage(ai_zombie.health + 100, ai_zombie.origin + VectorScale((0, 1, 0), 100));
 	}
-	/*
-	zombies = GetAIArray( level.zombie_team );
-	i = 0;
-	while ( i < zombies.size )
-	{
-		zombie = zombies[ i ];
-		if ( !isdefined( zombie ) || !IsAlive( zombie ) )
-		{
-			i++;
-			continue;
-		}
-		else
-		{
-			if ( DistanceSquared( zombie.origin, self.origin ) > 250000 )
-			{
-				i++;
-				continue;
-			}
-			else
-			{
-				zombie thread perk_machine_knockdown_zombie( self.origin );
-			}
-		}
-		i++;
-	}
-	*/
 }
 
 function perk_machine_knockdown_zombie( origin )
@@ -655,9 +629,6 @@ function perk_follow_path( node )
 
 function turn_perks_on()
 {
-	//wait 3;
-	//zm_power::turn_power_on_and_open_doors();
-	//level notify("Pack_A_Punch_off");
 	zm_perks::perk_unpause(PERK_STAMINUP);
  		level notify("marathon_on");
   		wait(.1);
@@ -699,14 +670,15 @@ function turn_perks_on()
   		wait(.1);
         level notify( "specialty_quickrevive_power_on" );
         
-
 }
 
 
-function perks_from_the_sky() // CLASSIC, HARD, REALIST
+function perks_from_the_sky() 
 {
 	if(level flag::get("perks_cycle_defined"))
-		return;
+	{	
+		return;	
+	}
 
 	level flag::set("perks_cycle_defined");
 	level thread turn_perks_on();
@@ -774,21 +746,19 @@ function perks_from_the_sky() // CLASSIC, HARD, REALIST
 	{
 		wait 4;
 		index = 0;
+
 		bring_perk( machines[ index ], machine_triggers[ index ] ); // TV CODE
 		level.codeA = machine_number[ index ];// TV CODE
-		if(level.debug_nuked == true)
-		{
-			IPrintLnBold(level.codeA);// TV CODE
-		}
-		ArrayRemoveIndex( machines, index );
-		ArrayRemoveIndex( machine_triggers, index );
-		ArrayRemoveIndex( machine_number, index ); // TV CODE
+
 		if(level.debug_nuked == true)
 		{
 			IPrintLnBold(level.codeA);// TV CODE
 		}
 
-	//i = RandomIntRange(machines.size);
+		ArrayRemoveIndex( machines, index );
+		ArrayRemoveIndex( machine_triggers, index );
+		ArrayRemoveIndex( machine_number, index ); // TV CODE
+
 	}
  	
 	level notify("pap_can_chose_position");
@@ -797,21 +767,22 @@ function perks_from_the_sky() // CLASSIC, HARD, REALIST
 	j = RandomInt( machines.size );
 	bring_perk( machines[ j  ], machine_triggers[ j  ]); // TV CODE
 	if(isdefined(level.codeA))
+	{
+		level.codeB = machine_number[ j ]; // TV CODE
+		if(level.debug_nuked == true)
 		{
-			level.codeB = machine_number[ j ]; // TV CODE
-			if(level.debug_nuked == true)
-			{
-				IPrintLnBold(level.codeB); // TV CODE
-			}
-		}	
+			IPrintLnBold(level.codeB); // TV CODE
+		}
+	}	
 	else
+	{
+		level.codeA = machine_number[ j ]; // TV CODE
+		if(level.debug_nuked == true)
 		{
-			level.codeA = machine_number[ j ]; // TV CODE
-			if(level.debug_nuked == true)
-			{
-				IPrintLnBold(level.codeA); // TV CODE
-			}
-		}			
+			IPrintLnBold(level.codeA); // TV CODE
+		}
+	}		
+
 	ArrayRemoveIndex( machines, j  );
 	ArrayRemoveIndex( machine_triggers, j  );
 	ArrayRemoveIndex( machine_number, j ); // TV CODE
@@ -822,51 +793,40 @@ function perks_from_the_sky() // CLASSIC, HARD, REALIST
 	bring_perk( machines[ h ], machine_triggers[ h  ] ); // TV CODE
 
 	if(isdefined(level.codeB))
+	{
+		level.codeC = machine_number[ h ]; // TV CODE
+		if(level.debug_nuked == true)
 		{
-			level.codeC = machine_number[ h ]; // TV CODE
-			if(level.debug_nuked == true)
-			{
-				IPrintLnBold(level.codeC); // TV CODE
-			}
-		}	
+			IPrintLnBold(level.codeC); // TV CODE
+		}
+	}	
 	else
+	{
+		level.codeB = machine_number[ h ]; // TV CODE
+		if(level.debug_nuked == true)
 		{
-			level.codeB = machine_number[ h ]; // TV CODE
-			if(level.debug_nuked == true)
-			{
-				IPrintLnBold(level.codeB); // TV CODE
-			}
-		}		
+			IPrintLnBold(level.codeB); // TV CODE
+		}
+	}		
 
 	ArrayRemoveIndex( machines, h  );
 	ArrayRemoveIndex( machine_triggers, h );
 	ArrayRemoveIndex( machine_number, h );// TV CODE
-
 
 	nuked_utility::wait_for_round_range_random( 8, 10 );
 	wait RandomIntRange( 60, 120 );
 	k = RandomInt( machines.size );
 	bring_perk( machines[ k ], machine_triggers[ k  ] );// TV CODE
 	if(isdefined(level.codeC))
-		{
-			level.codeD = machine_number[ k ]; // TV CODE
-			//level thread ee_tv_code::add_code_to_tv(level.codeA,level.codeB,level.codeC,level.codeD,undefined,"drop_gersh");
-			//level thread ee_tv_code::add_code_to_tv(level.codeD,level.codeC,level.codeB,level.codeA,undefined,"drop_wavegun");
-			
-			if(level.debug_nuked == true)
-			{
-				IPrintLnBold(level.codeD); // TV CODE
-			}
-		}	
+	{
+		level.codeD = machine_number[ k ]; // TV CODE
+		//level thread ee_tv_code::add_code_to_tv(level.codeA,level.codeB,level.codeC,level.codeD,undefined,"drop_gersh");
+		//level thread ee_tv_code::add_code_to_tv(level.codeD,level.codeC,level.codeB,level.codeA,undefined,"drop_wavegun");
+	}	
 	else
-		{
-			level.codeC = machine_number[ k ]; // TV CODE
-			
-			if(level.debug_nuked == true)
-			{
-				IPrintLnBold(level.codeC); // TV CODE
-			}
-		}	
+	{
+		level.codeC = machine_number[ k ]; // TV CODE
+	}	
 
 	ArrayRemoveIndex( machines, k  );
 	ArrayRemoveIndex( machine_triggers, k );
@@ -877,15 +837,12 @@ function perks_from_the_sky() // CLASSIC, HARD, REALIST
 	l = RandomInt( machines.size );
 	bring_perk( machines[ l ], machine_triggers[ l  ] );
 	if(!isdefined(level.codeD))
-		{
-			level.codeD = machine_number[ l ]; // TV CODE
-			//level thread ee_tv_code::add_code_to_tv(level.codeA,level.codeB,level.codeC,level.codeD,undefined,"drop_gersh");
-			//level thread ee_tv_code::add_code_to_tv(level.codeD,level.codeC,level.codeB,level.codeA,undefined,"drop_wavegun");
-			if(level.debug_nuked == true)
-			{
-				IPrintLnBold(level.codeD); // TV CODE
-			}
-		}	
+	{
+		level.codeD = machine_number[ l ]; // TV CODE
+		//level thread ee_tv_code::add_code_to_tv(level.codeA,level.codeB,level.codeC,level.codeD,undefined,"drop_gersh");
+		//level thread ee_tv_code::add_code_to_tv(level.codeD,level.codeC,level.codeB,level.codeA,undefined,"drop_wavegun");
+	}	
+
 	ArrayRemoveIndex( machines, l  );
 	ArrayRemoveIndex( machine_triggers, l );
 
@@ -917,685 +874,6 @@ function perks_from_the_sky() // CLASSIC, HARD, REALIST
 	bring_perk( machines[ p ], machine_triggers[ p  ] );
 	ArrayRemoveIndex( machines, p  );
 	ArrayRemoveIndex( machine_triggers, p );
-
-}
-
-function perks_from_the_sky_onelife() // CLASSIC, HARD, REALIST
-{
-		if(level flag::get("perks_cycle_defined"))
-		return;
-
-	level flag::set("perks_cycle_defined");
-	level thread turn_perks_on();
-	top_height = 20000;
-	machines = [];
-	machine_triggers = [];
-	machines_nop[ 0 ] = GetEnt( "vending_revive", "targetname" );
-	if ( !isDefined( machines_nop[ 0 ] ) )
-	{
-		return;
-	}
-	machine_triggers_nop[ 0 ] = GetEnt( "vending_revive", "target" );
-	machine_number_nop[0] = 0; // MARS 2019
-	move_perk( machines_nop[ 0 ], top_height, 5, 0.001 );
-	machine_triggers_nop[ 0 ] trigger_off();
-
-	machines[ 1 ] = GetEnt( "vending_doubletap", "targetname" );
-	machine_triggers[ 1 ] = GetEnt( "vending_doubletap", "target" );
-	machine_number[1] = 1; // MARS 2019
-	move_perk( machines[ 1 ], top_height, 5, 0.001 );
-	machine_triggers[ 1 ] trigger_off();
-
-	machines[ 2 ] = GetEnt( "vending_sleight", "targetname" );
-	machine_triggers[ 2 ] = GetEnt( "vending_sleight", "target" );
-	machine_number[2] = 2; // MARS 2019
-	move_perk( machines[ 2 ], top_height, 5, 0.001 );
-	machine_triggers[ 2 ] trigger_off();
-
-	machines[ 3 ] = GetEnt( "vending_jugg", "targetname" );
-	machine_triggers[ 3 ] = GetEnt( "vending_jugg", "target" );
-	machine_number[3] = 3; // MARS 2019
-	move_perk( machines[ 3 ], top_height, 5, 0.001 );
-	machine_triggers[ 3 ] trigger_off();
-
-	machines[ 4 ] = GetEnt( "vending_marathon", "targetname" ); 
-	machine_triggers[ 4 ] = GetEnt( "vending_marathon", "target" );
-	machine_number[4] = 4; // MARS 2019
-	move_perk( machines[ 4 ], top_height, 5, 0.001 );
-	machine_triggers[ 4 ] trigger_off();
-
-	machines[ 5 ] = GetEnt( "vending_deadshot", "targetname" );
-	machine_triggers[ 5 ] = GetEnt( "vending_deadshot", "target" );
-	machine_number[5] = 5; // MARS 2019
-	move_perk( machines[ 5 ], top_height, 5, 0.001 );
-	machine_triggers[ 5 ] trigger_off();
-
-	machines[ 6 ] = GetEnt( "vending_additionalprimaryweapon", "targetname" );
-	machine_triggers[ 6 ] = GetEnt( "vending_additionalprimaryweapon", "target" );
-	machine_number[6] = 6; // MARS 2019
-	move_perk( machines[ 6 ], top_height, 5, 0.001 );
-	machine_triggers[ 6 ] trigger_off();
-
-	machines[ 7 ] = GetEnt( "vending_widowswine", "targetname" );
-	machine_triggers[ 7 ] = GetEnt( "vending_widowswine", "target" );
-	machine_number[7] = 7; // MARS 2019
-	move_perk( machines[ 7 ], top_height, 5, 0.001 );
-	machine_triggers[ 7 ] trigger_off();
-	//machine_triggers[ 4 ] = getent( "specialty_weapupgrade", "script_noteworthy" );
-	//machines[ 4 ] = getent( machine_triggers[ 4 ].target, "targetname" );
-	//move_perk( machines[ 4 ], top_height, 5, 0.001 );
-	//machine_triggers[ 4 ] trigger_off();
-
-	flag::wait_till( "initial_blackscreen_passed" );
-	wait RandomFloatRange( 5, 15 );
-	players = GetPlayers();
-	if ( players.size == 1 )
-	{
-	wait 4;
-		index = 1;
-		bring_perk( machines[ index ], machine_triggers[ index ] ); // TV CODE
-		level.codeA = machine_number[ index ];// TV CODE
-		if(level.debug_nuked == true)
-		{
-			IPrintLnBold(level.codeA);// TV CODE
-		}
-		ArrayRemoveIndex( machines, index );
-		ArrayRemoveIndex( machine_triggers, index );
-		ArrayRemoveIndex( machine_number, index ); // TV CODE
-		if(level.debug_nuked == true)
-		{
-			IPrintLnBold(level.codeA);// TV CODE
-		}
-
-	//i = RandomIntRange(machines.size);
-	}
-	nuked_utility::wait_for_round_range_random( 3, 5 );
-	wait RandomIntRange( 30, 60 );
-	j = RandomInt( machines.size );
-	bring_perk( machines[ j  ], machine_triggers[ j  ]); // TV CODE
-	if(isdefined(level.codeA))
-		{
-			level.codeB = machine_number[ j ]; // TV CODE
-			if(level.debug_nuked == true)
-			{
-				IPrintLnBold(level.codeB); // TV CODE
-			}
-		}	
-	else
-		{
-			level.codeA = machine_number[ j ]; // TV CODE
-			if(level.debug_nuked == true)
-			{
-				IPrintLnBold(level.codeA); // TV CODE
-			}
-		}			
-	ArrayRemoveIndex( machines, j  );
-	ArrayRemoveIndex( machine_triggers, j  );
-	ArrayRemoveIndex( machine_number, j ); // TV CODE
-
-	nuked_utility::wait_for_round_range_random( 6, 7 );
-	wait RandomIntRange( 30, 60 );
-	h = RandomInt( machines.size );
-	bring_perk( machines[ h ], machine_triggers[ h  ] ); // TV CODE
-
-	if(isdefined(level.codeB))
-		{
-			level.codeC = machine_number[ h ]; // TV CODE
-			if(level.debug_nuked == true)
-			{
-				IPrintLnBold(level.codeC); // TV CODE
-			}
-		}	
-	else
-		{
-			level.codeB = machine_number[ h ]; // TV CODE
-			if(level.debug_nuked == true)
-			{
-				IPrintLnBold(level.codeB); // TV CODE
-			}
-		}		
-
-	ArrayRemoveIndex( machines, h  );
-	ArrayRemoveIndex( machine_triggers, h );
-	ArrayRemoveIndex( machine_number, h );// TV CODE
-
-
-	nuked_utility::wait_for_round_range_random( 8, 10 );
-	wait RandomIntRange( 60, 120 );
-	k = RandomInt( machines.size );
-	bring_perk( machines[ k ], machine_triggers[ k  ] );// TV CODE
-	if(isdefined(level.codeC))
-		{
-			level.codeD = machine_number[ k ]; // TV CODE
-			if(level.debug_nuked == true)
-			{
-				IPrintLnBold(level.codeD); // TV CODE
-			}
-		}	
-	else
-		{
-			level.codeC = machine_number[ k ]; // TV CODE
-			if(level.debug_nuked == true)
-			{
-				IPrintLnBold(level.codeC); // TV CODE
-			}
-		}	
-
-	ArrayRemoveIndex( machines, k  );
-	ArrayRemoveIndex( machine_triggers, k );
-	ArrayRemoveIndex( machine_number, k );// TV CODE
-
-	nuked_utility::wait_for_round_range_random( 11, 13 );
-	wait RandomIntRange( 60, 120 );
-	l = RandomInt( machines.size );
-	bring_perk( machines[ l ], machine_triggers[ l  ] );
-	if(!isdefined(level.codeD))
-		{
-			level.codeD = machine_number[ l ]; // TV CODE
-			if(level.debug_nuked == true)
-			{
-				IPrintLnBold(level.codeD); // TV CODE
-			}
-		}	
-	ArrayRemoveIndex( machines, l  );
-	ArrayRemoveIndex( machine_triggers, l );
-
-	nuked_utility::wait_for_round_range_random( 14, 16 );
-	wait RandomIntRange( 60, 120 );
-	m = RandomInt( machines.size );
-	bring_perk( machines[ m ], machine_triggers[ m  ] );
-	ArrayRemoveIndex( machines, m  );
-	ArrayRemoveIndex( machine_triggers, m );
-
-	nuked_utility::wait_for_round_range_random( 17, 19 );
-	wait RandomIntRange( 60, 120 );
-	n = RandomInt( machines.size );
-	bring_perk( machines[ n ], machine_triggers[ n  ] );
-	ArrayRemoveIndex( machines, n  );
-	ArrayRemoveIndex( machine_triggers, n );
-
-
-	nuked_utility::wait_for_round_range_random( 20, 22 );
-	wait RandomIntRange( 60, 120 );
-	o = RandomInt( machines.size );
-	bring_perk( machines[ o ], machine_triggers[ o  ] );
-	ArrayRemoveIndex( machines, o  );
-	ArrayRemoveIndex( machine_triggers, o );
-
-	nuked_utility::wait_for_round_range_random( 23, 25 );
-	wait RandomIntRange( 60, 120 );
-	p = RandomInt( machines.size );
-	bring_perk( machines[ p ], machine_triggers[ p  ] );
-	ArrayRemoveIndex( machines, p  );
-	ArrayRemoveIndex( machine_triggers, p );
-
-}
-
-function perks_from_the_sky_no_ee() // easy, gungame 
-{
-		if(level flag::get("perks_cycle_defined"))
-		return;
-
-	level flag::set("perks_cycle_defined");
-	level thread turn_perks_on();
-	top_height = 20000;
-	machines = [];
-	machine_triggers = [];
-	machines[ 0 ] = GetEnt( "vending_revive", "targetname" );
-	if ( !isDefined( machines[ 0 ] ) )
-	{
-		return;
-	}
-	machine_triggers[ 0 ] = GetEnt( "vending_revive", "target" );
-
-	move_perk( machines[ 0 ], top_height, 5, 0.001 );
-	machine_triggers[ 0 ] trigger_off();
-
-	machines[ 1 ] = GetEnt( "vending_doubletap", "targetname" );
-	machine_triggers[ 1 ] = GetEnt( "vending_doubletap", "target" );
-
-	move_perk( machines[ 1 ], top_height, 5, 0.001 );
-	machine_triggers[ 1 ] trigger_off();
-
-	machines[ 2 ] = GetEnt( "vending_sleight", "targetname" );
-	machine_triggers[ 2 ] = GetEnt( "vending_sleight", "target" );
-	move_perk( machines[ 2 ], top_height, 5, 0.001 );
-	machine_triggers[ 2 ] trigger_off();
-
-	machines[ 3 ] = GetEnt( "vending_jugg", "targetname" );
-	machine_triggers[ 3 ] = GetEnt( "vending_jugg", "target" );
-	move_perk( machines[ 3 ], top_height, 5, 0.001 );
-	machine_triggers[ 3 ] trigger_off();
-
-	machines[ 4 ] = GetEnt( "vending_marathon", "targetname" ); 
-	machine_triggers[ 4 ] = GetEnt( "vending_marathon", "target" );
-	move_perk( machines[ 4 ], top_height, 5, 0.001 );
-	machine_triggers[ 4 ] trigger_off();
-
-	machines[ 5 ] = GetEnt( "vending_deadshot", "targetname" );
-	machine_triggers[ 5 ] = GetEnt( "vending_deadshot", "target" );
-	move_perk( machines[ 5 ], top_height, 5, 0.001 );
-	machine_triggers[ 5 ] trigger_off();
-
-	machines[ 6 ] = GetEnt( "vending_additionalprimaryweapon", "targetname" );
-	machine_triggers[ 6 ] = GetEnt( "vending_additionalprimaryweapon", "target" );
-	move_perk( machines[ 6 ], top_height, 5, 0.001 );
-	machine_triggers[ 6 ] trigger_off();
-
-	machines[ 7 ] = GetEnt( "vending_widowswine", "targetname" );
-	machine_triggers[ 7 ] = GetEnt( "vending_widowswine", "target" );
-	move_perk( machines[ 7 ], top_height, 5, 0.001 );
-	machine_triggers[ 7 ] trigger_off();
-
-	flag::wait_till( "initial_blackscreen_passed" );
-	wait RandomFloatRange( 5, 15 );
-	players = GetPlayers();
-	if ( players.size == 1 )
-	{
-	wait 4;
-		index = 0;
-		bring_perk( machines[ index ], machine_triggers[ index ] ); // TV CODE
-		ArrayRemoveIndex( machines, index );
-		ArrayRemoveIndex( machine_triggers, index );
-
-	//i = RandomIntRange(machines.size);
-	}
-
-	nuked_utility::wait_for_round_range_random( 3, 5 );
-	wait RandomIntRange( 30, 60 );
-	j = RandomInt( machines.size );
-	bring_perk( machines[ j  ], machine_triggers[ j  ]);
-		
-	ArrayRemoveIndex( machines, j  );
-	ArrayRemoveIndex( machine_triggers, j  );
-
-	nuked_utility::wait_for_round_range_random( 6, 7 );
-	wait RandomIntRange( 30, 60 );
-	h = RandomInt( machines.size );
-	bring_perk( machines[ h ], machine_triggers[ h  ] ); // TV CODE
-
-	ArrayRemoveIndex( machines, h  );
-	ArrayRemoveIndex( machine_triggers, h );
-
-	nuked_utility::wait_for_round_range_random( 8, 10 );
-	wait RandomIntRange( 60, 120 );
-	k = RandomInt( machines.size );
-	bring_perk( machines[ k ], machine_triggers[ k  ] );// TV CODE
-
-	ArrayRemoveIndex( machines, k  );
-	ArrayRemoveIndex( machine_triggers, k );
-
-	nuked_utility::wait_for_round_range_random( 11, 13 );
-	wait RandomIntRange( 60, 120 );
-	l = RandomInt( machines.size );
-	bring_perk( machines[ l ], machine_triggers[ l  ] );
-	ArrayRemoveIndex( machines, l  );
-	ArrayRemoveIndex( machine_triggers, l );
-
-	nuked_utility::wait_for_round_range_random( 14, 16 );
-	wait RandomIntRange( 60, 120 );
-	m = RandomInt( machines.size );
-	bring_perk( machines[ m ], machine_triggers[ m  ] );
-	ArrayRemoveIndex( machines, m  );
-	ArrayRemoveIndex( machine_triggers, m );
-
-	nuked_utility::wait_for_round_range_random( 17, 19 );
-	wait RandomIntRange( 60, 120 );
-	n = RandomInt( machines.size );
-	bring_perk( machines[ n ], machine_triggers[ n  ] );
-	ArrayRemoveIndex( machines, n  );
-	ArrayRemoveIndex( machine_triggers, n );
-
-
-	nuked_utility::wait_for_round_range_random( 20, 22 );
-	wait RandomIntRange( 60, 120 );
-	o = RandomInt( machines.size );
-	bring_perk( machines[ o ], machine_triggers[ o  ] );
-	ArrayRemoveIndex( machines, o  );
-	ArrayRemoveIndex( machine_triggers, o );
-
-	nuked_utility::wait_for_round_range_random( 23, 25 );
-	wait RandomIntRange( 60, 120 );
-	p = RandomInt( machines.size );
-	bring_perk( machines[ p ], machine_triggers[ p  ] );
-	ArrayRemoveIndex( machines, p  );
-	ArrayRemoveIndex( machine_triggers, p );
-
-}
-
-function perks_from_the_sky_no_chronicles() // a rendre compatible pour la quete
-{
-	if(level flag::get("perks_cycle_defined"))
-		return;
-
-	level flag::set("perks_cycle_defined");
-	level thread turn_perks_on();
-	top_height = 20000;
-	machines = [];
-	machine_triggers = [];
-	machines[ 0 ] = GetEnt( "vending_revive", "targetname" );
-	if ( !isDefined( machines[ 0 ] ) )
-	{
-		return;
-	}
-	machine_triggers[ 0 ] = GetEnt( "vending_revive", "target" );
-	move_perk( machines[ 0 ], top_height, 5, 0.001 );
-	machine_triggers[ 0 ] trigger_off();
-
-	machines[ 1 ] = GetEnt( "vending_doubletap", "targetname" );
-	machine_triggers[ 1 ] = GetEnt( "vending_doubletap", "target" );
-	move_perk( machines[ 1 ], top_height, 5, 0.001 );
-	machine_triggers[ 1 ] trigger_off();
-
-	machines[ 2 ] = GetEnt( "vending_sleight", "targetname" );
-	machine_triggers[ 2 ] = GetEnt( "vending_sleight", "target" );
-	move_perk( machines[ 2 ], top_height, 5, 0.001 );
-	machine_triggers[ 2 ] trigger_off();
-
-	machines[ 3 ] = GetEnt( "vending_jugg", "targetname" );
-	machine_triggers[ 3 ] = GetEnt( "vending_jugg", "target" );
-	move_perk( machines[ 3 ], top_height, 5, 0.001 );
-	machine_triggers[ 3 ] trigger_off();
-
-
-	machines_nop[ 4 ] = GetEnt( "vending_marathon", "targetname" ); 
-	machine_triggers_nop[ 4 ] = GetEnt( "vending_marathon", "target" );
-	move_perk( machines_nop[ 4 ], top_height, 5, 0.001 );
-	machine_triggers_nop[ 4 ] trigger_off();
-
-	machines_nop[ 5 ] = GetEnt( "vending_deadshot", "targetname" );
-	machine_triggers_nop[ 5 ] = GetEnt( "vending_deadshot", "target" );
-	move_perk( machines_nop[ 5 ], top_height, 5, 0.001 );
-	machine_triggers_nop[ 5 ] trigger_off();
-
-	machines_nop[ 6 ] = GetEnt( "vending_additionalprimaryweapon", "targetname" );
-	machine_triggers_nop[ 6 ] = GetEnt( "vending_additionalprimaryweapon", "target" );
-	move_perk( machines_nop[ 6 ], top_height, 5, 0.001 );
-	machine_triggers_nop[ 6 ] trigger_off();
-
-	machines_nop[ 7 ] = GetEnt( "vending_widowswine", "targetname" );
-	machine_triggers_nop[ 7 ] = GetEnt( "vending_widowswine", "target" );
-	move_perk( machines_nop[ 7 ], top_height, 5, 0.001 );
-	machine_triggers_nop[ 7 ] trigger_off();
-
-
-	flag::wait_till( "initial_blackscreen_passed" );
-	wait RandomFloatRange( 5, 15 );
-	players = GetPlayers();
-
-
-	if ( level.nuked_perks_first_revive  == 1 )
-	{
-		wait 4;
-		index = 0;
-		bring_perk( machines[ index ], machine_triggers[ index ] ); // TV CODE
-		ArrayRemoveIndex( machines, index );
-		ArrayRemoveIndex( machine_triggers, index );
-
-	}
- 	
-	level notify("pap_can_chose_position");
-	nuked_utility::wait_for_round_range_random( 3, 5 );
-	wait RandomIntRange( 30, 60 );
-	j = RandomInt( machines.size );
-	bring_perk( machines[ j  ], machine_triggers[ j  ]);		
-	ArrayRemoveIndex( machines, j  );
-	ArrayRemoveIndex( machine_triggers, j  );
-
-	nuked_utility::wait_for_round_range_random( 6, 9 );
-	wait RandomIntRange( 30, 60 );
-	h = RandomInt( machines.size );
-	bring_perk( machines[ h ], machine_triggers[ h  ] ); // TV CODE
-	ArrayRemoveIndex( machines, h  );
-	ArrayRemoveIndex( machine_triggers, h );
-
-	nuked_utility::wait_for_round_range_random( 10, 14 );
-	wait RandomIntRange( 60, 120 );
-	k = RandomInt( machines.size );
-	bring_perk( machines[ k ], machine_triggers[ k  ] );// TV CODE
-	ArrayRemoveIndex( machines, k  );
-	ArrayRemoveIndex( machine_triggers, k );
-
-	nuked_utility::wait_for_round_range_random( 15, 19 );
-	wait RandomIntRange( 60, 120 );
-	l = RandomInt( machines.size );
-	bring_perk( machines[ l ], machine_triggers[ l  ] );
-	ArrayRemoveIndex( machines, l  );
-	ArrayRemoveIndex( machine_triggers, l );
-
-
-}
-
-function perks_from_the_sky_gungame() // easy, gungame 
-{
-		if(level flag::get("perks_cycle_defined"))
-		return;
-
-	level flag::set("perks_cycle_defined");
-	level thread turn_perks_on();
-	top_height = 20000;
-	machines = [];
-	machine_triggers = [];
-	machines_nop[ 0 ] = GetEnt( "vending_revive", "targetname" );
-	if ( !isDefined( machines_nop[ 0 ] ) )
-	{
-		return;
-	}
-	machine_triggers_nop[ 0 ] = GetEnt( "vending_revive", "target" );
-
-	move_perk( machines_nop[ 0 ], top_height, 5, 0.001 );
-	machine_triggers_nop[ 0 ] trigger_off();
-
-	machines[ 1 ] = GetEnt( "vending_doubletap", "targetname" );
-	machine_triggers[ 1 ] = GetEnt( "vending_doubletap", "target" );
-
-	move_perk( machines[ 1 ], top_height, 5, 0.001 );
-	machine_triggers[ 1 ] trigger_off();
-
-	machines[ 2 ] = GetEnt( "vending_sleight", "targetname" );
-	machine_triggers[ 2 ] = GetEnt( "vending_sleight", "target" );
-	move_perk( machines[ 2 ], top_height, 5, 0.001 );
-	machine_triggers[ 2 ] trigger_off();
-
-	machines[ 3 ] = GetEnt( "vending_jugg", "targetname" );
-	machine_triggers[ 3 ] = GetEnt( "vending_jugg", "target" );
-	move_perk( machines[ 3 ], top_height, 5, 0.001 );
-	machine_triggers[ 3 ] trigger_off();
-
-	machines[ 4 ] = GetEnt( "vending_marathon", "targetname" ); 
-	machine_triggers[ 4 ] = GetEnt( "vending_marathon", "target" );
-	move_perk( machines[ 4 ], top_height, 5, 0.001 );
-	machine_triggers[ 4 ] trigger_off();
-
-	machines[ 5 ] = GetEnt( "vending_deadshot", "targetname" );
-	machine_triggers[ 5 ] = GetEnt( "vending_deadshot", "target" );
-	move_perk( machines[ 5 ], top_height, 5, 0.001 );
-	machine_triggers[ 5 ] trigger_off();
-
-	machines_nop[ 6 ] = GetEnt( "vending_additionalprimaryweapon", "targetname" );
-	machine_triggers_nop[ 6 ] = GetEnt( "vending_additionalprimaryweapon", "target" );
-	move_perk( machines_nop[ 6 ], top_height, 5, 0.001 );
-	machine_triggers_nop[ 6 ] trigger_off();
-
-	machines_nop[ 7 ] = GetEnt( "vending_widowswine", "targetname" );
-	machine_triggers_nop[ 7 ] = GetEnt( "vending_widowswine", "target" );
-	move_perk( machines_nop[ 7 ], top_height, 5, 0.001 );
-	machine_triggers_nop[ 7 ] trigger_off();
-	//machine_triggers[ 4 ] = getent( "specialty_weapupgrade", "script_noteworthy" );
-	//machines[ 4 ] = getent( machine_triggers[ 4 ].target, "targetname" );
-	//move_perk( machines[ 4 ], top_height, 5, 0.001 );
-	//machine_triggers[ 4 ] trigger_off();
-
-	flag::wait_till( "initial_blackscreen_passed" );
-	wait RandomFloatRange( 5, 15 );
-	players = GetPlayers();
-	if ( players.size == 1 )
-	{
-	wait 4;
-		index = 0;
-		bring_perk( machines[ index ], machine_triggers[ index ] ); // TV CODE
-
-
-		ArrayRemoveIndex( machines, index );
-		ArrayRemoveIndex( machine_triggers, index );
-
-	//i = RandomIntRange(machines.size);
-	}
-	nuked_utility::wait_for_round_range_random( 3, 5 );
-	wait RandomIntRange( 30, 60 );
-	j = RandomInt( machines.size );
-	bring_perk( machines[ j  ], machine_triggers[ j  ]);
-		
-	ArrayRemoveIndex( machines, j  );
-	ArrayRemoveIndex( machine_triggers, j  );
-
-	nuked_utility::wait_for_round_range_random( 6, 7 );
-	wait RandomIntRange( 30, 60 );
-	h = RandomInt( machines.size );
-	bring_perk( machines[ h ], machine_triggers[ h  ] ); // TV CODE
-
-	ArrayRemoveIndex( machines, h  );
-	ArrayRemoveIndex( machine_triggers, h );
-
-	nuked_utility::wait_for_round_range_random( 8, 10 );
-	wait RandomIntRange( 60, 120 );
-	k = RandomInt( machines.size );
-	bring_perk( machines[ k ], machine_triggers[ k  ] );// TV CODE
-
-	ArrayRemoveIndex( machines, k  );
-	ArrayRemoveIndex( machine_triggers, k );
-
-	nuked_utility::wait_for_round_range_random( 11, 13 );
-	wait RandomIntRange( 60, 120 );
-	l = RandomInt( machines.size );
-	bring_perk( machines[ l ], machine_triggers[ l  ] );
-	ArrayRemoveIndex( machines, l  );
-	ArrayRemoveIndex( machine_triggers, l );
-
-	nuked_utility::wait_for_round_range_random( 14, 16 );
-	wait RandomIntRange( 60, 120 );
-	m = RandomInt( machines.size );
-	bring_perk( machines[ m ], machine_triggers[ m  ] );
-	ArrayRemoveIndex( machines, m  );
-	ArrayRemoveIndex( machine_triggers, m );
-
-	nuked_utility::wait_for_round_range_random( 17, 19 );
-	wait RandomIntRange( 60, 120 );
-	n = RandomInt( machines.size );
-	bring_perk( machines[ n ], machine_triggers[ n  ] );
-	ArrayRemoveIndex( machines, n  );
-	ArrayRemoveIndex( machine_triggers, n );
-
-
-	nuked_utility::wait_for_round_range_random( 20, 22 );
-	wait RandomIntRange( 60, 120 );
-	o = RandomInt( machines.size );
-	bring_perk( machines[ o ], machine_triggers[ o  ] );
-	ArrayRemoveIndex( machines, o  );
-	ArrayRemoveIndex( machine_triggers, o );
-
-	nuked_utility::wait_for_round_range_random( 23, 25 );
-	wait RandomIntRange( 60, 120 );
-	p = RandomInt( machines.size );
-	bring_perk( machines[ p ], machine_triggers[ p  ] );
-	ArrayRemoveIndex( machines, p  );
-	ArrayRemoveIndex( machine_triggers, p );
-
-}
-
-function PerksFromSky_Gauntlet1() // easy, gungame 
-{
-	if(level flag::get("perks_cycle_defined"))
-		return;
-
-	level flag::set("perks_cycle_defined");
-	
-	level thread turn_perks_on();
-	top_height = 20000;
-	machines = [];
-	machine_triggers = [];
-	machines[ 0 ] = GetEnt( "vending_revive", "targetname" );
-	if ( !isDefined( machines[ 0 ] ) )
-	{
-		return;
-	}
-	machine_triggers[ 0 ] = GetEnt( "vending_revive", "target" );
-	move_perk( machines[ 0 ], top_height, 5, 0.001 );
-	machine_triggers[ 0 ] trigger_off();
-
-	machines[ 1 ] = GetEnt( "vending_doubletap", "targetname" );
-	machine_triggers[ 1 ] = GetEnt( "vending_doubletap", "target" );
-	move_perk( machines[ 1 ], top_height, 5, 0.001 );
-	machine_triggers[ 1 ] trigger_off();
-
-	machines[ 2 ] = GetEnt( "vending_sleight", "targetname" );
-	machine_triggers[ 2 ] = GetEnt( "vending_sleight", "target" );
-	move_perk( machines[ 2 ], top_height, 5, 0.001 );
-	machine_triggers[ 2 ] trigger_off();
-
-	machines[ 3 ] = GetEnt( "vending_jugg", "targetname" );
-	machine_triggers[ 3 ] = GetEnt( "vending_jugg", "target" );
-	move_perk( machines[ 3 ], top_height, 5, 0.001 );
-	machine_triggers[ 3 ] trigger_off();
-
-	machines[ 4 ] = GetEnt( "vending_marathon", "targetname" ); 
-	machine_triggers[ 4 ] = GetEnt( "vending_marathon", "target" );
-	move_perk( machines[ 4 ], top_height, 5, 0.001 );
-	machine_triggers[ 4 ] trigger_off();
-
-	machines[ 5 ] = GetEnt( "vending_deadshot", "targetname" );
-	machine_triggers[ 5 ] = GetEnt( "vending_deadshot", "target" );
-	move_perk( machines[ 5 ], top_height, 5, 0.001 );
-	machine_triggers[ 5 ] trigger_off();
-
-	machines[ 6 ] = GetEnt( "vending_additionalprimaryweapon", "targetname" );
-	machine_triggers[ 6 ] = GetEnt( "vending_additionalprimaryweapon", "target" );
-	move_perk( machines[ 6 ], top_height, 5, 0.001 );
-	machine_triggers[ 6 ] trigger_off();
-
-	machines[ 7 ] = GetEnt( "vending_widowswine", "targetname" );
-	machine_triggers[ 7 ] = GetEnt( "vending_widowswine", "target" );
-	move_perk( machines[ 7 ], top_height, 5, 0.001 );
-	machine_triggers[ 7 ] trigger_off();
-
-	flag::wait_till( "initial_blackscreen_passed" );
-	wait RandomFloatRange( 5, 15 );
-
-	while ( level.round_number < 2 ) wait 1;
-    
-	wait RandomIntRange( 30, 60 );
-	bring_perk( machines[ 5 ], machine_triggers[ 5 ]);
-		
-
-	while ( level.round_number < 5 ) wait 1;
-	wait RandomIntRange( 30, 60 );
-	bring_perk( machines[ 2 ], machine_triggers[ 2 ] ); 
-
-
-	while ( level.round_number < 7 ) wait 1;
-	wait RandomIntRange( 60, 120 );
-	bring_perk( machines[ 6 ], machine_triggers[ 6  ] );
-
-
-	while ( level.round_number < 9 ) wait 1;
-	wait RandomIntRange( 60, 120 );
-	bring_perk( machines[ 7 ], machine_triggers[ 7  ] );
-
-
-	while ( level.round_number < 11 ) wait 1;
-	wait RandomIntRange( 60, 120 );
-	bring_perk( machines[ 3 ], machine_triggers[ 3  ] );
-
-
-	while ( level.round_number < 13 ) wait 1;
-	wait RandomIntRange( 60, 120 );
-	bring_perk( machines[ 1 ], machine_triggers[ 1  ] );
-
-
-
-	while ( level.round_number < 15 ) wait 1;
-	wait RandomIntRange( 60, 120 );
-	bring_perk( machines[ 4 ], machine_triggers[ 4  ] );
 
 }
 

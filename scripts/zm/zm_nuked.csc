@@ -37,6 +37,9 @@
 #using scripts\zm\classic_features\pack_a_punch_from_the_sky; 
 #using scripts\zm\zm_nuketown_hd_amb;
 
+// Nuketown Omega map features
+#using scripts\zm\_zm_ai_dogs_nuked;
+
 //Traps
 #using scripts\zm\_zm_trap_electric;
 
