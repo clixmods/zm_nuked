@@ -152,11 +152,11 @@ function main()
 	
     if(nuked_utility::is_omega())
     {
-        init_zones[0] = "start_zone";
+        init_zones[0] = "start_omega_zone";
     }
     else
     {
-        init_zones[0] = "start_omega_zone";
+        init_zones[0] = "start_zone";
     }
 
 	level thread zm_zonemgr::manage_zones( init_zones );
