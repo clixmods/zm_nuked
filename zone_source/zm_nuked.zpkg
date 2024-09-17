@@ -114,6 +114,24 @@ fx,electric/fx_elec_spark_loop_sm
 scriptbundle,floating_debris_sb
 scriptparsetree,scripts\zm\zm_nuked_floating_debris.gsc
 
+// Rocket Shield
+scriptparsetree,scripts/zm/_zm_weap_rocketshield.gsc
+scriptparsetree,scripts/zm/_zm_weap_rocketshield.csc
+image,uie_t7_base_quest_shield_dlc
+image,uie_t7_icon_inventory_dlc_shield_a
+image,uie_t7_icon_inventory_dlc_shield_a_new
+image,uie_t7_icon_inventory_dlc_shield_b
+image,uie_t7_icon_inventory_dlc_shield_b_new
+xmodel,wpn_t7_zmb_zod_rocket_shield_view
+xmodel,wpn_t7_zmb_zod_rocket_shield_world
+xmodel,wpn_t7_zmb_zod_rocket_shield_dmg1_view
+xmodel,wpn_t7_zmb_zod_rocket_shield_dmg2_view
+xmodel,wpn_t7_zmb_zod_rocket_shield_dmg1_world
+xmodel,wpn_t7_zmb_zod_rocket_shield_dmg2_world
+xmodel,wpn_t7_zmb_zod_rocket_shield_window
+xmodel,wpn_t7_zmb_zod_rocket_shield_tank_parts
+xmodel,wpn_t7_zmb_zod_rocket_shield_eagle
+
 // Characters
 // Warning, to allow the override of the characters 
 // you need to remove these lines from the source file in the zone_source folder

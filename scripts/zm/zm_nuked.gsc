@@ -152,11 +152,11 @@ function main()
 	
     if(nuked_utility::is_omega())
     {
-        init_zones[0] = "start_zone";
+        init_zones[0] = "start_omega_zone";
     }
     else
     {
-        init_zones[0] = "start_omega_zone";
+        init_zones[0] = "start_zone";
     }
 
 	level thread zm_zonemgr::manage_zones( init_zones );
@@ -171,6 +171,9 @@ function main()
         level._zombiemode_custom_box_move_logic = undefined;
         level.perks_omega = true;
         zm_ai_dogs_nuked::enable_dog_rounds();
+
+        // Set the rocket is fall flag, to change behavior of some entities in the map (example: doors can be visible only with this flag)
+        level flag::set( "rocket_is_fall" );
 
         barbelets = GetEntArray("barbelet_model","targetname");
         foreach( model in barbelets )
@@ -204,8 +207,7 @@ function main()
     level thread ee_tv_code::init();
 
     // Setup gameover cinematic
-    rocket = GetEnt( "intermission_rocket", "targetname" );
-    rocket Hide();
+    intermission_rocket_init(); // This function will hide models related to the rocket cinematic (these models are supposed to be hidden during the game)
 
     // Keep the base intermission to restore it if the secret cinematic was enabled
     level.old_custom_intermission   = level.custom_intermission;
@@ -557,6 +559,7 @@ function clean_quest()
     autel_book = GetEnt("autel_book", "targetname");
     autel_clip = GetEnt("autel_clip", "targetname");
     boss_clip_player = GetEntArray("clip_boss_begin","targetname");
+    
     autel_item = GetEntArray("autel_boss_items","targetname");
     foreach (ent in autel_item)
     {   
@@ -834,10 +837,8 @@ function player_fake_death()
 
 function moon_rocket_follow_path()
 {
-
     level clientfield::set( "setup_skybox", 5 );
     
-
     rocket_start_struct = struct::get( "inertmission_rocket_start", "targetname" );
     rocket_end_struct = struct::get( "inertmission_rocket_end", "targetname" );
     rocket_cam_start_struct = struct::get( "intermission_rocket_cam_start", "targetname" );
@@ -880,9 +881,13 @@ function moon_rocket_follow_path()
     rocket_camera_ent.angles = rocket_cam_start_struct.angles;
     rocket = GetEnt( "intermission_rocket", "targetname" );
     rocket Show();
-     modelss = GetEntArray("endgame_models","targetname");
+
+    modelss = GetEntArray("endgame_models","targetname");
     foreach(e in modelss)
+    {
         e Show();
+    }
+
     rocket.origin = rocket_start_struct.origin;
     camera = Spawn( "script_model", rocket_cam_start_struct.origin );
     camera.angles = rocket_cam_start_struct.angles;
@@ -935,15 +940,18 @@ function intermission_rocket_blur()
     }
 }
 
-function inermission_rocket_init()
+function intermission_rocket_init()
 {
-    rocket = GetEnt( "intermission_rocket", "targetname" );
     rockets = GetEnt( "endgame_models", "targetname" );
     rockets Hide();
+    
     models = GetEntArray("endgame_models","targetname");
     foreach(e in models)
+    {
         e Hide();
+    }   
 
+    rocket = GetEnt( "intermission_rocket", "targetname" ); 
     rocket Hide();
 }
 
