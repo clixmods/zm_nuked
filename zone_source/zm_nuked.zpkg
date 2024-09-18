@@ -115,8 +115,8 @@ scriptbundle,floating_debris_sb
 scriptparsetree,scripts\zm\zm_nuked_floating_debris.gsc
 
 // Rocket Shield
-scriptparsetree,scripts/zm/_zm_weap_rocketshield.gsc
-scriptparsetree,scripts/zm/_zm_weap_rocketshield.csc
+//scriptparsetree,scripts/zm/_zm_weap_rocketshield.gsc Removed because that cause clientfield error
+//scriptparsetree,scripts/zm/_zm_weap_rocketshield.csc Removed because that cause clientfield error
 image,uie_t7_base_quest_shield_dlc
 image,uie_t7_icon_inventory_dlc_shield_a
 image,uie_t7_icon_inventory_dlc_shield_a_new
