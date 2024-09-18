@@ -124,6 +124,10 @@ function main()
     clientfield::register("world", "change_exposure_to_2", VERSION_SHIP, 1, "int"); 
     clientfield::register("world", "change_exposure_to_1", VERSION_SHIP, 1, "int");
 
+    // Flags initialization
+    level flag::init( "moon_transmission_over" );
+    level flag::init( "rocket_is_fall" );
+
     // Need to be executed before zm_usermap
     level.dog_rounds_allowed = false; // No dog round
 
@@ -207,15 +211,12 @@ function main()
     level thread ee_tv_code::init();
 
     // Setup gameover cinematic
-    intermission_rocket_init(); // This function will hide models related to the rocket cinematic (these models are supposed to be hidden during the game)
+    level thread intermission_rocket_init(); // This function will hide models related to the rocket cinematic (these models are supposed to be hidden during the game)
 
     // Keep the base intermission to restore it if the secret cinematic was enabled
     level.old_custom_intermission   = level.custom_intermission;
     level.custom_intermission       = &nuked_standard_intermission; 
     level.custom_player_fake_death  = &player_fake_death;
-
-    // Flags initialization
-    level flag::init( "moon_transmission_over" );
 
     // Pack-a-Punch Camo
     level.pack_a_punch_camo_index = 128;
