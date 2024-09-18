@@ -117,6 +117,7 @@ function main()
 {
 	// Set cheat to 1 to enable cheats
 	setdvar("sv_cheats", 1);
+    level.player_starting_points = 500000;
 
     // Register clientfield 
     clientfield::register("world", "change_fog", VERSION_SHIP, 4, "int" );
@@ -154,15 +155,8 @@ function main()
 	level.zones = [];
 	level.zone_manager_init_func = &usermap_test_zone_init;
 	
-    if(nuked_utility::is_omega())
-    {
-        init_zones[0] = "start_omega_zone";
-    }
-    else
-    {
-        init_zones[0] = "start_zone";
-    }
-
+   
+    init_zones[0] = "start_zone";
 	level thread zm_zonemgr::manage_zones( init_zones );
 
 	level.pathdist_type = PATHDIST_ORIGINAL;
@@ -999,7 +993,7 @@ function teleport_players_to_start_omega()
     zone.is_enabled = false;
     zone.is_spawning_allowed = false;
 
-    wait 3;
+    wait 10;
     for ( i = 0; i < players.size; i++ )
     {
         players[i] DisableInvulnerability();
