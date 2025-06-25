@@ -49,7 +49,7 @@ function man_add() // LAST UPDATE
     {
         if(level flag::get("quest_perk_enable"))
         {
-            level.perk_purchase_limit++;
+            increase_perk_purchase_limit();
         }
         
         if( level.can_play_music_biatch == true)
@@ -59,6 +59,12 @@ function man_add() // LAST UPDATE
        
     }
    
+}
+
+function increase_perk_purchase_limit()
+{
+    level.perk_purchase_limit++;
+    IPrintLnBold("Perk purchase limit increased to " + level.perk_purchase_limit);
 }
 
 //

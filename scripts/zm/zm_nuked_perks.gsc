@@ -393,8 +393,7 @@ function bring_perk( machine, trigger )
 		machine.angles = chose_pos.angles;
 		trigger.origin = chose_pos.origin;
 		trigger.angles = chose_pos.angles;
-		//perk = self.script_noteworthy;
-		//perk = vending_triggers[nearest].script_noteworthy;
+
 		vending_triggers = GetEntArray( "zombie_vending", "targetname" );
 		for ( i = 0; i < vending_triggers.size; i++ )
 		{
@@ -509,13 +508,11 @@ function bring_perk( machine, trigger )
 	{
 		machine thread zm_perks::perk_fx( "widow_light" );
 	}
-	else
+	else if ( is_sleight )
 	{
-		if ( is_sleight )
-		{
-			machine thread zm_perks::perk_fx( "sleight_light" );
-		}
+		machine thread zm_perks::perk_fx( "sleight_light" );
 	}
+	
 }
 
 function perk_incoming_sound()
@@ -658,8 +655,7 @@ function turn_perks_on()
         level notify("deadshot_on");
   		wait(.1);
   		level notify("specialty_deadshot_power_on"); 
-
-  		        
+    
     zm_perks::perk_unpause(PERK_WIDOWS_WINE);
         level notify("widows_wine_on");
   		wait(.1);
@@ -749,11 +745,6 @@ function perks_from_the_sky()
 
 		bring_perk( machines[ index ], machine_triggers[ index ] ); // TV CODE
 		level.codeA = machine_number[ index ];// TV CODE
-
-		if(level.debug_nuked == true)
-		{
-			IPrintLnBold(level.codeA);// TV CODE
-		}
 
 		ArrayRemoveIndex( machines, index );
 		ArrayRemoveIndex( machine_triggers, index );

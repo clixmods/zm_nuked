@@ -41,19 +41,26 @@ function sndmusegg1()
     level waittill( "nuke_clock_moved" );
     level waittill( "magic_door_power_up_grabbed" );
     min_hand_model = getent( "clock_min_hand", "targetname" );
+
     if ( level.population_count == 15 && level.music_override == 0 && level.can_play_music_biatch == true ) // ADD CONDITION
     {
         if(level flag::get("quest_perk_enable"))
         {
-            level.perk_purchase_limit++;
+            increase_perk_purchase_limit();
         }
         
         level thread sndmuseggplay( spawn( "script_origin", ( 0, 1, 0 ) ), "zmb_nuked_song_1", 88 );
     }
     else if ( level.population_count == 15 && level.can_play_music_biatch == false && level flag::get("quest_perk_enable") )
     {
-        level.perk_purchase_limit++;
+        increase_perk_purchase_limit();
     }
+}
+
+function increase_perk_purchase_limit()
+{
+    level.perk_purchase_limit++;
+    IPrintLnBold("Perk purchase limit increased to " + level.perk_purchase_limit);
 }
 
 function sndmusegg2()

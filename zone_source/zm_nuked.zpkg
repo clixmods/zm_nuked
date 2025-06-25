@@ -1,3 +1,6 @@
+// Custom Weapons
+stringtable,gamedata/weapons/zm/zm_levelcommon_weapons.csv
+
 scriptparsetree,scripts/zm/zm_nuked.gsc
 scriptparsetree,scripts/zm/zm_nuked.csc
 
@@ -5,6 +8,7 @@ scriptparsetree,scripts/zm/zm_nuked.csc
 scriptparsetree,scripts/zm/_hb21_zm_weap_galvaknuckles.gsc
 weapon,t6_tazer_knuckles_zm
 weapon,t6_tazer_knuckles_flourish_zm
+weapon,t6_tazer_knuckles_widows_wine_zm
 
 // Utility
 scriptparsetree,scripts\zm\nuked_utility.gsc
@@ -34,6 +38,43 @@ fx,dlc5/zmhd/fx_perk_widows_wine
 fx,zombie/fx_perk_juggernaut_factory_zmb
 fx,zombie/fx_perk_doubletap2_factory_zmb
 fx,zombie/fx_perk_mule_kick_factory_zmb
+
+fx,zombie/fx_perk_quick_revive_factory_zmb
+scriptparsetree,scripts/zm/_zm_perk_quick_revive.gsc
+scriptparsetree,scripts/zm/_zm_perk_quick_revive.csc
+
+fx,zombie/fx_perk_daiquiri_factory_zmb
+scriptparsetree,scripts/zm/_zm_perk_deadshot.gsc
+scriptparsetree,scripts/zm/_zm_perk_deadshot.csc
+scriptparsetree,scripts/zm/_zm_perk_deadshot.gsh
+
+fx,zombie/fx_perk_sleight_of_hand_factory_zmb
+scriptparsetree,scripts/zm/_zm_perk_sleight_of_hand.gsc
+scriptparsetree,scripts/zm/_zm_perk_sleight_of_hand.csc
+
+fx,zombie/fx_perk_stamin_up_factory_zmb
+scriptparsetree,scripts/zm/_zm_perk_staminup.gsc
+scriptparsetree,scripts/zm/_zm_perk_staminup.csc
+scriptparsetree,scripts/zm/_zm_perk_staminup.gsh
+
+fx,dlc5/zmhd/fx_perk_widows_wine
+scriptparsetree,scripts/zm/_zm_perk_widows_wine.gsc
+scriptparsetree,scripts/zm/_zm_perk_widows_wine.csc
+scriptparsetree,scripts/zm/_zm_perk_widows_wine.gsh
+
+fx,zombie/fx_perk_juggernaut_factory_zmb
+scriptparsetree,scripts/zm/_zm_perk_juggernaut.gsc
+scriptparsetree,scripts/zm/_zm_perk_juggernaut.csc
+scriptparsetree,scripts/zm/_zm_perk_juggernaut.gsh
+
+fx,zombie/fx_perk_doubletap2_factory_zmb
+scriptparsetree,scripts/zm/_zm_perk_doubletap2.gsc
+scriptparsetree,scripts/zm/_zm_perk_doubletap2.csc
+
+fx,zombie/fx_perk_mule_kick_factory_zmb
+scriptparsetree,scripts/zm/_zm_perk_additionalprimaryweapon.gsc
+scriptparsetree,scripts/zm/_zm_perk_additionalprimaryweapon.csc
+scriptparsetree,scripts/zm/_zm_perk_additionalprimaryweapon.gsh
 
 // Richtofen dialog from Moon
 scriptparsetree,scripts\zm\classic_features\vox_transmission.gsc
@@ -114,6 +155,24 @@ fx,electric/fx_elec_spark_loop_sm
 scriptbundle,floating_debris_sb
 scriptparsetree,scripts\zm\zm_nuked_floating_debris.gsc
 
+// Rocket Shield
+//scriptparsetree,scripts/zm/_zm_weap_rocketshield.gsc Removed because that cause clientfield error
+//scriptparsetree,scripts/zm/_zm_weap_rocketshield.csc Removed because that cause clientfield error
+image,uie_t7_base_quest_shield_dlc
+image,uie_t7_icon_inventory_dlc_shield_a
+image,uie_t7_icon_inventory_dlc_shield_a_new
+image,uie_t7_icon_inventory_dlc_shield_b
+image,uie_t7_icon_inventory_dlc_shield_b_new
+xmodel,wpn_t7_zmb_zod_rocket_shield_view
+xmodel,wpn_t7_zmb_zod_rocket_shield_world
+xmodel,wpn_t7_zmb_zod_rocket_shield_dmg1_view
+xmodel,wpn_t7_zmb_zod_rocket_shield_dmg2_view
+xmodel,wpn_t7_zmb_zod_rocket_shield_dmg1_world
+xmodel,wpn_t7_zmb_zod_rocket_shield_dmg2_world
+xmodel,wpn_t7_zmb_zod_rocket_shield_window
+xmodel,wpn_t7_zmb_zod_rocket_shield_tank_parts
+xmodel,wpn_t7_zmb_zod_rocket_shield_eagle
+
 // Characters
 // Warning, to allow the override of the characters 
 // you need to remove these lines from the source file in the zone_source folder
@@ -158,3 +217,5 @@ xanim,ai_zombie_base_run_mantle_over_96 // GARAGE TRAVERSE
 xanim,ai_zombie_base_mantle_over_96 // GARAGE TRAVERSE 
 xanim,ai_zombie_base_crawl_mantle_over_96 // GARAGE TRAVERSE
 
+// Camo include
+include,camo_override

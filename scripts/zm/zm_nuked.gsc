@@ -115,20 +115,24 @@
 
 function main()
 {
-	// Set cheat to 1 to enable cheats
-	setdvar("sv_cheats", 1);
-
     // Register clientfield 
     clientfield::register("world", "change_fog", VERSION_SHIP, 4, "int" );
     clientfield::register("world", "change_zombie_eye_color", VERSION_SHIP, 1, "int");
     clientfield::register("world", "change_exposure_to_2", VERSION_SHIP, 1, "int"); 
     clientfield::register("world", "change_exposure_to_1", VERSION_SHIP, 1, "int");
 
+    // Flags initialization
+    level flag::init( "moon_transmission_over" );
+    level flag::init( "rocket_is_fall" );
+
     // Need to be executed before zm_usermap
     level.dog_rounds_allowed = false; // No dog round
 
 	// Init base feature for zombies
 	zm_usermap::main();
+
+    // Try to override perks fx 
+    zm_usermap::perk_init();
 
     // Setup some rules for the map
     level.random_pandora_box_start = true;
@@ -150,15 +154,7 @@ function main()
 	level.zones = [];
 	level.zone_manager_init_func = &usermap_test_zone_init;
 	
-    if(nuked_utility::is_omega())
-    {
-        init_zones[0] = "start_zone";
-    }
-    else
-    {
-        init_zones[0] = "start_omega_zone";
-    }
-
+    init_zones[0] = "start_zone";
 	level thread zm_zonemgr::manage_zones( init_zones );
 
 	level.pathdist_type = PATHDIST_ORIGINAL;
@@ -171,6 +167,9 @@ function main()
         level._zombiemode_custom_box_move_logic = undefined;
         level.perks_omega = true;
         zm_ai_dogs_nuked::enable_dog_rounds();
+
+        // Set the rocket is fall flag, to change behavior of some entities in the map (example: doors can be visible only with this flag)
+        level flag::set( "rocket_is_fall" );
 
         barbelets = GetEntArray("barbelet_model","targetname");
         foreach( model in barbelets )
@@ -204,16 +203,12 @@ function main()
     level thread ee_tv_code::init();
 
     // Setup gameover cinematic
-    rocket = GetEnt( "intermission_rocket", "targetname" );
-    rocket Hide();
+    level thread intermission_rocket_init(); // This function will hide models related to the rocket cinematic (these models are supposed to be hidden during the game)
 
     // Keep the base intermission to restore it if the secret cinematic was enabled
     level.old_custom_intermission   = level.custom_intermission;
     level.custom_intermission       = &nuked_standard_intermission; 
     level.custom_player_fake_death  = &player_fake_death;
-
-    // Flags initialization
-    level flag::init( "moon_transmission_over" );
 
     // Pack-a-Punch Camo
     level.pack_a_punch_camo_index = 128;
@@ -238,6 +233,9 @@ function main()
     xmodelalias::add_head_models("c_zom_dlc0_zom_sol_body1", 
     array("c_zom_dlc0_zom_head1", "c_zom_dlc0_zom_head2", "c_zom_dlc0_zom_head3", "c_zom_dlc0_zom_head4"));
     zm_spawner::add_custom_zombie_spawn_logic(&xmodelalias::apply);
+
+    // Init Nuketown sign counter
+    level thread nuketown_panneau::init();
 }
 
 #define PLAYTYPE_REJECT 1
@@ -552,11 +550,11 @@ function clean_quest()
     marlton_bunker_trig = GetEnt( "marlton_bunker_trig", "targetname" );
     marlton_bunker_trig hide();
 
-    //paper_perk_code
     autel = GetEnt("autel", "targetname");
     autel_book = GetEnt("autel_book", "targetname");
     autel_clip = GetEnt("autel_clip", "targetname");
     boss_clip_player = GetEntArray("clip_boss_begin","targetname");
+    
     autel_item = GetEntArray("autel_boss_items","targetname");
     foreach (ent in autel_item)
     {   
@@ -656,6 +654,37 @@ function clean_quest()
     {
         struct hide();
     }    
+
+    wavegun_ice_model = GetEntArray("wavegun_ice_model","targetname");
+    foreach(model in wavegun_ice_model) 
+    {
+        model Hide();
+    }
+
+    wavegun_fire_model = GetEntArray("wavegun_fire_model","targetname");
+    foreach(model in wavegun_fire_model) 
+    {
+        model Hide();
+    }
+    
+    wavegun_wind_model = GetEntArray("wavegun_wind_model","targetname");
+    foreach(model in wavegun_wind_model)
+    {
+        model Hide();
+    }
+    
+    wavegun_lightning_model = GetEntArray("wavegun_lightning_model","targetname");
+    foreach(model in wavegun_lightning_model) 
+    {
+        model Hide();
+    }
+
+    wavegun_rack = GetEntArray("weapon_rack_wavegun_models","targetname");
+    foreach(model in wavegun_rack)
+    {
+        model Hide();
+    }
+
 }
 
 function earth_blowup()
@@ -667,7 +696,12 @@ function earth_blowup()
 
     wait 15;
 
-    while ( level.round_number < 30)
+    while ( level.round_number < 26 )
+    {
+        wait 1;
+    }
+
+    while ( level.secret_code_entered == false)
     {
         wait 1;
     }
@@ -834,10 +868,8 @@ function player_fake_death()
 
 function moon_rocket_follow_path()
 {
-
     level clientfield::set( "setup_skybox", 5 );
     
-
     rocket_start_struct = struct::get( "inertmission_rocket_start", "targetname" );
     rocket_end_struct = struct::get( "inertmission_rocket_end", "targetname" );
     rocket_cam_start_struct = struct::get( "intermission_rocket_cam_start", "targetname" );
@@ -880,9 +912,13 @@ function moon_rocket_follow_path()
     rocket_camera_ent.angles = rocket_cam_start_struct.angles;
     rocket = GetEnt( "intermission_rocket", "targetname" );
     rocket Show();
-     modelss = GetEntArray("endgame_models","targetname");
+
+    modelss = GetEntArray("endgame_models","targetname");
     foreach(e in modelss)
+    {
         e Show();
+    }
+
     rocket.origin = rocket_start_struct.origin;
     camera = Spawn( "script_model", rocket_cam_start_struct.origin );
     camera.angles = rocket_cam_start_struct.angles;
@@ -935,15 +971,18 @@ function intermission_rocket_blur()
     }
 }
 
-function inermission_rocket_init()
+function intermission_rocket_init()
 {
-    rocket = GetEnt( "intermission_rocket", "targetname" );
     rockets = GetEnt( "endgame_models", "targetname" );
     rockets Hide();
+    
     models = GetEntArray("endgame_models","targetname");
     foreach(e in models)
+    {
         e Hide();
+    }   
 
+    rocket = GetEnt( "intermission_rocket", "targetname" ); 
     rocket Hide();
 }
 
@@ -990,7 +1029,7 @@ function teleport_players_to_start_omega()
     zone.is_enabled = false;
     zone.is_spawning_allowed = false;
 
-    wait 3;
+    wait 10;
     for ( i = 0; i < players.size; i++ )
     {
         players[i] DisableInvulnerability();

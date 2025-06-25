@@ -29,10 +29,9 @@
 #precache("string", "NUKED_STRING_OPEN_OUT_MAP");
 #using_animtree("generic");
 
-#namespace zm_nuked_floating_debris; // HARRY COMMENT
+#namespace zm_nuked_floating_debris;
 
-REGISTER_SYSTEM_EX( "zm_nuked_floating_debris", &__init__, &__main__, undefined ) // HARRY COMMENT
-
+REGISTER_SYSTEM_EX( "zm_nuked_floating_debris", &__init__, &__main__, undefined )
 function __init__()
 {
     
@@ -44,7 +43,7 @@ function __main__()
 	array::thread_all(debris, &generic_door);
 }
 
-function doors_open() // self = script_model , self.target = le trigger, trig.target = le clip
+function doors_open() 
 {
 	model = self.model; 
 	self SetModel("tag_origin");
@@ -54,6 +53,7 @@ function doors_open() // self = script_model , self.target = le trigger, trig.ta
 	wait 1;
 	
 	trig Hide();
+	
 	while(level.perks_omega != true)
 	{
 		level waittill("rituel_from_ground");
