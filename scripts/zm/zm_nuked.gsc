@@ -236,10 +236,6 @@ function main()
 
     // Init Nuketown sign counter
     level thread nuketown_panneau::init();
-
-    // Set cheat to 1 to enable cheats
-	setdvar("sv_cheats", 1);
-    level.player_starting_points = 500000;
 }
 
 #define PLAYTYPE_REJECT 1
@@ -554,7 +550,6 @@ function clean_quest()
     marlton_bunker_trig = GetEnt( "marlton_bunker_trig", "targetname" );
     marlton_bunker_trig hide();
 
-    //paper_perk_code
     autel = GetEnt("autel", "targetname");
     autel_book = GetEnt("autel_book", "targetname");
     autel_clip = GetEnt("autel_clip", "targetname");

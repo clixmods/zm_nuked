@@ -42,16 +42,12 @@ function sndmusegg1()
     level waittill( "magic_door_power_up_grabbed" );
     min_hand_model = getent( "clock_min_hand", "targetname" );
 
-    IPrintLnBold("pop count : "+level.population_count);
-
     if ( level.population_count == 15 && level.music_override == 0 && level.can_play_music_biatch == true ) // ADD CONDITION
     {
         if(level flag::get("quest_perk_enable"))
         {
             increase_perk_purchase_limit();
         }
-
-         IPrintLnBold("BITE");
         
         level thread sndmuseggplay( spawn( "script_origin", ( 0, 1, 0 ) ), "zmb_nuked_song_1", 88 );
     }
