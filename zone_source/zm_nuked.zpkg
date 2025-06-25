@@ -1,3 +1,6 @@
+// Custom Weapons
+stringtable,gamedata/weapons/zm/zm_levelcommon_weapons.csv
+
 scriptparsetree,scripts/zm/zm_nuked.gsc
 scriptparsetree,scripts/zm/zm_nuked.csc
 
