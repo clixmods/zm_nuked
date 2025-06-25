@@ -135,6 +135,9 @@ function main()
 	// Init base feature for zombies
 	zm_usermap::main();
 
+    // Try to override perks fx 
+    zm_usermap::perk_init();
+
     // Setup some rules for the map
     level.random_pandora_box_start = true;
     zm_perks::spare_change(); // Add points under each perk
