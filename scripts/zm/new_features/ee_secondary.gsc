@@ -70,7 +70,7 @@ function teddy_shootable()
 
         if ( level.teddy_count == teddy_shoot_trig.size ) // Objectif
         {
-            level.perk_purchase_limit++;
+            increase_perk_purchase_limit();
             level.teddy_count--;
             break;
         }
@@ -108,12 +108,18 @@ function outlet_shootable()
 
         if ( level.prise_count == prise_shoot_trig.size ) // Objectif
         {
-            level.perk_purchase_limit++;
+            increase_perk_purchase_limit();
             break;
         }
 
         wait 0.5;
     }
+}
+
+function increase_perk_purchase_limit()
+{
+    level.perk_purchase_limit++;
+    IPrintLnBold("Perk purchase limit increased to " + level.perk_purchase_limit);
 }
 
 function prise_add() 
