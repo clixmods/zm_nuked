@@ -131,7 +131,6 @@ function code_result(result)
 {
     if(result == FLAG_RANDOM_CODE_ACTIVE)
     {
-        IPrintLnBold("Secret code entered");
         level.secret_code_entered = true;
     }
 }

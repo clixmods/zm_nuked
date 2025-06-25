@@ -701,7 +701,12 @@ function earth_blowup()
 
     wait 15;
 
-    while ( level.round_number < 30)
+    while ( level.round_number < 26 )
+    {
+        wait 1;
+    }
+
+    while ( level.secret_code_entered == false)
     {
         wait 1;
     }
