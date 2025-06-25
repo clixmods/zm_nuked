@@ -12,8 +12,9 @@
 #using scripts\shared\util_shared;
 #using scripts\shared\vehicle_shared;
 
-function autoexec init()
+function init()
 {
+    level.population_count = 0;
     level thread nuked_population_sign_think();
 }
 
