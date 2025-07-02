@@ -717,13 +717,17 @@ function widows_wine_override_melee_wallbuy_purchase( vo_dialog_id, flourish_wea
 				self zm_score::minus_to_player_score( cost ); 
 				
 
-				assert( weapon.name == "bowie_knife" || weapon.name == "sickle_knife" ); 
+				assert( weapon.name == "bowie_knife" || weapon.name == "sickle_knife" || weapon.name == "t6_tazer_knuckles" ); 
 				self.w_widows_wine_prev_knife = weapon;
 				if( self.w_widows_wine_prev_knife.name == "bowie_knife" )
 				{
 					self thread zm_melee_weapon::give_melee_weapon( vo_dialog_id, flourish_weapon, weapon, ballistic_weapon, ballistic_upgraded_weapon, flourish_fn, wallbuy );
 				}
 				else if( self.w_widows_wine_prev_knife.name == "sickle_knife" )
+				{
+					self thread zm_melee_weapon::give_melee_weapon( vo_dialog_id, flourish_weapon, weapon, ballistic_weapon, ballistic_upgraded_weapon, flourish_fn, wallbuy );
+				}
+				else if( self.w_widows_wine_prev_knife.name == "t6_tazer_knuckles" )
 				{
 					self thread zm_melee_weapon::give_melee_weapon( vo_dialog_id, flourish_weapon, weapon, ballistic_weapon, ballistic_upgraded_weapon, flourish_fn, wallbuy );
 				}
