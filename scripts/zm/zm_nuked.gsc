@@ -706,7 +706,7 @@ function earth_blowup()
         wait 1;
     }
 
-    level.origin_bg_mus StopAllLoopSounds(1);
+    level.origin_bg_mus StopLoopSound(3);
 
     wait 5;
 
