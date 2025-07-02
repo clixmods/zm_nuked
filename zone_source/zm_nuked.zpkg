@@ -61,6 +61,7 @@ scriptparsetree,scripts/zm/_zm_perk_staminup.gsc
 scriptparsetree,scripts/zm/_zm_perk_staminup.csc
 scriptparsetree,scripts/zm/_zm_perk_staminup.gsh
 
+// For perk light and tazer support
 fx,dlc5/zmhd/fx_perk_widows_wine
 scriptparsetree,scripts/zm/_zm_perk_widows_wine.gsc
 scriptparsetree,scripts/zm/_zm_perk_widows_wine.csc
