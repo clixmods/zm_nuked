@@ -110,7 +110,7 @@ function tv_fail()
 
 		if(level.code_possible == old)
 		{
-			level.tv thread tv_show_fail();
+			//level.tv thread tv_show_fail();
 		}
 	}
 }
@@ -155,6 +155,10 @@ function add_code_to_tv(a,b,c,d,condition,result)
 			level thread code_result(result);
 			level.code_possible--;
 			break;
+		}
+		else
+		{
+			level.tv thread tv_show_fail();
 		}
 	}
 
