@@ -45,3 +45,5 @@ smg_fastfire,smg_fastfire_upgraded,,1250,smg,,,,,TRUE,FALSE,FALSE,,,FALSE,TRUE,s
 sniper_fastsemi,sniper_fastsemi_upgraded,,5000,sniper,,,,,TRUE,FALSE,FALSE,,,FALSE,TRUE,sniper,,,
 sniper_powerbolt,sniper_powerbolt_upgraded,,5000,sniper,,,,,TRUE,FALSE,FALSE,,,FALSE,TRUE,sniper,,,
 hero_annihilator,,,10000,staff,,,,,TRUE,FALSE,TRUE,,,FALSE,FALSE,special,TRUE,TRUE,
+
+raygun_mark2,raygun_mark2_upgraded,,10000,ray2,,0,,,TRUE,FALSE,TRUE,1,,FALSE,FALSE,special,TRUE,TRUE,
