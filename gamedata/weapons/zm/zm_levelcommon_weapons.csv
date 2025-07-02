@@ -33,10 +33,10 @@ lmg_heavy,lmg_heavy_upgraded,,5000,lmg,,,,,TRUE,FALSE,FALSE,,,FALSE,TRUE,lmg,,,
 lmg_light,lmg_light_upgraded,,5000,lmg,,,,,TRUE,FALSE,FALSE,,,FALSE,TRUE,lmg,,,
 lmg_slowfire,lmg_slowfire_upgraded,,5000,lmg,,,,,TRUE,FALSE,FALSE,,,FALSE,TRUE,lmg,,,
 
-shotgun_fullauto,shotgnuked_utilityun_fullauto_upgraded,,5000,shotgun,,,,,TRUE,FALSE,FALSE,,,FALSE,TRUE,shotgun,,,
+shotgun_fullauto,shotgun_fullauto_upgraded,,5000,shotgun,,,,,TRUE,FALSE,FALSE,,,FALSE,TRUE,shotgun,,,
 shotgun_precision,shotgun_precision_upgraded,,1100,shotgun,,,,,TRUE,FALSE,FALSE,,,FALSE,TRUE,shotgun,,,
-
 shotgun_semiauto,shotgun_semiauto_upgraded,,5000,shotgun,,,,,TRUE,FALSE,FALSE,,,FALSE,TRUE,shotgun,,,
+
 launcher_standard,launcher_standard_upgraded,,10000,launcher,,,,,TRUE,FALSE,FALSE,,,FALSE,TRUE,special,TRUE,,
 smg_burst,smg_burst_upgraded,,700,smg,,,,,TRUE,FALSE,FALSE,,,FALSE,TRUE,smg,,,
 smg_capacity,smg_capacity_upgraded,,5000,smg,,,,,TRUE,FALSE,FALSE,,,FALSE,TRUE,smg,,,
