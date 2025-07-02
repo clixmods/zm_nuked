@@ -787,7 +787,7 @@ function earth_blowup()
     level flag::set( "aftermath" );
     //PlaySoundAtPosition( "sam_moon_mus", moon_tranmission_struct.origin );
 
-    level thread play_music("project_skadi_classified");
+    //level thread play_music("project_skadi_classified");
 
     level thread vox_transmission::richtofen_quote_random_ee();
 }
