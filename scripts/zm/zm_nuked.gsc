@@ -706,7 +706,9 @@ function earth_blowup()
         wait 1;
     }
 
-    wait 30;
+    level.origin_bg_mus StopAllLoopSounds(1);
+
+    wait 5;
 
     //
     zm_sub::register_subtitle_func(&"NUKED_STRING_MAXIS_DIALOG_0", 11, moon_tranmission_struct.origin, "vox_xcomp_quest_step6_14"); //textLine, duration, origin, sound, duration_begin, to_player)
@@ -781,9 +783,11 @@ function earth_blowup()
     zm_sub::register_subtitle_func(&"NUKED_STRING_MAXIS_DIALOG_5", 6, moon_tranmission_struct.origin, "vox_xcomp_quest_step8_8"); //textLine, duration, origin, sound, duration_begin, to_player)
     level thread vox_transmission::set_tv_on_during(6);
     level flag::set( "spawn_zombies" );
-    level flag::set( "rocket_is_fall" );
+    //level flag::set( "rocket_is_fall" );
     level flag::set( "aftermath" );
     //PlaySoundAtPosition( "sam_moon_mus", moon_tranmission_struct.origin );
+
+    level thread play_music("project_skadi_classified");
 
     level thread vox_transmission::richtofen_quote_random_ee();
 }
