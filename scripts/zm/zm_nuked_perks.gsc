@@ -393,8 +393,7 @@ function bring_perk( machine, trigger )
 		machine.angles = chose_pos.angles;
 		trigger.origin = chose_pos.origin;
 		trigger.angles = chose_pos.angles;
-		//perk = self.script_noteworthy;
-		//perk = vending_triggers[nearest].script_noteworthy;
+
 		vending_triggers = GetEntArray( "zombie_vending", "targetname" );
 		for ( i = 0; i < vending_triggers.size; i++ )
 		{

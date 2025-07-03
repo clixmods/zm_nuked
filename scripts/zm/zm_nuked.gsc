@@ -115,10 +115,6 @@
 
 function main()
 {
-	// Set cheat to 1 to enable cheats
-	setdvar("sv_cheats", 1);
-    level.player_starting_points = 500000;
-
     // Register clientfield 
     clientfield::register("world", "change_fog", VERSION_SHIP, 4, "int" );
     clientfield::register("world", "change_zombie_eye_color", VERSION_SHIP, 1, "int");
@@ -134,6 +130,9 @@ function main()
 
 	// Init base feature for zombies
 	zm_usermap::main();
+
+    // Try to override perks fx 
+    zm_usermap::perk_init();
 
     // Setup some rules for the map
     level.random_pandora_box_start = true;
@@ -155,7 +154,6 @@ function main()
 	level.zones = [];
 	level.zone_manager_init_func = &usermap_test_zone_init;
 	
-   
     init_zones[0] = "start_zone";
 	level thread zm_zonemgr::manage_zones( init_zones );
 
@@ -235,6 +233,9 @@ function main()
     xmodelalias::add_head_models("c_zom_dlc0_zom_sol_body1", 
     array("c_zom_dlc0_zom_head1", "c_zom_dlc0_zom_head2", "c_zom_dlc0_zom_head3", "c_zom_dlc0_zom_head4"));
     zm_spawner::add_custom_zombie_spawn_logic(&xmodelalias::apply);
+
+    // Init Nuketown sign counter
+    level thread nuketown_panneau::init();
 }
 
 #define PLAYTYPE_REJECT 1
@@ -549,7 +550,6 @@ function clean_quest()
     marlton_bunker_trig = GetEnt( "marlton_bunker_trig", "targetname" );
     marlton_bunker_trig hide();
 
-    //paper_perk_code
     autel = GetEnt("autel", "targetname");
     autel_book = GetEnt("autel_book", "targetname");
     autel_clip = GetEnt("autel_clip", "targetname");
@@ -654,6 +654,37 @@ function clean_quest()
     {
         struct hide();
     }    
+
+    wavegun_ice_model = GetEntArray("wavegun_ice_model","targetname");
+    foreach(model in wavegun_ice_model) 
+    {
+        model Hide();
+    }
+
+    wavegun_fire_model = GetEntArray("wavegun_fire_model","targetname");
+    foreach(model in wavegun_fire_model) 
+    {
+        model Hide();
+    }
+    
+    wavegun_wind_model = GetEntArray("wavegun_wind_model","targetname");
+    foreach(model in wavegun_wind_model)
+    {
+        model Hide();
+    }
+    
+    wavegun_lightning_model = GetEntArray("wavegun_lightning_model","targetname");
+    foreach(model in wavegun_lightning_model) 
+    {
+        model Hide();
+    }
+
+    wavegun_rack = GetEntArray("weapon_rack_wavegun_models","targetname");
+    foreach(model in wavegun_rack)
+    {
+        model Hide();
+    }
+
 }
 
 function earth_blowup()
@@ -665,12 +696,19 @@ function earth_blowup()
 
     wait 15;
 
-    while ( level.round_number < 30)
+    while ( level.round_number < 26 )
     {
         wait 1;
     }
 
-    wait 30;
+    while ( level.secret_code_entered == false)
+    {
+        wait 1;
+    }
+
+    level.origin_bg_mus StopLoopSound(3);
+
+    wait 5;
 
     //
     zm_sub::register_subtitle_func(&"NUKED_STRING_MAXIS_DIALOG_0", 11, moon_tranmission_struct.origin, "vox_xcomp_quest_step6_14"); //textLine, duration, origin, sound, duration_begin, to_player)
@@ -745,9 +783,11 @@ function earth_blowup()
     zm_sub::register_subtitle_func(&"NUKED_STRING_MAXIS_DIALOG_5", 6, moon_tranmission_struct.origin, "vox_xcomp_quest_step8_8"); //textLine, duration, origin, sound, duration_begin, to_player)
     level thread vox_transmission::set_tv_on_during(6);
     level flag::set( "spawn_zombies" );
-    level flag::set( "rocket_is_fall" );
+    //level flag::set( "rocket_is_fall" );
     level flag::set( "aftermath" );
     //PlaySoundAtPosition( "sam_moon_mus", moon_tranmission_struct.origin );
+
+    //level thread play_music("project_skadi_classified");
 
     level thread vox_transmission::richtofen_quote_random_ee();
 }

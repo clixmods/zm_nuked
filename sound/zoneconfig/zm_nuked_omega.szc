@@ -95,6 +95,13 @@
  "Name" : "zm_nuketown_hd",
  "Filename" : "zm_nuketown_hd.csv",
  "Specs" : ["mpl_mod"]
-}
+},
+{
+ "Type" : "ALIAS",
+ "Name" : "t7_weapons_mark2_dlc",
+ "Filename" : "t7_weapons_mark2_dlc.csv",
+ "Specs" : [ ] 
+},
+
 ]
 }

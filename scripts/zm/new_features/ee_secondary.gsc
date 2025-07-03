@@ -14,10 +14,10 @@
 
 #using scripts\zm\nuked_utility;
 
-#define OUTLET_SHOOTED_FX "electric/fx_elec_spark_loop_sm" // NEXT UPDATe
-#precache( "fx", OUTLET_SHOOTED_FX ); // NEXT UPDATe
+#define OUTLET_SHOOTED_FX "electric/fx_elec_spark_loop_sm" 
+#precache( "fx", OUTLET_SHOOTED_FX ); 
 
-#precache( "model", "p7_conduit_metal_1_outlet_plug_e_burnt" ); // a add dans le zone
+#precache( "model", "p7_conduit_metal_1_outlet_plug_e_burnt" );
 #precache( "model", "p7_zm_teddybear_sitting_shootable" );
 
 
@@ -31,18 +31,6 @@ function init()
 }
 
 
-//---------------------------------------------------------------------------------------------------//
-//---------------------------------------------------------------------------------------------------// 
-//                                      Mini quetes optionnels : init                                      //
-//---------------------------------------------------------------------------------------------------//
-//---------------------------------------------------------------------------------------------------//
-
-//
-//"Name: teddy_shootable"
-//"Type: mini quest"
-//"Summary: Teddy shootable 
-//"Suggestion : - Revoir les POPUP
-//
 function teddy_shootable() 
 {
     level.teddy_count = 0;
@@ -70,7 +58,7 @@ function teddy_shootable()
 
         if ( level.teddy_count == teddy_shoot_trig.size ) // Objectif
         {
-            level.perk_purchase_limit++;
+            increase_perk_purchase_limit();
             level.teddy_count--;
             break;
         }
@@ -108,12 +96,18 @@ function outlet_shootable()
 
         if ( level.prise_count == prise_shoot_trig.size ) // Objectif
         {
-            level.perk_purchase_limit++;
+            increase_perk_purchase_limit();
             break;
         }
 
         wait 0.5;
     }
+}
+
+function increase_perk_purchase_limit()
+{
+    level.perk_purchase_limit++;
+    IPrintLnBold("Perk purchase limit increased to " + level.perk_purchase_limit);
 }
 
 function prise_add() 
