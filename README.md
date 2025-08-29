@@ -1,4 +1,4 @@
-# Nuketown Zombies - Call of Duty: Black Ops 3 Steam Workshop
+# Nuketown Zombies [Mod-Friendly] - Call of Duty: Black Ops 3 Steam Workshop
 
 Welcome to the repository of the **Nuketown Zombies map source code**, published on the Steam Workshop for **Call of Duty: Black Ops 3**. This repository is designed to allow modders to make changes to the map using this code as a base.
 
@@ -12,12 +12,12 @@ This repository provides modders the opportunity to:
 
 If you wish to modify the map, **it is essential to integrate all the scripts included in this repository** into your mod to ensure optimal compatibility.
 
-## Instructions for Modders
+Scope & Version
 
-1. **Clone this repository** to your local machine.
-2. **Integrate all provided scripts** into your project.
-3. Make the desired modifications.
-4. Test your modified version of the map to ensure everything works correctly.
+Important: This repository applies only to the new Workshop upload of the map:
+https://steamcommunity.com/sharedfiles/filedetails/?id=3558354570
+
+It does not apply to the legacy 2020 version of Nuketown Zombies. That older release is not modifiable because the original source files are no longer available.
 
 ## Preliminary Note
 
@@ -27,16 +27,9 @@ If you wish to modify the map, **it is essential to integrate all the scripts in
 
 If the **Nuketown Zombies** map has been updated on Steam since this repository was released, it is **strongly recommended** to import the changes from this repository into your mod to ensure full compatibility with the latest version.
 
-## Useful Links
-
-- [Call of Duty: Black Ops 3 Mod Tools Documentation](https://wiki.zeroy.com/index.php?title=Call_of_Duty_Black_Ops_3_Mod_Tools)
-- [Official Nuketown Zombies Steam Workshop Page](https://steamcommunity.com/sharedfiles/filedetails/?id=2180904327)
-- [Steam Workshop for Black Ops 3](https://steamcommunity.com/app/311210/workshop/)
-- [Call of Duty: Black Ops 3 Official Modding Forums](https://community.callofduty.com/t5/Black-Ops-3-Modding/ct-p/bo3-modding)
-
 ## Contact
 
-If you encounter any issues or have questions about this repository or the script modifications, feel free to contact me via Steam or open an issue on this repository.
+If you encounter any issues or have questions about this repository or the script modifications, feel free to open an issue on this repository.
 
 Thank you and happy modding!
 
