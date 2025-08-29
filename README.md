@@ -2,6 +2,9 @@
 
 Welcome to the repository of the **Nuketown Zombies map source code**, published on the Steam Workshop for **Call of Duty: Black Ops 3**. This repository is designed to allow modders to make changes to the map using this code as a base.
 
+Important: This repository contains only the source code/scripts.
+It does not include the compiled map or any Workshop files.
+
 ## Repository Purpose
 
 This repository provides modders the opportunity to:
