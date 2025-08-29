@@ -15,9 +15,9 @@ This repository provides modders the opportunity to:
 
 If you wish to modify the map, **it is essential to integrate all the scripts included in this repository** into your mod to ensure optimal compatibility.
 
-Scope & Version
+## Scope & Version
 
-Important: This repository applies only to the new Workshop upload of the map:
+**Important:** This repository applies only to the new Workshop upload of the map:
 https://steamcommunity.com/sharedfiles/filedetails/?id=3558354570
 
 It does not apply to the legacy 2020 version of Nuketown Zombies. That older release is not modifiable because the original source files are no longer available.
