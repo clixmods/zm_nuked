@@ -19,14 +19,12 @@
  "Filename" : "thebeast_aliases.csv",
  "Specs" : [ ] 
 },
-
  {
  "Type" : "ALIAS",
  "Name" : "craftable",
  "Filename" : "craftable_sounds.csv",
  "Specs" : [ ] 
 },
-
  {
  "Type" : "ALIAS",
  "Name" : "round",
@@ -35,28 +33,8 @@
 },
 {
   "Type" : "ALIAS",
-  "Name" : "dog_chronicles"
-  "Filename" : "dog_chronicles_aliases.csv",
-  "Specs" : [ ] 
-},
-    {
-      "Type" : "ALIAS",
-      "Name" : "pack_a_punch_sounds",
-      "Filename" : "pack_a_punch_sounds.csv",
-      "Specs" : [ ] 
-    },
-
-{
-  "Type" : "ALIAS",
-  "Name" : "fly_step_chronicles",
-  "Filename" : "fly_step_chronicles.csv",
-  "Specs" : [ ] 
-},
-
-{
-  "Type" : "ALIAS",
-  "Name" : "vox_language",
-  "Filename" : "vox_language.csv",
+  "Name" : "pack_a_punch_sounds",
+  "Filename" : "pack_a_punch_sounds.csv",
   "Specs" : [ ] 
 },
 {
@@ -72,18 +50,11 @@
   "Specs" : [ ] 
 },
 {
-    "Type" : "ALIAS",
-    "Name" : "zm_usmc_vox",
-    "Filename" : "zm_usmc_vox.csv",
-    "Specs" : [ ] 
-},
-{
  "Type" : "ALIAS",
  "Name" : "perk_sounds",
  "Filename" : "perk_sounds.csv",
  "Specs" : [ ] 
 },
-
 {
  "Type" : "ALIAS",
  "Name" : "music",
