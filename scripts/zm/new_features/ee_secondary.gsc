@@ -83,7 +83,7 @@ function teddy_triggered()
 function outlet_shootable() 
 {
     level.prise_count = 0; 
-    prise_shoot_trig = GetEntArray( "outlet_shootable", "targetname" );
+    prise_shoot_trig = GetEntArray( "prise_shootable", "targetname" );
 
     for(i = 0; i < prise_shoot_trig.size; i++)
     {
