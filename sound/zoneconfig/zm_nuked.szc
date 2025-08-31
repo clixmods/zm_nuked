@@ -73,6 +73,12 @@
  "Filename" : "t7_weapons_mark2_dlc.csv",
  "Specs" : [ ] 
 },
+{
+  "Type" : "ALIAS",
+  "Name" : "vox_language",
+  "Filename" : "vox_language.csv",
+  "Specs" : [ ] 
+},
 
 ]
 }
