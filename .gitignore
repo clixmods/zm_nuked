@@ -13,3 +13,4 @@ zone_source/russian
 zone_source/simplifiedchinese
 zone_source/spanish
 zone_source/traditionalchinese
+*.partial
