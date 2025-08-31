@@ -1,5 +1,5 @@
 // Custom Weapons
-stringtable,gamedata/weapons/zm/zm_levelcommon_weapons.csv
+stringtable,gamedata/weapons/zm/zm_nuked_weapons.csv
 
 // Mark 2 
 weapon,raygun_mark2_zm
