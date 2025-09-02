@@ -40,26 +40,44 @@ function init()
 
 function marlton_vo_inside_bunker() 
 {
-    // Not used, we need probably to remove this function
-
     level.marlton_ee = 0;
-    marlton_bunker_trig = GetEnt( "marlton_bunker_trig", "targetname" );
-    marlton_sound_pos = marlton_bunker_trig.origin;
+
+    // Init dialog
+    marlton_sound_pos = (2241.96, -185, 45); // Origin of the trigger (2241.96, -185, 45)
     marlton_vo = [];
-    marlton_vo[ marlton_vo.size ] = "vox_plr_3_pap_wait_0"; //_7c3962dd
-    marlton_vo[ marlton_vo.size ] = "vox_plr_3_pap_wait2_0"; // _8c7496ba
-    marlton_vo[ marlton_vo.size ] = "vox_plr_3_pap_wait2_2"; // _7591283d
-    marlton_vo[ marlton_vo.size ] = "vox_plr_3_avogadro_attack_1"; //_9ab76748
-    marlton_vo[ marlton_vo.size ] = "vox_plr_3_avogadro_attack_2"; //_3d1d3753
-    marlton_vo[ marlton_vo.size ] = "vox_plr_3_build_add_1"; //_bdeed332
-    marlton_vo[ marlton_vo.size ] = "vox_plr_3_build_pck_bjetgun_0"; //_ffb6980a
-    marlton_vo[ marlton_vo.size ] = "vox_plr_3_bus_zom_chase_1"; //_d9874b65
-    marlton_vo[ marlton_vo.size ] = "vox_plr_3_bus_zom_roof_4"; // _578982b2
-    marlton_vo[ marlton_vo.size ] = "vox_plr_3_cough_0"; // _4fbe4b
-    marlton_vo[ marlton_vo.size ] = "vox_plr_3_map_in_fog_0"; // _25c0141c
-    marlton_vo[ marlton_vo.size ] = "vox_plr_3_map_in_fog_1"; // _9aa87058
-    marlton_vo[ marlton_vo.size ] = "vox_plr_3_map_in_fog_2"; // _a449aa74
-    marlton_vo[ marlton_vo.size ] = "vox_plr_3_oh_shit_0_alt01"; //_3b23c8e
+    marlton_vo[ marlton_vo.size ] = "vox_plr_3_pap_wait_0"; 
+    marlton_vo[ marlton_vo.size ] = "vox_plr_3_pap_wait2_0"; 
+    marlton_vo[ marlton_vo.size ] = "vox_plr_3_pap_wait2_2"; 
+    marlton_vo[ marlton_vo.size ] = "vox_plr_3_avogadro_attack_1"; 
+    marlton_vo[ marlton_vo.size ] = "vox_plr_3_avogadro_attack_2"; 
+    marlton_vo[ marlton_vo.size ] = "vox_plr_3_build_add_1"; 
+    marlton_vo[ marlton_vo.size ] = "vox_plr_3_build_pck_bjetgun_0"; 
+    marlton_vo[ marlton_vo.size ] = "vox_plr_3_bus_zom_chase_1"; 
+    marlton_vo[ marlton_vo.size ] = "vox_plr_3_bus_zom_roof_4"; 
+    marlton_vo[ marlton_vo.size ] = "vox_plr_3_cough_0"; 
+    marlton_vo[ marlton_vo.size ] = "vox_plr_3_map_in_fog_0";
+    marlton_vo[ marlton_vo.size ] = "vox_plr_3_map_in_fog_1";
+    marlton_vo[ marlton_vo.size ] = "vox_plr_3_map_in_fog_2";
+    marlton_vo[ marlton_vo.size ] = "vox_plr_3_oh_shit_0_alt01";
+
+    trigger = Spawn( "trigger_damage", marlton_sound_pos + VectorScale( ( 0, 0, 1 ), 36 ), 0, 15, 72 );
+
+    i = RandomInt(marlton_vo.size - 1);
+
+    while(true)
+	{
+		trigger waittill( "damage", amount, attacker, direction_vec, point, type, tagName, ModelName, Partname, weapon );
+		
+        // Only knife weapon needs to be allowed. No function exists for that ? 
+        if ( IsSubStr(weapon.name,"knife") || IsSubStr(weapon.name,"tazer_knuckles"))
+        {
+            PlaySoundAtPosition(marlton_vo[i], marlton_sound_pos);
+
+            wait 7;
+            
+	        i = RandomInt(marlton_vo.size - 1);
+        }
+	}
 }
 
 function set_tv_on_during(waiting)
@@ -168,28 +186,28 @@ function richtofen_quote_random() // CLIX ADD // Cette function gère les voix d
 
     richtofen_quote = [];
     richtofen_quote_sub = [];
-    richtofen_quote[ 1 ] = "vox_richtofen_random_1"; //
-    richtofen_quote_sub[ 1 ]= &"NUKED_STRING_RICHTOFEN_RANDOM_1"; //
-    richtofen_quote[ 2 ] = "vox_richtofen_random_2"; // 
-    richtofen_quote_sub[ 2 ]= &"NUKED_STRING_RICHTOFEN_RANDOM_2"; //
-    richtofen_quote[ 3 ] = "vox_richtofen_random_3"; // Vide pour eviter quil parle tout le temps
-    richtofen_quote_sub[ 3 ]= &"NUKED_STRING_RICHTOFEN_RANDOM_3"; //
-    richtofen_quote[ 4 ] = "vox_richtofen_random_4"; //
-    richtofen_quote_sub[ 4 ]= &"NUKED_STRING_RICHTOFEN_RANDOM_4"; //
+    richtofen_quote[ 1 ] = "vox_richtofen_random_1"; 
+    richtofen_quote_sub[ 1 ]= &"NUKED_STRING_RICHTOFEN_RANDOM_1"; 
+    richtofen_quote[ 2 ] = "vox_richtofen_random_2";  
+    richtofen_quote_sub[ 2 ]= &"NUKED_STRING_RICHTOFEN_RANDOM_2"; 
+    richtofen_quote[ 3 ] = "vox_richtofen_random_3"; 
+    richtofen_quote_sub[ 3 ]= &"NUKED_STRING_RICHTOFEN_RANDOM_3"; 
+    richtofen_quote[ 4 ] = "vox_richtofen_random_4"; 
+    richtofen_quote_sub[ 4 ]= &"NUKED_STRING_RICHTOFEN_RANDOM_4"; 
     richtofen_quote[ 5 ] = "vox_richtofen_random_5"; 
-    richtofen_quote_sub[ 5 ]= &"NUKED_STRING_RICHTOFEN_RANDOM_5"; //
-    richtofen_quote[ 6 ] = "vox_richtofen_random_7"; // Vide pour eviter quil parle tout le temps
-    richtofen_quote_sub[ 6 ]= &"NUKED_STRING_RICHTOFEN_RANDOM_7"; //
-    richtofen_quote[ 7 ] = "vox_richtofen_random_10"; //
-    richtofen_quote_sub[ 7 ]= &"NUKED_STRING_RICHTOFEN_RANDOM_10"; //
-    richtofen_quote[ 8 ] = "vox_richtofen_random_11"; //
-    richtofen_quote_sub[ 8 ]= &"NUKED_STRING_RICHTOFEN_RANDOM_11"; //
-    richtofen_quote[ 9 ] = "vox_richtofen_random_12"; // Vide pour eviter quil parle tout le temps
-    richtofen_quote_sub[ 9 ]= &"NUKED_STRING_RICHTOFEN_RANDOM_12"; //
-    richtofen_quote[ 10 ] = "vox_richtofen_random_14"; // Vide pour eviter quil parle tout le temps
-    richtofen_quote_sub[ 10 ]= &"NUKED_STRING_RICHTOFEN_RANDOM_14"; // 
-    richtofen_quote[ 11 ] = "vox_richtofen_random_15"; // Vide pour eviter quil parle tout le temps
-    richtofen_quote_sub[ 11 ]= &"NUKED_STRING_RICHTOFEN_RANDOM_15"; //
+    richtofen_quote_sub[ 5 ]= &"NUKED_STRING_RICHTOFEN_RANDOM_5"; 
+    richtofen_quote[ 6 ] = "vox_richtofen_random_7"; 
+    richtofen_quote_sub[ 6 ]= &"NUKED_STRING_RICHTOFEN_RANDOM_7"; 
+    richtofen_quote[ 7 ] = "vox_richtofen_random_10"; 
+    richtofen_quote_sub[ 7 ]= &"NUKED_STRING_RICHTOFEN_RANDOM_10"; 
+    richtofen_quote[ 8 ] = "vox_richtofen_random_11"; 
+    richtofen_quote_sub[ 8 ]= &"NUKED_STRING_RICHTOFEN_RANDOM_11"; 
+    richtofen_quote[ 9 ] = "vox_richtofen_random_12";
+    richtofen_quote_sub[ 9 ]= &"NUKED_STRING_RICHTOFEN_RANDOM_12"; 
+    richtofen_quote[ 10 ] = "vox_richtofen_random_14"; 
+    richtofen_quote_sub[ 10 ]= &"NUKED_STRING_RICHTOFEN_RANDOM_14"; 
+    richtofen_quote[ 11 ] = "vox_richtofen_random_15"; 
+    richtofen_quote_sub[ 11 ]= &"NUKED_STRING_RICHTOFEN_RANDOM_15"; 
 
     while(richtofen_quote.size > 0) // boucle jusqu'a que richtofen_quote.size soit vide
     {
