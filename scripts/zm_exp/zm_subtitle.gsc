@@ -67,97 +67,22 @@
 
 #namespace zm_sub;
 
-function autoexec init() // Cette function permet d'afficher des popup, array::add( level.elem_pop, clientfield, true );
-{
-    subtitle = NewHudElem();
-               subtitle.horzAlign = "center";
-            subtitle.vertAlign = "bottom";
-            subtitle.alignX = "center";
-            subtitle.alignY = "bottom";
-           // subtitle hud::setPoint( "CENTER", "bottom", 0, 0 );
-            subtitle.x = 0;
-            subtitle.y = -80;
-            subtitle.sort = 1001;
-            subtitle.foreground = false;
-            subtitle.hidewheninmenu = true;
-            subtitle.fontscale = 1.5;
-
-    while(1)
-    {
-        level waittill( "tcheck_subtitle" );
-        while(level.subtitle_pop.size > 0 )
-        {
-            line1_to_show = GetFirstArrayKey( level.subtitle_pop );
-            duration_to_show = GetFirstArrayKey( level.subtitle_duration );
-            duration_to_begin = GetFirstArrayKey( level.subtitle_duration_begin );
-         
-            text_to_show = level.subtitle_pop[ line1_to_show ];
-            text_wait_begin = level.subtitle_duration_begin[ duration_to_begin ];
-
-            if(isdefined(duration_to_begin))
-                wait(level.subtitle_duration_begin[ duration_to_begin ]);
-
-            subtitle SetText( text_to_show );
-            subtitle.alpha = 0;
-            subtitle FadeOverTime( 0.5 );
-            subtitle.alpha = 1;
-
-            if(isdefined(duration_to_show))
-                wait(level.subtitle_duration[ duration_to_show ]);
-
-            else
-                wait 5;
-
-
-            ArrayRemoveIndex( level.subtitle_pop, line1_to_show  );
-            subtitle FadeOverTime( 0.5 );
-            subtitle.alpha = 0;
-
-            if(isdefined(duration_to_show))
-                ArrayRemoveIndex( level.subtitle_duration, duration_to_show  );
-
-            if(isdefined(duration_to_begin))
-                ArrayRemoveIndex( level.subtitle_duration_begin, duration_to_begin  );
-              
-
-           
-            level notify ( "tcheck_subtitle" );
-        }
-
-    }
-}
-
-
 function register_subtitle_func(textLine, duration, origin, sound, duration_begin, to_player)
 {
-    if ( !isdefined( level.subtitle_pop ) ) // Crée l'array si elle n'est pas défini
-    {
-        level.subtitle_pop = [];
+    // Old logic about subtitle was remove for mod compatibility
 
-        level.subtitle_duration = [];
-
-        level.subtitle_duration_begin = [];
-    }
-    multi = true; // distinction entre deux meme valeur
-
-    if(isdefined(textLine))
-    array::add( level.subtitle_pop, textLine,multi );
-
-    if(isdefined(duration))
-    array::add( level.subtitle_duration, duration,multi );
-
-    if(isdefined(duration_begin))
-    array::add( level.subtitle_duration_begin, duration_begin,multi );
-
+    // I let these lines to avoid editing all files using this function, maybe find a better function name later
     if(isdefined(origin) && isdefined(sound))
         PlaySoundAtPosition( sound, origin );
 
     if(IS_TRUE(to_player) && isdefined(sound))
+    {
+        players = GetPlayers(); 
+        foreach( player in players )
         {
-            players = GetPlayers(); 
-            foreach( player in players )
-                player PlayLocalSound( sound );
-        }
+            player PlayLocalSound( sound );
+        }    
+    }
 
-    level notify ( "tcheck_subtitle" );
+    // If your mod has custom subtitle logic, you can implement it here
 }
