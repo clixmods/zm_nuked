@@ -1,5 +1,6 @@
 // Custom Weapons
 stringtable,gamedata/weapons/zm/zm_nuked_weapons.csv
+scriptparsetree,scripts/zm/zm_usermap.csc // Required to use custom table weapon
 
 // Mark 2 
 weapon,raygun_mark2_zm

@@ -128,6 +128,8 @@ function main()
     // Need to be executed before zm_usermap
     level.dog_rounds_allowed = false; // No dog round
 
+	level._zombie_custom_add_weapons =&custom_add_weapons;
+
 	// Init base feature for zombies
 	zm_usermap::main();
 
@@ -138,7 +140,7 @@ function main()
     level.random_pandora_box_start = true;
     zm_perks::spare_change(); // Add points under each perk
     level._zombiemode_custom_box_move_logic = &nuked_box_move_logic;
-	level._zombie_custom_add_weapons =&custom_add_weapons;
+
     level.custom_zombie_powerup_drop = &custom_zombie_powerup_drop_nuked;
     
     if(nuked_utility::is_omega())
