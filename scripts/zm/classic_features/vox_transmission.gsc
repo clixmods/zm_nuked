@@ -66,17 +66,31 @@ function marlton_vo_inside_bunker()
 
     while(true)
 	{
-		trigger waittill( "damage", amount, attacker, direction_vec, point, type, tagName, ModelName, Partname, weapon );
-		
-        // Only knife weapon needs to be allowed. No function exists for that ? 
-        if ( IsSubStr(weapon.name,"knife") || IsSubStr(weapon.name,"tazer_knuckles"))
-        {
-            PlaySoundAtPosition(marlton_vo[i], marlton_sound_pos);
+        // fix: wait before the next damage check because Purifier will apply damage continuously and cause a hard crash
+        wait 1;
 
-            wait 7;
-            
-	        i = RandomInt(marlton_vo.size - 1);
+		trigger waittill( "damage", amount, attacker, direction_vec, point, mod, tagName, ModelName, Partname, weapon );
+
+        if ( mod != "MOD_MELEE" )
+        {
+            continue;
         }
+
+        // fix: purifier has weapon undefined when we check the damage, why ? This check will prevent crashes when weapon is not defined.
+        if ( isdefined( weapon ) && isdefined( weapon.name ) )
+        {
+            // Only knife weapon needs to be allowed. No function exists for that ? 
+            if ( IsSubStr(weapon.name,"knife") || IsSubStr(weapon.name,"tazer_knuckles"))
+            {
+                PlaySoundAtPosition(marlton_vo[i], marlton_sound_pos);
+
+                wait 7;
+                
+                i = RandomInt(marlton_vo.size - 1);
+            }
+        }
+
+        
 	}
 }
 
