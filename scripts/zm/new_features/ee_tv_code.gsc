@@ -371,31 +371,40 @@ function set_random_code()
     // Allow player to knockout the TV until the code is validate
 	while(level.secret_code_entered != true)
 	{
-		trigger waittill( "damage", amount, attacker, direction_vec, point, type, tagName, ModelName, Partname, weapon );
+		trigger waittill( "damage", amount, attacker, direction_vec, point, mod, tagName, ModelName, Partname, weapon );
 		
-        if ( IsSubStr(weapon.name,"t6_tazer_knuckles") )
+		if ( mod != "MOD_MELEE" )
         {
-            PlaySoundAtPosition(code_wavegun_rack_random[i],sound_pos);
-
-            if(!code_generate)
-            {
-                level thread add_code_to_tv(
-                    code_wavegun_rack_random_code_a[i],
-                    code_wavegun_rack_random_code_b[i],
-                    code_wavegun_rack_random_code_c[i],
-                    code_wavegun_rack_random_code_d[i],
-                    undefined,
-                    FLAG_RANDOM_CODE_ACTIVE); 
-
-                code_generate = true;
-            }
-            
-            // Wait for the code to be played before allowing the player to knock out the TV again
-            wait 40;
+            continue;
         }
-			
-        
 
+        // fix: purifier has weapon undefined when we check the damage, why ? This check will prevent crashes when weapon is not defined.
+        if ( isdefined( weapon ) && isdefined( weapon.name ) )
+        {
+			if ( IsSubStr(weapon.name,"t6_tazer_knuckles") )
+			{
+				PlaySoundAtPosition(code_wavegun_rack_random[i],sound_pos);
+
+				if(!code_generate)
+				{
+					level thread add_code_to_tv(
+						code_wavegun_rack_random_code_a[i],
+						code_wavegun_rack_random_code_b[i],
+						code_wavegun_rack_random_code_c[i],
+						code_wavegun_rack_random_code_d[i],
+						undefined,
+						FLAG_RANDOM_CODE_ACTIVE); 
+
+					code_generate = true;
+				}
+				
+				// Wait for the code to be played before allowing the player to knock out the TV again
+				wait 40;
+			}
+		}
+        
+		// fix: wait before the next damage check because Purifier will apply damage continuously and cause a hard crash
+        wait 1;
 	}
  
 }
